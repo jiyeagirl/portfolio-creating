@@ -21,10 +21,12 @@ export function PhoneFrame({
 }) {
   return (
     <div
+      data-phone-frame-backdrop
       className={`relative flex min-h-dvh items-center justify-center overflow-hidden px-6 py-10 ${backdropClassName}`}
     >
       {backdropGlow && (
         <div
+          data-phone-frame-glow
           className="pointer-events-none absolute inset-0"
           style={{
             background:
@@ -33,13 +35,15 @@ export function PhoneFrame({
         />
       )}
 
-      <div className="relative">
-        <div className="absolute -left-[2px] top-[130px] h-8 w-[3px] rounded-l-sm bg-[#0a0a09]" />
-        <div className="absolute -left-[2px] top-[180px] h-14 w-[3px] rounded-l-sm bg-[#0a0a09]" />
-        <div className="absolute -left-[2px] top-[240px] h-14 w-[3px] rounded-l-sm bg-[#0a0a09]" />
-        <div className="absolute -right-[2px] top-[200px] h-20 w-[3px] rounded-r-sm bg-[#0a0a09]" />
+      {/* True top-level "device" element: chassis + screen + side buttons. This is
+          what screenshot tooling should target — see scripts/capture-screenshot.ts. */}
+      <div data-phone-frame className="relative">
+        <div data-phone-frame-button className="absolute -left-[2px] top-[130px] h-8 w-[3px] rounded-l-sm bg-[#0a0a09]" />
+        <div data-phone-frame-button className="absolute -left-[2px] top-[180px] h-14 w-[3px] rounded-l-sm bg-[#0a0a09]" />
+        <div data-phone-frame-button className="absolute -left-[2px] top-[240px] h-14 w-[3px] rounded-l-sm bg-[#0a0a09]" />
+        <div data-phone-frame-button className="absolute -right-[2px] top-[200px] h-20 w-[3px] rounded-r-sm bg-[#0a0a09]" />
 
-        <div className="rounded-[62px] bg-gradient-to-b from-[#2b2925] to-[#131211] p-[12px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.08)]">
+        <div className="overflow-hidden rounded-[62px] bg-gradient-to-b from-[#2b2925] to-[#131211] p-[12px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.08)]">
           <div
             className={`relative h-[852px] w-[393px] overflow-hidden rounded-[50px] ${screenClassName}`}
           >

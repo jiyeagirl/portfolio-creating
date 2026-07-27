@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { SealCheck, Star, StarHalf } from "@phosphor-icons/react/dist/ssr";
+import { SealCheck, Star, StarHalf } from "@phosphor-icons/react";
 
 type BadgeTone = "neutral" | "accent" | "success" | "warning" | "danger";
 

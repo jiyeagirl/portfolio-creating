@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import "@/projects/camera/filmate/styles/filmate.css";
 import { PhoneFrame } from "@/components/shared/phone-frame";
 import { getFilm } from "@/projects/camera/filmate/lib/films";
@@ -11,8 +12,20 @@ import { FilmDetailScreen } from "@/projects/camera/filmate/components/screens/f
 import { ContactSheetScreen } from "@/projects/camera/filmate/components/screens/contact-sheet-screen";
 import { SettingsScreen } from "@/projects/camera/filmate/components/screens/settings-screen";
 
+const SCREENS: FilmateScreen[] = ["camera", "films", "filmDetail", "contactSheet", "settings"];
+
+// Lets screenshot tooling (scripts/capture-screenshot.ts) request a specific
+// screen via `?screen=<name>`, e.g. /camera/filmate?screen=contactSheet.
+// Read once at mount; in-app navigation still drives `screen` afterwards.
+function getInitialScreen(param: string | null): FilmateScreen {
+  return SCREENS.includes(param as FilmateScreen) ? (param as FilmateScreen) : "camera";
+}
+
 export default function Filmate() {
-  const [screen, setScreen] = useState<FilmateScreen>("camera");
+  const searchParams = useSearchParams();
+  const [screen, setScreen] = useState<FilmateScreen>(() =>
+    getInitialScreen(searchParams.get("screen")),
+  );
   const [selectedFilmId, setSelectedFilmId] = useState("kodak-gold");
 
   function navigate(next: FilmateScreen, filmId?: string) {
