@@ -1,0 +1,13 @@
+.filmate {
+  --fm-bg: #0b0b0a;
+  --fm-surface: #1a1917;
+  --fm-surface-raised: #242220;
+  --fm-warm-gray: #8a8378;
+  --fm-warm-gray-soft: #5a554c;
+  --fm-foreground: #f5f2ea;
+  --fm-border: #302d28;
+  --fm-accent: #e8a33d;
+  --fm-danger: #c4573f;
+
+  color-scheme: dark;
+}
