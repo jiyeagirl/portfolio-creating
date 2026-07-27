@@ -90,6 +90,37 @@ machine, not committed to this repo**. If a skill referenced below is not presen
 current machine, skip it silently and rely on the "UI Generation Rules" section of this file
 instead — never fail or block work because a skill is missing.
 
+## Design Systems
+
+The top-level `design-systems/` folder contains complete design system documents
+(color tokens, typography scale, spacing, component specs, elevation philosophy, etc.)
+that projects can optionally adopt. Example: `design-systems/apple.md`.
+
+### How to apply
+
+- Apply one only when the project's `spec.md` has a line naming it, e.g.:
+  `디자인시스템: apple`
+- If no such line is present, do not reference `design-systems/` at all — use only
+  this file's "UI Generation Rules" section and `design-taste-frontend` defaults.
+- Do not apply one by default across projects indiscriminately — this can clash with
+  projects that need their own distinct concept, e.g. a film-camera app or a
+  mascot-based healthcare app.
+
+### Precedence (on conflict)
+
+1. This file's (CLAUDE.md) fixed rules under "UI Generation Rules" always win first
+   (Pretendard typography, iPhone 16 Pro device frame, 8px spacing, etc.). Even if a
+   `design-systems/` doc specifies a different font like SF Pro, typography must still
+   be Pretendard (this is a Korean-language service).
+2. Next, follow the color tokens, spacing, component specs, and elevation/shadow
+   philosophy defined in `design-systems/<filename>.md`.
+3. For anything not covered by either of the above, defer to `design-taste-frontend`.
+
+### New-project checklist addition
+
+When creating a new project, check whether `spec.md` has a `디자인시스템:` line, and
+if so, note which design system was applied in the summary of changes.
+
 ## Precedence: this file wins on conflict
 
 **"UI Generation Rules" (below) are this team's fixed requirements and always take priority

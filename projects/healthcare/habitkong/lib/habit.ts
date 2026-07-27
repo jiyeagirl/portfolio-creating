@@ -2,6 +2,8 @@ export const TODAY = new Date(2026, 6, 24); // 2026-07-24, Fri
 
 export const habit = {
   name: "아침 물 한 잔 마시기",
+  description: "기상 직후 상온의 물 한 잔으로 몸을 깨우는, 가장 부담 없는 시작이에요.",
+  durationMinutes: 1,
   streak: 12,
   bestStreak: 21,
   startedAt: "2026.06.10",
@@ -9,8 +11,14 @@ export const habit = {
 
 const MISSED_DATES = new Set(["2026-07-03", "2026-07-09", "2026-07-12"]);
 
-function toKey(date: Date) {
-  return date.toISOString().slice(0, 10);
+// Local calendar-day key. `toISOString()` converts to UTC first, which
+// silently shifts to the previous day for any timezone ahead of UTC
+// (e.g. KST) — use local Y/M/D components instead.
+export function toKey(date: Date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }
 
 function isFuture(date: Date) {

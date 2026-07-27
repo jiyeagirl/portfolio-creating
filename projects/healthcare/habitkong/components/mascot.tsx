@@ -2,15 +2,25 @@
 
 import { motion, useReducedMotion } from "motion/react";
 
-export function Mascot({ size = 108 }: { size?: number }) {
+export type Mood = "great" | "good" | "tired";
+
+const BODY_COLOR: Record<Mood, string> = {
+  great: "#FF6F4D",
+  good: "#FF8B6B",
+  tired: "#D9AF95",
+};
+
+export function Mascot({ size = 108, mood = "good" }: { size?: number; mood?: Mood }) {
   const reduce = useReducedMotion();
   const height = size * 1.32;
+  const tired = mood === "tired";
+  const great = mood === "great";
 
   return (
     <motion.div
       className="relative"
       style={{ width: size, height: height + 22 }}
-      animate={reduce ? undefined : { y: [0, -8, 0] }}
+      animate={reduce || tired ? undefined : { y: [0, -8, 0] }}
       transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
     >
       <svg
@@ -27,24 +37,50 @@ export function Mascot({ size = 108 }: { size?: number }) {
       </svg>
 
       <div
-        className="absolute left-1/2 top-[20px] -translate-x-1/2 -rotate-[5deg] bg-[#FF6F4D] shadow-[0_18px_28px_-10px_rgba(255,111,77,0.5)]"
+        className="absolute left-1/2 top-[20px] -translate-x-1/2 -rotate-[5deg] shadow-[0_14px_24px_-14px_rgba(23,20,16,0.35)]"
         style={{
           width: size,
           height,
           borderRadius: "48% 52% 50% 50% / 58% 55% 45% 42%",
+          background: BODY_COLOR[mood],
         }}
       >
-        <div className="absolute left-[20%] top-[16%] h-[18%] w-[26%] rounded-full bg-white/35" />
+        {!tired && <div className="absolute left-[20%] top-[16%] h-[18%] w-[26%] rounded-full bg-white/35" />}
 
         <div className="absolute left-1/2 top-[48%] flex -translate-x-1/2 gap-[16px]">
-          <span className="h-[8px] w-[8px] rounded-full bg-[#2B231F]" />
-          <span className="h-[8px] w-[8px] rounded-full bg-[#2B231F]" />
+          {tired ? (
+            <>
+              <span className="h-[2.5px] w-[11px] rounded-full bg-[#2B231F]" />
+              <span className="h-[2.5px] w-[11px] rounded-full bg-[#2B231F]" />
+            </>
+          ) : (
+            <>
+              <span className="h-[8px] w-[8px] rounded-full bg-[#2B231F]" />
+              <span className="h-[8px] w-[8px] rounded-full bg-[#2B231F]" />
+            </>
+          )}
         </div>
 
-        <div className="absolute left-[15%] top-[60%] h-[9px] w-[15px] rounded-full bg-[#FF9B7A]/70" />
-        <div className="absolute right-[15%] top-[60%] h-[9px] w-[15px] rounded-full bg-[#FF9B7A]/70" />
+        {!tired && (
+          <>
+            <div
+              className={`absolute left-[15%] top-[60%] h-[9px] w-[15px] rounded-full bg-white/40 ${
+                great ? "opacity-90" : "opacity-60"
+              }`}
+            />
+            <div
+              className={`absolute right-[15%] top-[60%] h-[9px] w-[15px] rounded-full bg-white/40 ${
+                great ? "opacity-90" : "opacity-60"
+              }`}
+            />
+          </>
+        )}
 
-        <div className="absolute left-1/2 top-[59%] h-[7px] w-[15px] -translate-x-1/2 rounded-b-full border-b-[2.5px] border-[#2B231F]" />
+        {tired ? (
+          <div className="absolute left-1/2 top-[62%] h-[2.5px] w-[13px] -translate-x-1/2 rounded-full bg-[#2B231F]" />
+        ) : (
+          <div className="absolute left-1/2 top-[59%] h-[7px] w-[15px] -translate-x-1/2 rounded-b-full border-b-[2.5px] border-[#2B231F]" />
+        )}
       </div>
     </motion.div>
   );

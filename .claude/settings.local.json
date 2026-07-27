@@ -28,7 +28,10 @@
       "Edit(/Users/user/Desktop/portfolio/**)",
       "Bash(cd /Users/user/Desktop/portfolio *)",
       "Bash(sips -g pixelWidth -g pixelHeight projects/camera/filmate/screenshots/camera.png projects/camera/filmate/screenshots/films.png projects/camera/filmate/screenshots/contactSheet.png projects/camera/filmate/screenshots/settings.png)",
-      "Bash(rm -f /Users/user/Desktop/portfolio/projects/camera/filmate/screenshots/*.png *)"
+      "Bash(rm -f /Users/user/Desktop/portfolio/projects/camera/filmate/screenshots/*.png *)",
+      "Bash(TZ='Asia/Seoul' node -e \"console.log\\(new Date\\(2026,6,24\\).toISOString\\(\\).slice\\(0,10\\)\\)\")",
+      "Bash(rm -f /Users/user/habitkong-check.mjs /tmp/hk-*.png *)",
+      "Bash(rm -rf /Users/user/Desktop/portfolio/projects/healthcare/habitkong/screenshots *)"
     ],
     "deny": [
       "Bash(rm -rf /)",
@@ -44,7 +47,8 @@
     "additionalDirectories": [
       "/Users/user",
       "/tmp",
-      "/Users/user/Desktop/portfolio/projects/camera/filmate/screenshots"
+      "/Users/user/Desktop/portfolio/projects/camera/filmate/screenshots",
+      "/Users/user/Desktop/portfolio/projects/healthcare/habitkong/screenshots"
     ]
   }
 }
