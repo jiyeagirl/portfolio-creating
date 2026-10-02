@@ -1,0 +1,172 @@
+/* CIVICPIN 토큰. 구조(스페이싱/라운드/섀도/모션)는 _reference-design-system.md(FILMATE)를
+   그대로 따르고, 색만 공공 QR 안내 서비스에 맞춰 전면 재정의한다.
+   타이포는 CLAUDE.md 규칙대로 Pretendard 단일 폰트 — 숫자만 tnum으로 자릿수를 고정한다
+   (별도 모노 패밀리를 두지 않는 이유). */
+
+.civicpin {
+  /* 중립 스케일 — 쿨 그레이 한 계열로 통일한다. 웜/쿨 혼용 금지. */
+  --cp-canvas: #f2f4f7;
+  --cp-surface: #ffffff;
+  --cp-soft: #f7f9fb;
+  --cp-sunken: #e8ecf1;
+  --cp-ink: #14181e;
+  --cp-body: #4a5563;
+  --cp-mute: #7b8695;
+  --cp-faint: #a7b0bc;
+  --cp-hairline: #e0e5eb;
+  --cp-hairline-strong: #c2cad4;
+
+  /* 단일 액센트 — 공공 사인 계열의 시빅 네이비. 채도 65% 선. */
+  --cp-accent: #1d4e89;
+  --cp-accent-strong: #163d6d;
+  --cp-accent-soft: #e5edf7;
+  --cp-accent-line: #b9cde5;
+  --cp-on-accent: #ffffff;
+
+  /* 시설 분류색 — 지도 마커와 분류 칩에서만 쓴다. 장식으로 번지지 않게
+     네 가지로 고정하고, 명도/채도를 서로 맞춰 한 벌로 읽히게 한다. */
+  --cp-aed: #b8362a;
+  --cp-aed-soft: #fbe8e5;
+  --cp-shelter: #9c6114;
+  --cp-shelter-soft: #fbeedd;
+  --cp-rest: #2f7a6a;
+  --cp-rest-soft: #e0f0ec;
+  --cp-toilet: #5b6675;
+  --cp-toilet-soft: #e9edf2;
+
+  /* 상태색 — 운영/처리 상태 전용 기능색. */
+  --cp-ok: #2f7a4a;
+  --cp-ok-soft: #e2f1e8;
+  --cp-warn: #9c6114;
+  --cp-warn-soft: #fbeedd;
+  --cp-danger: #b8362a;
+  --cp-danger-soft: #fbe8e5;
+
+  /* 추상화 지도 — 라벨 없는 도로망/블록만. */
+  --cp-map-land: #edf0f4;
+  --cp-map-block: #e1e6ec;
+  --cp-map-block-alt: #d8dee6;
+  --cp-map-green: #dde8de;
+  --cp-map-water: #d5e2ee;
+  --cp-map-road: #ffffff;
+  --cp-map-road-line: #e4e9ee;
+
+  /* 차트 — 액센트 단일 색조의 명도 단계. 새 색조를 늘리지 않는다. */
+  --cp-chart-1: #163d6d;
+  --cp-chart-2: #1d4e89;
+  --cp-chart-3: #4a7cb3;
+  --cp-chart-4: #8aabd0;
+  --cp-chart-5: #c3d6e9;
+  --cp-chart-rest: #e0e5eb;
+
+  /* 운영 콘솔 사이드바 — 잉크 반전 레일. 사용자 앱에는 등장하지 않는다.
+     같은 쿨 그레이 계열의 어두운 끝을 쓰고 새 색조를 만들지 않는다. */
+  --cp-rail: #161b22;
+  --cp-rail-raised: #1e242d;
+  --cp-rail-line: #2b333d;
+  --cp-rail-ink: #ffffff;
+  --cp-rail-mute: #94a1b0;
+
+  /* 그림자 — 단일 두꺼운 drop-shadow 금지, 미세 스택만. */
+  --cp-shadow: 0 1px 2px rgba(20, 24, 30, 0.04), 0 8px 20px -12px rgba(20, 24, 30, 0.14);
+  --cp-shadow-pop: 0 1px 2px rgba(20, 24, 30, 0.05), 0 4px 10px rgba(20, 24, 30, 0.06),
+    0 20px 40px -20px rgba(20, 24, 30, 0.22);
+
+  color-scheme: light;
+}
+
+/* 한글은 기본값에서 어절 중간이 끊긴다. keep-all 로 공백에서만 줄바꿈한다.
+   overflow-wrap 은 break-word 여야 한다 — anywhere 는 keep-all 을 무력화한다. */
+.civicpin {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 거리, 소요시간, 건수, 좌표처럼 자릿수를 눈으로 맞춰 읽는 값 전용.
+   폰트는 Pretendard 그대로 두고 숫자 폭만 고정한다. */
+.cp-num {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+.cp-enter {
+  animation: cp-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cp-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 화면 전환은 페이드만 쓴다. transform 을 걸면 이 래퍼가 absolute 자식의 컨테이닝 블록이
+   되어(스크롤되는 852px 박스), 하단 고정 CTA 바가 화면 바닥이 아니라 래퍼 바닥에 붙어
+   본문과 함께 밀려 올라간다. 애니메이션이 끝나 transform 이 none 이 된 뒤에도
+   Chromium 은 채움(fill) 상태의 애니메이션을 유지하므로 증상이 남는다.
+   하단 고정 바를 쓰는 화면이 있는 한 이 클래스에 transform 을 다시 넣지 않는다. */
+.cp-screen-in {
+  animation: cp-screen-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cp-screen-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 현재 위치 핀의 정확도 원. 색이 아니라 맥동으로 "지금 여기"를 전달한다. */
+.cp-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.28;
+  animation: cp-pulse 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes cp-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.28;
+  }
+  70%,
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+/* 도보 경로 폴리라인이 출발지에서 목적지로 흐르는 방향을 보여준다. */
+.cp-route-flow {
+  stroke-dasharray: 3 9;
+  animation: cp-route-flow 1.6s linear infinite;
+}
+
+@keyframes cp-route-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.civicpin ::selection {
+  background: #1d4e89;
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-enter,
+  .cp-screen-in,
+  .cp-pulse::after,
+  .cp-route-flow {
+    animation: none;
+  }
+}
