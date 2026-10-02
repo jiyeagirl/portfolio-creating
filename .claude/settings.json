@@ -10,7 +10,9 @@
       "Bash(command grep -n \"revert-layer\" projects/platform/dressday/styles/dressday.css)",
       "Bash(command grep -rln \"^\\\\s*\\\\*\\\\s*{\\\\|^\\\\s*\\\\*,\\\\|border-color\" projects/*/*/styles/*.css)",
       "Bash(open \"http://localhost:3000/community/locly?screen=community\")",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git rm *)"
     ]
   },
   "hooks": {

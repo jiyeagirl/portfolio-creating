@@ -49,3 +49,6 @@ next-env.d.ts
 
 # portfolio export PNGs (scripts/capture-screenshot.ts), kept on disk only
 projects/*/*/screenshots/
+
+# personal Claude Code permissions (per machine)
+.claude/settings.local.json
