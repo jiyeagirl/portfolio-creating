@@ -1,0 +1,48 @@
+.buildbid-inspector {
+  --bbi-canvas: #f2f3ef;
+  --bbi-surface: #ffffff;
+  --bbi-surface-sunken: #e9ebe6;
+  --bbi-ink: #14181a;
+  --bbi-body: #3c4245;
+  --bbi-muted: #6e7478;
+  --bbi-muted-soft: #9aa0a3;
+  --bbi-border: #dbdeda;
+  --bbi-border-strong: #c5c9c4;
+  --bbi-accent: #c2740f;
+  --bbi-accent-soft: #f4e3c4;
+  --bbi-on-accent: #ffffff;
+  --bbi-danger: #c1402e;
+  --bbi-danger-soft: #f7e0da;
+  --bbi-success: #3d7a56;
+  --bbi-success-soft: #deede2;
+  --bbi-warning: #b9860f;
+  --bbi-warning-soft: #f3e7c9;
+
+  color-scheme: light;
+}
+
+.buildbid-inspector .bbi-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.buildbid-inspector .bbi-btn-press {
+  transition: transform 0.12s ease;
+}
+
+.buildbid-inspector .bbi-btn-press:active {
+  transform: scale(0.95);
+}
+
+.buildbid-inspector .bbi-scroll-hidden {
+  scrollbar-width: none;
+}
+
+.buildbid-inspector .bbi-scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buildbid-inspector .bbi-btn-press {
+    transition: none;
+  }
+}

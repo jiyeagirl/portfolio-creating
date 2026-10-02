@@ -1,0 +1,100 @@
+/*
+ * 용인 청사안내 design tokens.
+ * Scoped to `.yi` so the workspace's own global tokens stay untouched.
+ * Structural values (spacing grid, radius scale, motion timing) follow
+ * `_reference-design-system.md`; only the palette is project-specific.
+ */
+.yi {
+  /* Surfaces */
+  --yi-canvas: #f4f7fb;
+  --yi-surface: #ffffff;
+  --yi-surface-soft: #edf3fa;
+  --yi-surface-sunken: #e2eaf4;
+
+  /* Text */
+  --yi-ink: #0f2338;
+  --yi-body: #33465c;
+  --yi-muted: #6a7b90;
+  --yi-muted-soft: #93a2b4;
+  --yi-on-primary: #ffffff;
+
+  /* Lines */
+  --yi-border: #dce5ef;
+  --yi-border-strong: #c3d1e0;
+
+  /* Brand */
+  --yi-primary: #0b4da2;
+  --yi-primary-strong: #08386f;
+  --yi-primary-soft: #e6f0fc;
+
+  /* Semantic */
+  --yi-success: #12734a;
+  --yi-warning: #a85f09;
+  --yi-danger: #b23a2e;
+
+  /* Floor-plan legend (functional colors, see design.md) */
+  --yi-cat-counter: #0b4da2;
+  --yi-cat-dept: #4a5c72;
+  --yi-cat-kiosk: #5b4bc4;
+  --yi-cat-info: #0e7c6b;
+  --yi-cat-amenity: #b06a16;
+  --yi-cat-move: #2e7bb5;
+
+  background: var(--yi-canvas);
+  color: var(--yi-ink);
+  font-family: var(--font-sans);
+  /* Korean breaks between 어절, never mid-word. No `overflow-wrap: anywhere`
+     fallback — it silently defeats keep-all. */
+  word-break: keep-all;
+}
+
+/* Numeric fields (floor, counter number, queue count, fee, duration) hold
+   their column width while values change. Body copy never uses this. */
+.yi-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* The only elevation stack in the project: a tight contact shadow plus a wide
+   soft one. Cards separate with a 1px border instead. */
+.yi-raised {
+  box-shadow:
+    0 1px 2px rgba(15, 35, 56, 0.06),
+    0 8px 24px -12px rgba(15, 35, 56, 0.18);
+}
+
+/* Edge-anchored bars inside the phone frame. Deliberately opaque — a
+   backdrop-filter here escapes PhoneFrame's rounded-corner clip and leaks a
+   white sliver at the bottom corners (CLAUDE.md, Device edge integrity). */
+.yi-edge-bar {
+  background: var(--yi-surface);
+  backdrop-filter: none;
+}
+
+.yi ::selection {
+  background: rgba(11, 77, 162, 0.18);
+}
+
+.yi-press {
+  transition: transform 120ms ease-out;
+}
+.yi-press:active {
+  transform: scale(0.97);
+}
+
+/* Hairline that survives fractional device pixels better than border-b on a
+   scrolled sticky bar. */
+.yi-hairline-b {
+  box-shadow: inset 0 -1px 0 var(--yi-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yi *,
+  .yi *::before,
+  .yi *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

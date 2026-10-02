@@ -1,0 +1,215 @@
+/*
+ * DRESSDAY tokens. 출처: design-systems/airbnb_compact.md (팔레트 구성 1, 디자인시스템 지정).
+ * 고객 사이트와 관리자 콘솔이 같은 파일을 쓴다. `.dressday` 범위 안에서만 유효하다.
+ */
+.dressday {
+  /* 바탕 */
+  --dd-canvas: #ffffff;
+  --dd-soft: #f7f7f7;
+  --dd-strong: #f2f2f2;
+
+  /* 선 */
+  --dd-hairline: #dddddd;
+  --dd-hairline-soft: #ebebeb;
+  --dd-border-strong: #c1c1c1;
+
+  /* 글자 */
+  --dd-ink: #222222;
+  --dd-body: #3f3f3f;
+  --dd-muted: #6a6a6a;
+  --dd-muted-soft: #929292;
+
+  /* 액센트 (하나뿐) */
+  --dd-primary: #ff385c;
+  --dd-primary-active: #e00b41;
+  --dd-primary-disabled: #ffd1da;
+  --dd-error: #c13515;
+
+  /* 상태 5단. 의미 고정 */
+  --dd-wait-bg: #f2f2f2;
+  --dd-wait-fg: #3f3f3f;
+  --dd-live-bg: #e6eefa;
+  --dd-live-fg: #24528f;
+  --dd-act-bg: #fbf0d9;
+  --dd-act-fg: #855400;
+  --dd-done-bg: #e7f2ea;
+  --dd-done-fg: #2c6640;
+  --dd-stop-bg: #fbe9e5;
+  --dd-stop-fg: #c13515;
+
+  /* 그림자는 한 단계뿐 */
+  --dd-float: rgba(0, 0, 0, 0.02) 0 0 0 1px, rgba(0, 0, 0, 0.04) 0 2px 6px 0, rgba(0, 0, 0, 0.1) 0 4px 8px 0;
+
+  /* 모션 (design.md Motion) */
+  --dd-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  background: var(--dd-canvas);
+  color: var(--dd-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 모바일 하단 고정 바가 있는 화면은 푸터 아래에 바 높이만큼 여백을 둔다 (사업자 정보가 가리지 않게) */
+@media (max-width: 1023.98px) {
+  .dressday:has(.dd-bottom-bar) > footer {
+    padding-bottom: 80px;
+  }
+}
+
+.dressday ::selection {
+  background: rgba(255, 56, 92, 0.18);
+}
+
+.dressday .dd-num {
+  font-variant-numeric: tabular-nums;
+}
+
+.dressday .dd-code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.92em;
+  letter-spacing: 0;
+}
+
+.dressday .dd-pretty {
+  text-wrap: pretty;
+}
+
+.dressday .dd-balance {
+  text-wrap: balance;
+}
+
+/* 눌림: scale(0.98). hover 효과는 두지 않는다 (디자인시스템 no-hover 정책) */
+.dressday .dd-press {
+  transition: transform 140ms ease-out, background-color 140ms ease-out;
+}
+.dressday .dd-press:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.dressday .dd-focus:focus-visible,
+.dressday button:focus-visible,
+.dressday a:focus-visible {
+  outline: 2px solid var(--dd-ink);
+  outline-offset: 2px;
+}
+
+.dressday .dd-scroll-x {
+  scrollbar-width: none;
+}
+.dressday .dd-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* 화면 진입 */
+@keyframes dd-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.dressday .dd-enter {
+  animation: dd-enter 280ms var(--dd-ease) both;
+}
+
+/* 섹션 진입 (IntersectionObserver가 data-shown을 붙인다) */
+.dressday .dd-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 280ms var(--dd-ease), transform 280ms var(--dd-ease);
+}
+.dressday .dd-reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* 시트 */
+@keyframes dd-sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes dd-sheet-left {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes dd-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.dressday .dd-sheet-up {
+  animation: dd-sheet-up 320ms var(--dd-ease) both;
+}
+.dressday .dd-sheet-left {
+  animation: dd-sheet-left 320ms var(--dd-ease) both;
+}
+.dressday .dd-scrim {
+  animation: dd-fade 220ms var(--dd-ease) both;
+}
+.dressday .dd-drawer {
+  animation: dd-sheet-left 220ms var(--dd-ease) both;
+}
+
+/* 실제 이동 중 상태만 표시하는 점 */
+@keyframes dd-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.dressday .dd-live-dot {
+  animation: dd-pulse 1.8s ease-in-out infinite;
+}
+
+/* 카드 사진 확대: 데스크톱 포인터에서만 */
+@media (hover: hover) and (pointer: fine) {
+  .dressday .dd-zoom img {
+    transition: transform 360ms var(--dd-ease);
+  }
+  .dressday .dd-zoom:hover img {
+    transform: scale(1.03);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dressday .dd-enter,
+  .dressday .dd-sheet-up,
+  .dressday .dd-sheet-left,
+  .dressday .dd-scrim,
+  .dressday .dd-drawer,
+  .dressday .dd-live-dot {
+    animation: none;
+  }
+  .dressday .dd-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .dressday .dd-press,
+  .dressday .dd-zoom img {
+    transition: none;
+  }
+  .dressday .dd-press:active:not(:disabled) {
+    transform: none;
+  }
+}

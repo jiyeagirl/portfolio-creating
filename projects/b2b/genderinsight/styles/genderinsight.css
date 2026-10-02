@@ -1,0 +1,129 @@
+/* GenderInsight 토큰. 스타일 출처는 minimalist-ui(웜 모노크롬 + 파스텔 스팟 액센트) —
+   타이포는 CLAUDE.md 규칙에 따라 Pretendard로 고정한다(모노는 코드/일시 전용). */
+
+.genderinsight {
+  /* 색 */
+  --gi-ink: #221b1d;
+  --gi-on-primary: #ffffff;
+  --gi-body: #5b5457;
+  --gi-mute: #9c9396;
+  --gi-hairline: #ede9e6;
+  --gi-hairline-strong: #c7c0be;
+  --gi-canvas: #ffffff;
+  --gi-soft: #faf8f6;
+  --gi-soft-2: #f3efec;
+
+  --gi-accent: #6e4c63;
+  --gi-accent-deep: #4e3346;
+  --gi-accent-soft: #f3e7ee;
+
+  --gi-info: #1f6c9f;
+  --gi-info-soft: #e1f0fe;
+  --gi-info-deep: #14507a;
+
+  --gi-warn: #956400;
+  --gi-warn-soft: #fbf3db;
+  --gi-warn-deep: #6f4a00;
+
+  --gi-danger: #9f2f2d;
+  --gi-danger-soft: #fdebec;
+  --gi-danger-deep: #7a2220;
+
+  /* 그림자 — minimalist-ui 지침대로 거의 안 보일 정도로만 */
+  --gi-shadow: 0 1px 1px rgba(34, 27, 29, 0.02), 0 2px 4px rgba(34, 27, 29, 0.02),
+    0 6px 12px rgba(34, 27, 29, 0.03);
+  --gi-shadow-pop: 0 1px 1px rgba(34, 27, 29, 0.02), 0 4px 10px rgba(34, 27, 29, 0.04),
+    0 16px 32px rgba(34, 27, 29, 0.06);
+
+  /* 차트 — 액센트 단일 색조의 명도 단계만 */
+  --gi-chart-1: #4e3346;
+  --gi-chart-2: #6e4c63;
+  --gi-chart-3: #96738b;
+  --gi-chart-4: #c1a6bb;
+  --gi-chart-5: #ead9e3;
+  --gi-chart-rest: #ede9e6;
+
+  background: var(--gi-canvas);
+  color: var(--gi-ink);
+  font-feature-settings: "tnum" 0;
+}
+
+/* 한글은 기본값에서 어절 중간이 끊긴다 — keep-all 로 공백에서만 줄바꿈한다.
+   overflow-wrap 은 break-word 여야 anywhere 가 keep-all 을 무력화하지 않는다. */
+.genderinsight {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* PIN, 일시, 참여율처럼 자릿수를 맞춰 읽는 값에만 쓴다. 본문에는 쓰지 않는다. */
+.gi-mono {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-feature-settings: "tnum";
+}
+
+.gi-enter {
+  animation: gi-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.gi-stagger {
+  animation: gi-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--index, 0) * 60ms);
+}
+
+@keyframes gi-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 마감 임박, 미응답 다수 배지의 맥동. 색이 아니라 점의 움직임으로 "지금 진행 중"을 전달. */
+.gi-live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.35;
+  animation: gi-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes gi-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  70%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* 참여자 로그인 · 제출완료 화면의 배경 깊이 — 사진 대신 옅은 라디얼 스팟(minimalist-ui 6절 대안). */
+.gi-spot {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(480px 320px at 12% -8%, rgba(110, 76, 99, 0.06), transparent 60%),
+    radial-gradient(420px 300px at 100% 10%, rgba(31, 108, 159, 0.05), transparent 60%);
+}
+
+.genderinsight ::selection {
+  background: #221b1d;
+  color: #f3efec;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gi-enter,
+  .gi-stagger,
+  .gi-live-dot::after {
+    animation: none;
+  }
+}

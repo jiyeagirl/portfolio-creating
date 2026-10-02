@@ -1,0 +1,84 @@
+.verve {
+  --v-primary: #da291c;
+  --v-primary-active: #b01e0a;
+  --v-primary-hover: #9d2211;
+  --v-focus: #fff200;
+
+  --v-canvas: #181818;
+  --v-canvas-elevated: #303030;
+  --v-canvas-light: #ffffff;
+  --v-surface-soft-light: #f7f7f7;
+  --v-surface-strong-light: #ebebeb;
+
+  --v-hairline: #303030;
+  --v-hairline-on-light: #d2d2d2;
+  --v-hairline-soft: #ebebeb;
+
+  --v-ink: #ffffff;
+  --v-body: #969696;
+  --v-body-strong: #ffffff;
+  --v-body-on-light: #181818;
+  --v-muted: #666666;
+  --v-muted-soft: #8f8f8f;
+  --v-on-primary: #ffffff;
+
+  --v-info: #4c98b9;
+  --v-success: #03904a;
+  --v-warning: #f13a2c;
+
+  --v-xxxs: 4px;
+  --v-xxs: 8px;
+  --v-xs: 16px;
+  --v-sm: 24px;
+  --v-md: 32px;
+  --v-lg: 48px;
+  --v-xl: 64px;
+  --v-xxl: 96px;
+  --v-super: 128px;
+
+  background: var(--v-canvas);
+  color: var(--v-ink);
+}
+
+/* 라이트 캔버스 "룸" — 유틸리티/거래 화면(쇼핑, 장바구니, 마이페이지 등)에서만 사용.
+   Farrari 룰: "흰 밴드는 preowned·pricing 같은 에디토리얼 문맥에서만." */
+.verve-light {
+  background: var(--v-canvas-light);
+  color: var(--v-body-on-light);
+}
+
+.verve ::selection {
+  background: var(--v-primary);
+  color: var(--v-on-primary);
+}
+
+.verve input::placeholder,
+.verve textarea::placeholder {
+  color: var(--v-muted-soft);
+  opacity: 1;
+}
+
+.verve input:focus-visible,
+.verve textarea:focus-visible,
+.verve select:focus-visible,
+.verve button:focus-visible,
+.verve a:focus-visible {
+  outline: 2px solid var(--v-focus);
+  outline-offset: 2px;
+}
+
+.verve .v-number {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1.6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .verve *,
+  .verve *::before,
+  .verve *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

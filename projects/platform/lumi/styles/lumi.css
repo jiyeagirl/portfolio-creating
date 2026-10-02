@@ -1,0 +1,150 @@
+.lumi {
+  --lm-canvas: #f5f5f8;
+  --lm-surface: #ebeaf1;
+  --lm-elevated: #ffffff;
+  --lm-ink: #191730;
+  --lm-muted: #6b6885;
+  --lm-border: #e2e0ea;
+  --lm-accent: #4b3ba9;
+  --lm-accent-fg: #ffffff;
+  --lm-accent-soft: #e8e5f7;
+  --lm-live: #b06a12;
+  --lm-live-soft: #fbf0e0;
+  --lm-success: #1c7a52;
+  --lm-success-soft: #e0f1e9;
+  --lm-danger: #b23a34;
+  --lm-danger-soft: #f9e7e6;
+  --lm-night: #171432;
+  --lm-shadow: 0 1px 2px rgba(25, 23, 48, 0.05), 0 10px 28px rgba(25, 23, 48, 0.07);
+
+  /* 차트는 액센트 한 색의 명도 단계만 쓴다. 상담권 등급은 15분, 30분, 60분 순서가 있는
+     값이라 순차 램프가 맞고, 새 색상을 늘리지 않아도 구분된다. */
+  --lm-chart-strong: #2f2372;
+  --lm-chart-base: #4b3ba9;
+  --lm-chart-soft: #8d81d8;
+
+  background: var(--lm-canvas);
+  color: var(--lm-ink);
+}
+
+:root[data-theme="dark"] .lumi {
+  --lm-canvas: #121120;
+  --lm-surface: #1a1930;
+  --lm-elevated: #211f39;
+  --lm-ink: #eceaf5;
+  --lm-muted: #9c98b5;
+  --lm-border: #2c2a47;
+  --lm-accent: #a396ff;
+  --lm-accent-fg: #16122e;
+  --lm-accent-soft: #262246;
+  --lm-live: #e0a458;
+  --lm-live-soft: #35270f;
+  --lm-success: #57c496;
+  --lm-success-soft: #113026;
+  --lm-danger: #e0857e;
+  --lm-danger-soft: #351b1a;
+  --lm-night: #0d0b1c;
+  --lm-chart-strong: #d3ccff;
+  --lm-chart-base: #a396ff;
+  --lm-chart-soft: #6a5eb8;
+  --lm-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  .lumi:not([data-theme="light"] .lumi) {
+    --lm-canvas: #121120;
+    --lm-surface: #1a1930;
+    --lm-elevated: #211f39;
+    --lm-ink: #eceaf5;
+    --lm-muted: #9c98b5;
+    --lm-border: #2c2a47;
+    --lm-accent: #a396ff;
+    --lm-accent-fg: #16122e;
+    --lm-accent-soft: #262246;
+    --lm-live: #e0a458;
+    --lm-live-soft: #35270f;
+    --lm-success: #57c496;
+    --lm-success-soft: #113026;
+    --lm-danger: #e0857e;
+    --lm-danger-soft: #351b1a;
+    --lm-night: #0d0b1c;
+    --lm-chart-strong: #d3ccff;
+    --lm-chart-base: #a396ff;
+    --lm-chart-soft: #6a5eb8;
+    --lm-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.lumi ::selection {
+  background: var(--lm-accent-soft);
+  color: var(--lm-accent);
+}
+
+.lumi input::placeholder,
+.lumi textarea::placeholder {
+  color: var(--lm-muted);
+  opacity: 1;
+}
+
+.lumi input:focus-visible,
+.lumi textarea:focus-visible,
+.lumi select:focus-visible,
+.lumi button:focus-visible {
+  outline: 2px solid var(--lm-accent);
+  outline-offset: 2px;
+}
+
+.lm-scroll-x {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.lm-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+.lm-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 화면 전환 진입. 어떤 화면으로 이동했는지 알려주는 역할만 한다. */
+.lm-enter {
+  animation: lm-enter 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes lm-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 통화 연결 중 상태를 나타내는 링 펄스. 통화 화면에서만 쓴다. */
+.lm-pulse-ring {
+  animation: lm-pulse 2.4s ease-out infinite;
+}
+
+@keyframes lm-pulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lm-enter,
+  .lm-pulse-ring {
+    animation: none;
+  }
+}

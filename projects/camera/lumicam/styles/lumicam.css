@@ -1,0 +1,144 @@
+.lumicam {
+  --lc-canvas: #faf8f3;
+  --lc-surface: #ffffff;
+  --lc-surface-soft: #f2eee3;
+  --lc-ink: #18140d;
+  --lc-on-ink: #fbf8f1;
+  --lc-body: #4e4839;
+  --lc-mute: #948c77;
+  --lc-border: #e7e1d1;
+  --lc-accent: #1fae5c;
+  --lc-accent-soft: #e2f5e9;
+  --lc-accent-soft-ink: #1c7d47;
+  --lc-danger-soft: #fdebec;
+  --lc-danger-ink: #9f2f2d;
+  --lc-chart-rest: #ddd3ba;
+
+  color-scheme: light;
+}
+
+/* 단방향(Unipolar) 슬라이더 — 왼쪽부터 채워진다 */
+
+.lumicam input[type="range"].lc-slider,
+.lumicam input[type="range"].lc-slider-bipolar,
+.lumicam input[type="range"].lc-slider-dark {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.lumicam input[type="range"].lc-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--lc-accent) 0%,
+    var(--lc-accent) var(--lc-slider-fill, 0%),
+    var(--lc-border) var(--lc-slider-fill, 0%),
+    var(--lc-border) 100%
+  );
+}
+
+.lumicam input[type="range"].lc-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--lc-border);
+}
+
+.lumicam input[type="range"].lc-slider::-moz-range-progress {
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--lc-accent);
+}
+
+/* 양방향(Bipolar) 슬라이더 — 중앙(50%)에서부터 좌우로 채워진다 */
+
+.lumicam input[type="range"].lc-slider-bipolar::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--lc-border) 0%,
+    var(--lc-border) var(--lc-slider-from, 50%),
+    var(--lc-accent) var(--lc-slider-from, 50%),
+    var(--lc-accent) var(--lc-slider-to, 50%),
+    var(--lc-border) var(--lc-slider-to, 50%),
+    var(--lc-border) 100%
+  );
+}
+
+.lumicam input[type="range"].lc-slider-bipolar::-moz-range-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--lc-border);
+}
+
+.lumicam input[type="range"].lc-slider::-webkit-slider-thumb,
+.lumicam input[type="range"].lc-slider-bipolar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -7px;
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background: var(--lc-surface);
+  border: 2px solid var(--lc-accent);
+  box-shadow: 0 1px 2px rgba(24, 20, 13, 0.15);
+}
+
+.lumicam input[type="range"].lc-slider::-moz-range-thumb,
+.lumicam input[type="range"].lc-slider-bipolar::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background: var(--lc-surface);
+  border: 2px solid var(--lc-accent);
+  box-shadow: 0 1px 2px rgba(24, 20, 13, 0.15);
+}
+
+/* 다크 배리언트 — 카메라 라이브 프리뷰(검은 배경) 위에서 쓰는 LUT 강도 슬라이더 전용 */
+
+.lumicam input[type="range"].lc-slider-dark::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    #ffffff 0%,
+    #ffffff var(--lc-slider-fill, 0%),
+    rgba(255, 255, 255, 0.28) var(--lc-slider-fill, 0%),
+    rgba(255, 255, 255, 0.28) 100%
+  );
+}
+
+.lumicam input[type="range"].lc-slider-dark::-moz-range-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.lumicam input[type="range"].lc-slider-dark::-moz-range-progress {
+  height: 4px;
+  border-radius: 9999px;
+  background: #ffffff;
+}
+
+.lumicam input[type="range"].lc-slider-dark::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -6px;
+  height: 16px;
+  width: 16px;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.lumicam input[type="range"].lc-slider-dark::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 9999px;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}

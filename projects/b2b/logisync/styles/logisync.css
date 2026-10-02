@@ -1,0 +1,215 @@
+/* LogiSync 토큰. design-systems/farrari_compact.md에서 레드 액센트와 숫자 중심 타이포를 가져오고,
+   바탕은 밝은 웜 스톤 계열(팔레트 구성 4, 틴티드 뉴트럴)로 옮겼다. 어두운 표면은 .ls-dark
+   (아이콘 레일, 사진 히어로)에서만 쓴다. 값의 근거는 design.md의 Tokens 절. */
+
+.logisync {
+  --ls-canvas: #f3f2ef;
+  --ls-rail: #1c1d20;
+  --ls-surface: #ffffff;
+  --ls-elevated: #eceae6;
+  --ls-pressed: #e2e0db;
+  --ls-hairline: #e4e2de;
+  --ls-hairline-soft: #efedea;
+
+  --ls-ink: #1b1c1f;
+  --ls-body-strong: #3a3b3f;
+  --ls-body: #5f6166;
+  --ls-muted: #6e7075;
+  --ls-disabled: #a8a9ad;
+
+  --ls-primary: #da291c;
+  --ls-primary-active: #b01e0a;
+  --ls-primary-soft: #fbe6e3;
+  --ls-on-primary: #ffffff;
+  --ls-focus: #1b1c1f;
+
+  --ls-paper: #f7f5f0;
+  --ls-paper-line: #ebe7df;
+  --ls-paper-ink: #1b1c1f;
+  --ls-paper-muted: #6e7075;
+
+  /* 상태 5단: base(점, 막대) / fg(텍스트, 흰 바탕 AA) / bg(배지 바닥) */
+  --ls-ok: #0f9a55;
+  --ls-ok-fg: #0a7a43;
+  --ls-ok-bg: #e3f3ea;
+  --ls-info: #4c98b9;
+  --ls-info-fg: #2d6a86;
+  --ls-info-bg: #e3eff5;
+  --ls-warn: #d9a21b;
+  --ls-warn-fg: #8a6100;
+  --ls-warn-bg: #fbf0d6;
+  --ls-danger: #e2382a;
+  --ls-danger-fg: #c02a1d;
+  --ls-danger-bg: #fde7e4;
+  --ls-neutral: #9a9ba0;
+  --ls-neutral-fg: #4a4b50;
+  --ls-neutral-bg: #eceae6;
+
+  /* 차트: 잉크 명도 램프 + 레드 한 곳 */
+  --ls-chart-1: #1b1c1f;
+  --ls-chart-2: #b5b3ae;
+  --ls-chart-3: #d9d7d2;
+  --ls-heat-0: #f1efeb;
+  --ls-heat-1: #f7d3cf;
+  --ls-heat-2: #ec8479;
+  --ls-heat-3: #da291c;
+
+  --ls-shadow: 0 1px 2px rgba(40, 36, 30, 0.04), 0 2px 8px rgba(40, 36, 30, 0.04);
+
+  --ls-ease: cubic-bezier(0.3, 0, 0.3, 1);
+
+  background: var(--ls-canvas);
+  color: var(--ls-body);
+  font-size: 14px;
+  line-height: 21px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 어두운 표면 스코프. 변수만 덮어써서 같은 컴포넌트가 그대로 동작한다. */
+.ls-dark {
+  --ls-canvas: #1c1d20;
+  --ls-surface: #26272b;
+  --ls-elevated: #34353a;
+  --ls-pressed: #2c2d31;
+  --ls-hairline: #34353a;
+  --ls-hairline-soft: #2a2b2f;
+  --ls-ink: #ffffff;
+  --ls-body-strong: #dcdcde;
+  --ls-body: #a9aaae;
+  --ls-muted: #9c9da2;
+  --ls-disabled: #6c6d72;
+  --ls-focus: #ffffff;
+  color-scheme: dark;
+}
+
+.logisync ::selection {
+  background: var(--ls-primary);
+  color: var(--ls-on-primary);
+}
+
+.logisync :focus-visible {
+  outline: 2px solid var(--ls-focus);
+  outline-offset: 2px;
+}
+
+/* 유틸은 components 레이어에 둔다. 레이어 밖에 두면 text-[..] 같은 Tailwind 유틸보다 이겨서
+   크기 지정이 무시된다. */
+@layer components {
+  .ls-num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 큰 수치 전용. 700 + 좁은 자간 조합이 "AI 대시보드" 인상을 줘서 600, 거의 기본 자간으로 둔다.
+     단위는 숫자 옆에 붙이지 않고 라벨에 "(건)"으로 쓴다. */
+  .ls-figure {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .ls-code {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.92em;
+    letter-spacing: 0;
+  }
+
+  .ls-eyebrow {
+    font-size: 11px;
+    line-height: 15px;
+    font-weight: 600;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+  }
+
+  .ls-noscroll {
+    scrollbar-width: none;
+  }
+  .ls-noscroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ls-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #3a3a3a transparent;
+  }
+}
+
+/* 진입 — 180ms 거의 선형, 파이프라인 방향(좌 → 우) */
+@keyframes ls-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.ls-enter {
+  animation: ls-enter 180ms var(--ls-ease) both;
+}
+.ls-stagger {
+  animation: ls-enter 180ms var(--ls-ease) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+@keyframes ls-drawer {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.ls-drawer {
+  animation: ls-drawer 220ms var(--ls-ease) both;
+}
+
+@keyframes ls-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.ls-scrim {
+  animation: ls-fade 220ms var(--ls-ease) both;
+}
+
+@keyframes ls-pulse {
+  0% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 1;
+  }
+  70% {
+    box-shadow: 0 0 0 5px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.ls-live {
+  animation: ls-pulse 1.6s ease-out infinite;
+}
+
+.ls-swap {
+  transition: background-color 120ms var(--ls-ease), color 120ms var(--ls-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ls-enter,
+  .ls-stagger,
+  .ls-drawer,
+  .ls-scrim,
+  .ls-live {
+    animation: none;
+  }
+  .ls-swap {
+    transition: none;
+  }
+}

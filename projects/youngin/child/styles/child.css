@@ -1,0 +1,154 @@
+/* 용인 아이놀이터 토큰.
+   구조적 값(반경 스케일, 그림자 스택 구조, 진입 트랜지션 타이밍, keep-all,
+   tabular-nums 유틸)은 _reference-styles / _reference-design-system.md에서 가져오고,
+   색은 전부 새로 정의한다. 사용자용 모바일웹과 관리자 콘솔이 같은 토큰을 공유한다. */
+
+.yongin-child {
+  /* 표면 — 종이 같은 웜 뉴트럴. 순수 흰 캔버스는 카드와 배경이 붙어 보인다. */
+  --yc-canvas: #f7f4ee;
+  --yc-surface: #ffffff;
+  --yc-surface-soft: #efeade;
+  --yc-hairline: #e4dfd2;
+  --yc-hairline-strong: #cec7b6;
+
+  /* 잉크 */
+  --yc-ink: #1c201c;
+  --yc-body: #4c534c;
+  --yc-mute: #8a918a;
+
+  /* 액센트 — 숲 초록 하나만. CTA, 진행률, 활성 상태, 차트 전부 이 색조 안에서 해결한다. */
+  --yc-accent: #2e6b4f;
+  --yc-accent-deep: #22523c;
+  --yc-accent-soft: #dcebe1;
+  --yc-on-accent: #ffffff;
+
+  /* 도장 잉크 — 스탬프/리워드 전용 보조 톤. 버튼이나 링크에는 쓰지 않는다. */
+  --yc-stamp: #b5702a;
+  --yc-stamp-soft: #f6e7d3;
+
+  /* 잠금(다음 연령대에 열리는 미션) */
+  --yc-lock: #9b9384;
+  --yc-lock-soft: #eee9dd;
+
+  /* 관리자 콘솔 다크 레일 — 사용자 화면과 완전히 다른 영역이라는 신호 */
+  --yc-rail: #1f241f;
+  --yc-rail-soft: #2b312b;
+  --yc-rail-line: #363c35;
+  --yc-rail-mute: #98a096;
+
+  /* 차트 — 액센트 단일 색조의 명도 단계만 */
+  --yc-chart-1: #22523c;
+  --yc-chart-2: #2e6b4f;
+  --yc-chart-3: #5e9377;
+  --yc-chart-4: #97bfa8;
+  --yc-chart-5: #cfe3d6;
+  --yc-chart-rest: #e7e1d4;
+
+  /* 그림자 — 단일 두꺼운 drop-shadow 금지. 미세 스택. */
+  --yc-shadow: 0 1px 1px rgba(28, 32, 28, 0.03), 0 2px 4px rgba(28, 32, 28, 0.04),
+    0 8px 16px rgba(28, 32, 28, 0.03);
+  --yc-shadow-pop: 0 1px 2px rgba(28, 32, 28, 0.04), 0 6px 12px rgba(28, 32, 28, 0.06),
+    0 18px 32px rgba(28, 32, 28, 0.07);
+
+  color: var(--yc-ink);
+
+  /* 한글은 기본값에서 어절 중간이 끊긴다. 공백에서만 줄바꿈시킨다.
+     overflow-wrap 은 break-word 여야 한다 — anywhere 는 keep-all 을 무력화한다. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 개월 수, 스탬프 수, 방문 횟수처럼 자릿수를 눈으로 맞춰 읽는 값에만. 본문에는 쓰지 않는다. */
+.yc-num {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+.yc-enter {
+  animation: yc-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes yc-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 가로 스크롤 카드 레일 — 스크롤바를 숨기고 스냅만 남긴다. */
+.yc-rail-scroll {
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+
+.yc-rail-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.yc-rail-scroll > * {
+  scroll-snap-align: start;
+}
+
+/* ── 테두리 색 ──
+ * 예전에는 app/globals.css 의 `* { border-color }` 가 @layer 밖에 있어서 Tailwind 테두리 색
+ * 유틸리티를 전부 덮었고, 이 클래스들로 되살렸다. 2026-09-18부터 그 규칙은 @layer base 안에
+ * 있어서 border-[var(--yc-*)] 도 그대로 동작한다. 아래 클래스는 기존 화면 호환용으로 남긴다. */
+.yongin-child .yc-b-accent {
+  border-color: var(--yc-accent);
+}
+
+.yongin-child .yc-b-stamp {
+  border-color: var(--yc-stamp);
+}
+
+.yongin-child .yc-b-strong {
+  border-color: var(--yc-hairline-strong);
+}
+
+.yongin-child .yc-b-rail {
+  border-color: var(--yc-rail-line);
+}
+
+/* QR 스캔 진행 바. 스캔이 끝나는 2초에 맞춰 채워진다.
+   Progress 컴포넌트의 500ms 전환으로는 먼저 다 차버려서 별도 키프레임을 쓴다. */
+.yc-scan {
+  width: 0;
+  animation: yc-scan 2000ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes yc-scan {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* 도장 자국. 실제 고무도장처럼 살짝 기울고 테두리가 두껍다. */
+.yc-stamp-mark {
+  transform: rotate(-8deg);
+}
+
+.yongin-child ::selection {
+  background: var(--yc-accent);
+  color: var(--yc-on-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yc-enter {
+    animation: none;
+  }
+  /* 애니메이션만 끄면 폭이 0에 멈춰 진행 상태를 못 읽는다. 끝 상태로 고정한다. */
+  .yc-scan {
+    animation: none;
+    width: 100%;
+  }
+  .yc-rail-scroll {
+    scroll-behavior: auto;
+  }
+}

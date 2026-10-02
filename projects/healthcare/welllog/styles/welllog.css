@@ -1,0 +1,101 @@
+/* welllog 토큰. 색은 design.md에서 새로 정의(디자인시스템/스타일 미지정 프로젝트),
+   반경/그림자/모션 철학만 filmate 구조를 참고했다. 타이포는 CLAUDE.md 규칙에 따라
+   Pretendard로 고정(모노 폰트 스왑 없이 tabular-nums만 사용). */
+
+.welllog {
+  --wl-canvas: #f6f9f3;
+  --wl-surface: #ffffff;
+  --wl-surface-soft: #eef3ea;
+  --wl-ink: #22271f;
+  --wl-body: #5b6355;
+  --wl-mute: #8b9284;
+  --wl-hairline: #e3e8de;
+
+  --wl-accent: #4f7d5d;
+  --wl-accent-soft: #e1eee3;
+  --wl-accent-deep: #33573f;
+  --wl-on-accent: #ffffff;
+
+  /* 리듬 카드 전용 그라디언트 — 이 카드 배경 이외에는 쓰지 않는다 */
+  --wl-dawn-a: #4f7d5d;
+  --wl-dawn-b: #f4c089;
+
+  /* 상태/태그 톤 */
+  --wl-amber: #8a6b1f;
+  --wl-amber-soft: #fbefd7;
+  --wl-coral: #b85c33;
+  --wl-coral-soft: #fce3d6;
+  --wl-periwinkle: #4b57a6;
+  --wl-periwinkle-soft: #e3e7fb;
+
+  --wl-shadow: 0 1px 2px rgba(34, 39, 31, 0.04), 0 10px 24px rgba(34, 39, 31, 0.06);
+  --wl-shadow-pop: 0 4px 10px rgba(34, 39, 31, 0.08), 0 20px 40px rgba(34, 39, 31, 0.12);
+
+  background: var(--wl-canvas);
+  color: var(--wl-ink);
+}
+
+.welllog {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 화면마다 자체 overflow-y-auto 컨테이너를 쓰는데(ScreenHeader가 sticky로 붙기 위해
+   필요), PhoneFrame 바깥 래퍼처럼 스크롤바를 숨기지 않으면 기기 화면 안쪽에 네이티브
+   스크롤바가 그대로 보인다. 실제 폰은 스크롤바가 없으니 이 스코프 전체에서 숨긴다. */
+.welllog,
+.welllog * {
+  scrollbar-width: none;
+}
+
+.welllog *::-webkit-scrollbar {
+  display: none;
+}
+
+.wl-num {
+  font-feature-settings: "tnum";
+}
+
+.wl-enter {
+  animation: wl-enter 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes wl-enter {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* AI 식단 분석 로더 전용 무한 펄스 — 실제 처리 중 상태를 의미할 때만 쓴다 */
+.wl-pulse {
+  animation: wl-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes wl-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.welllog ::selection {
+  background: var(--wl-accent);
+  color: var(--wl-on-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wl-enter,
+  .wl-pulse {
+    animation: none;
+  }
+}

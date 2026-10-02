@@ -1,0 +1,23 @@
+.wedit {
+  --wd-canvas: #fff8f9;
+  --wd-surface: #ffffff;
+  --wd-surface-tint: #fff1f4;
+  --wd-ink: #241019;
+  --wd-body: #5c4650;
+  --wd-muted: #9a828c;
+  --wd-border: #f2dee3;
+  --wd-accent: #b23a6e;
+  --wd-accent-strong: #8c2a54;
+  --wd-accent-soft: #f7dce6;
+
+  --wd-status-received-fg: #6b7280;
+  --wd-status-received-bg: #f1f2f4;
+  --wd-status-reviewing-fg: #92650b;
+  --wd-status-reviewing-bg: #fdf1da;
+  --wd-status-approved-fg: #1f6c4e;
+  --wd-status-approved-bg: #e4f5ec;
+  --wd-status-rejected-fg: #9f2f2d;
+  --wd-status-rejected-bg: #fdebec;
+
+  color-scheme: light;
+}

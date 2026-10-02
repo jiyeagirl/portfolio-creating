@@ -1,0 +1,103 @@
+.pawfit {
+  --pf-canvas: #fffaf0;
+  --pf-surface-soft: #faf5e8;
+  --pf-surface-card: #f5f0e0;
+  --pf-surface-strong: #ebe6d6;
+  --pf-ink: #0a0a0a;
+  --pf-body-strong: #1a1a1a;
+  --pf-body: #3a3a3a;
+  --pf-muted: #6a6a6a;
+  --pf-muted-soft: #9a9a9a;
+  --pf-hairline: #e5e5e5;
+  --pf-on-primary: #ffffff;
+  --pf-primary: #0a0a0a;
+
+  --pf-success: #22c55e;
+  --pf-success-soft: #e6f8ec;
+  --pf-warning: #f59e0b;
+  --pf-warning-soft: #fef3e0;
+  --pf-error: #ef4444;
+  --pf-error-soft: #fdeaea;
+
+  /* 6색 브랜드 로테이션. 버튼에는 쓰지 않는다 — 카드/타일 배경 전용. */
+  --pf-brand-pink: #ff4d8b;
+  --pf-brand-teal: #1a3a3a;
+  --pf-brand-lavender: #b8a4ed;
+  --pf-brand-peach: #ffb084;
+  --pf-brand-ochre: #e8b94a;
+  --pf-brand-mint: #a4d4c5;
+  --pf-brand-coral: #ff6b5a;
+
+  background: var(--pf-canvas);
+  color: var(--pf-ink);
+}
+
+.pawfit ::selection {
+  background: var(--pf-surface-strong);
+  color: var(--pf-ink);
+}
+
+.pawfit input::placeholder,
+.pawfit textarea::placeholder {
+  color: var(--pf-muted);
+  opacity: 1;
+}
+
+.pawfit input:focus-visible,
+.pawfit textarea:focus-visible,
+.pawfit select:focus-visible,
+.pawfit button:focus-visible {
+  outline: 2px solid var(--pf-ink);
+  outline-offset: 2px;
+}
+
+.pf-scroll-x {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.pf-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+.pf-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 화면 전환 진입. */
+.pf-enter {
+  animation: pf-enter 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pf-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 사이즈 추천 결과 카드 전용 스태거 페이드업. 상태 전달용 모션이다. */
+.pf-result-in {
+  animation: pf-result-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pf-result-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-enter,
+  .pf-result-in {
+    animation: none;
+  }
+}

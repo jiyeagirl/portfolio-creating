@@ -1,0 +1,171 @@
+/*
+ * 포은문화제 현장안내 — design tokens. See design.md.
+ * Hanji-toned canvas + a single dancheong-red accent. Scoped to `.festival`
+ * so the workspace's own global tokens stay untouched.
+ */
+.festival {
+  /* Surfaces */
+  --fs-canvas: #f8f5f0;
+  --fs-surface: #ffffff;
+  --fs-surface-soft: #f0ebe3;
+  --fs-surface-sunk: #e6dfd4;
+
+  /* Ink */
+  --fs-ink: #1c1a17;
+  --fs-body: #3d3934;
+  --fs-muted: #736d64;
+  --fs-faint: #a49c90;
+
+  /* Lines */
+  --fs-line: #e3dcd1;
+  --fs-line-soft: #efe9df;
+
+  /* Accent — the only highlight color in the product */
+  --fs-accent: #b3332b;
+  --fs-accent-deep: #8c241e;
+  --fs-accent-soft: #f7e7e4;
+  --fs-on-accent: #fdf9f4;
+
+  /* Dark surfaces (QR scanner, verify result, hero overlay) */
+  --fs-dark: #1f1c19;
+  --fs-dark-soft: #2b2723;
+  --fs-on-dark: #f5f1e9;
+  --fs-on-dark-muted: #a8a197;
+
+  /* Facility category tones — map pins, legend, filter chips and category
+     badges only. Never buttons or links, so they never read as a second
+     accent. See design.md "시설 분류 색". */
+  --fs-cat-program: #b3332b;
+  --fs-cat-program-soft: #f7e7e4;
+  --fs-cat-conv: #1f6360;
+  --fs-cat-conv-soft: #e0edec;
+  --fs-cat-safety: #2a4a82;
+  --fs-cat-safety-soft: #e5eaf4;
+  --fs-gold: #9b6e14;
+  --fs-gold-soft: #f6edd9;
+
+  background: var(--fs-canvas);
+  color: var(--fs-body);
+  font-family: var(--font-sans);
+  /* Korean wraps between 어절, never mid-word. No `anywhere` fallback — it
+     cancels keep-all outright. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  color-scheme: light;
+}
+
+/* Times, remaining minutes, distances and percentages keep their column width. */
+.festival-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.festival ::selection {
+  background: rgba(179, 51, 43, 0.2);
+  color: var(--fs-ink);
+}
+
+.festival-scroll-x {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.festival-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Motion ------------------------------------------------------------ */
+
+@keyframes fs-screen-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fs-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fs-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  70% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes fs-stamp {
+  0% {
+    transform: scale(1.6) rotate(-8deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.94) rotate(2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes fs-scanline {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(168px);
+  }
+}
+
+.fs-screen-in {
+  animation: fs-screen-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.fs-sheet-in {
+  animation: fs-sheet-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.fs-pulse {
+  animation: fs-pulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.fs-stamp {
+  animation: fs-stamp 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.fs-scanline {
+  animation: fs-scanline 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .festival *,
+  .festival *::before,
+  .festival *::after,
+  .fs-screen-in,
+  .fs-sheet-in,
+  .fs-pulse,
+  .fs-stamp,
+  .fs-scanline {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

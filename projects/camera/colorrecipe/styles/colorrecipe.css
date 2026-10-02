@@ -1,0 +1,43 @@
+.colorrecipe {
+  --cr-bg: #0a0b0d;
+  --cr-surface: #15171b;
+  --cr-surface-raised: #1d2025;
+  --cr-cool-gray: #8b93a1;
+  --cr-cool-gray-soft: #565c66;
+  --cr-foreground: #f2f4f6;
+  --cr-border: #262a31;
+  --cr-accent: #4de8ff;
+  --cr-accent-dim: rgba(77, 232, 255, 0.14);
+  --cr-danger: #ff5470;
+
+  color-scheme: dark;
+}
+
+.colorrecipe .cr-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--cr-foreground);
+  box-shadow: 0 0 0 3px var(--cr-accent-dim);
+  cursor: pointer;
+}
+
+.colorrecipe .cr-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 9999px;
+  background: var(--cr-foreground);
+  box-shadow: 0 0 0 3px var(--cr-accent-dim);
+  cursor: pointer;
+}
+
+.colorrecipe .cr-range::-webkit-slider-runnable-track {
+  background: transparent;
+}
+
+.colorrecipe .cr-range::-moz-range-track {
+  background: transparent;
+}

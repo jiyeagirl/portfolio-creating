@@ -135,6 +135,32 @@ export interface Notification {
   read: boolean;
 }
 
+/** A comment the signed-in resident left, shown on 마이페이지 with its source post. */
+export interface MyComment {
+  id: string;
+  postId: string;
+  postTitle: string;
+  board: BoardKey;
+  content: string;
+  createdAt: string;
+  likes: number;
+}
+
+export interface ActivityEntry {
+  id: string;
+  type: "post" | "comment" | "event" | "meetup" | "store" | "civic";
+  label: string;
+  detail: string;
+  date: string;
+}
+
+export interface NotificationPref {
+  key: string;
+  label: string;
+  description: string;
+  enabled: boolean;
+}
+
 export interface AdminMember {
   id: string;
   name: string;

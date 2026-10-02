@@ -1,4 +1,5 @@
-export type LoclyView =
+/** Public resident-facing website views. */
+export type SiteView =
   | "home"
   | "community"
   | "postDetail"
@@ -12,13 +13,11 @@ export type LoclyView =
   | "civic"
   | "search"
   | "notifications"
-  | "mypage"
-  | "admin";
+  | "mypage";
 
-export type NavigateFn = (view: LoclyView, id?: string) => void;
+export type NavigateFn = (view: SiteView, id?: string) => void;
 
-export const PRIMARY_NAV: { view: LoclyView; label: string }[] = [
-  { view: "home", label: "홈" },
+export const PRIMARY_NAV: { view: SiteView; label: string }[] = [
   { view: "community", label: "커뮤니티" },
   { view: "events", label: "지역행사" },
   { view: "stores", label: "동네가게" },

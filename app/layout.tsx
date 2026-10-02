@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s · Portfolio Workspace",
+    template: "%s | Portfolio Workspace",
     default: "Portfolio Workspace",
   },
   description: "여러 포트폴리오 목업 프로젝트를 관리하는 워크스페이스.",

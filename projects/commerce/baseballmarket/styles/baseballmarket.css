@@ -1,0 +1,197 @@
+/* BaseballMarket — 팔레트 구성 5 (하이컨트라스트 / 무액센트)
+   출처: design-systems/vercel_compact.md. 상세 근거는 design.md 참조.
+
+   clay_compact에서 갈아엎은 것이라 규칙이 정반대로 뒤집혔다:
+   1. 그림자가 있다. 단 "미세한 다층 스택"이고 단일 두꺼운 drop-shadow는 금지다.
+      clay는 그림자 0개였고 크림 명도차로만 깊이를 만들었다.
+   2. 캔버스는 순백(#ffffff)이다. 크림 틴트가 아니다.
+   3. 액센트는 잉크 블랙 하나뿐이다. 6색 순환 팔레트가 없다.
+   4. 폰트 웨이트 천장 600. 700 이상 금지.
+
+   변수 이름은 clay 시절과 그대로 두고 값만 바꿨다 — 화면 코드가 이미 이 이름으로
+   90곳 넘게 참조하고 있어서, 이름을 바꾸면 의미 없는 대량 치환이 생긴다. */
+
+.baseballmarket {
+  /* 표면. 밴드마다 canvas-soft → canvas → ink(다크 반전) 순으로 순환시킨다. */
+  --bm-canvas: #ffffff;
+  --bm-surface: #fafafa;
+  --bm-surface-card: #f5f5f5;
+  --bm-surface-strong: #ebebeb;
+
+  --bm-hairline: #ebebeb;
+  --bm-hairline-strong: #d4d4d4;
+
+  --bm-ink: #171717;
+  --bm-body-strong: #2e2e2e;
+  --bm-body: #4d4d4d;
+  --bm-muted: #666666;
+  --bm-muted-soft: #888888;
+  --bm-on-ink: #ffffff;
+
+  /* 상태색. link 블루가 vercel의 success와 같은 값이라 성공은 그린 대신 블루다. */
+  --bm-link: #0070f3;
+  --bm-link-deep: #0761d1;
+  --bm-link-soft: #d3e5ff;
+  --bm-success: #0070f3;
+  --bm-success-soft: #d3e5ff;
+  --bm-warning: #f5a623;
+  --bm-warning-soft: #ffefcf;
+  --bm-warning-deep: #ab570a;
+  --bm-error: #ee0000;
+  --bm-error-soft: #f7d4d6;
+  --bm-error-deep: #c50000;
+
+  /* 브랜드 메시 그라데이션 3쌍. **히어로 스케일에서만** 쓴다 —
+     아이콘 크기로 축소하거나 단색으로 잘라 쓰지 않는다(vercel 규칙). */
+  --bm-mesh-a-1: #007cf0;
+  --bm-mesh-a-2: #00dfd8;
+  --bm-mesh-b-1: #7928ca;
+  --bm-mesh-b-2: #ff0080;
+  --bm-mesh-c-1: #ff4d4d;
+  --bm-mesh-c-2: #f9cb28;
+
+  /* 응원 구단. 10개 구단에 10색을 뿌리지 않는다 —
+     내 구단은 "색"이 아니라 **다크 반전 밴드**를 갖는다. */
+  --bm-team: #171717;
+  --bm-team-ink: #171717;
+  --bm-team-soft: #f5f5f5;
+  --bm-team-on: #ffffff;
+
+  /* 미세 다층 그림자. 단일 두꺼운 drop-shadow 금지(vercel 핵심 규칙). */
+  --bm-shadow-1: 0 1px 1px rgba(0, 0, 0, 0.02), 0 2px 2px rgba(0, 0, 0, 0.02);
+  --bm-shadow-2: 0 1px 1px rgba(0, 0, 0, 0.02), 0 2px 2px rgba(0, 0, 0, 0.02),
+    0 4px 4px rgba(0, 0, 0, 0.02), 0 8px 8px rgba(0, 0, 0, 0.02);
+  --bm-shadow-hairline: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+
+  background: var(--bm-canvas);
+  color: var(--bm-body);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 코드, 금액, 일시 전용. vercel 규칙상 **본문에는 모노를 쓰지 않는다.** */
+.bm-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* 섹션 eyebrow와 터미널 문자열은 항상 모노스페이스(vercel 규칙). */
+.bm-mono {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 카드 표면. 그림자는 hairline inset과 함께 쌓는다. */
+.bm-card {
+  box-shadow: var(--bm-shadow-hairline), var(--bm-shadow-1);
+}
+.bm-card-lg {
+  box-shadow: var(--bm-shadow-hairline), var(--bm-shadow-2);
+}
+
+/* 진입 — 210ms cubic-bezier(0.4, 0.14, 0.3, 1) + 6px.
+   clay 시절의 680ms / 18px을 버렸다. vercel은 무게가 아니라 즉각성이라
+   거리도 시간도 짧다. 이 이징은 워크스페이스 미사용 값이다. */
+@keyframes bm-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.bm-rise {
+  animation: bm-rise 210ms cubic-bezier(0.4, 0.14, 0.3, 1) both;
+}
+
+/* 스태거 40ms. clay는 70ms였다. */
+.bm-stagger > * {
+  animation: bm-rise 210ms cubic-bezier(0.4, 0.14, 0.3, 1) both;
+}
+.bm-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.bm-stagger > *:nth-child(2) { animation-delay: 40ms; }
+.bm-stagger > *:nth-child(3) { animation-delay: 80ms; }
+.bm-stagger > *:nth-child(4) { animation-delay: 120ms; }
+.bm-stagger > *:nth-child(5) { animation-delay: 160ms; }
+.bm-stagger > *:nth-child(6) { animation-delay: 200ms; }
+.bm-stagger > *:nth-child(n + 7) { animation-delay: 240ms; }
+
+.bm-swap {
+  transition: color 120ms cubic-bezier(0.4, 0.14, 0.3, 1),
+    background-color 120ms cubic-bezier(0.4, 0.14, 0.3, 1),
+    border-color 120ms cubic-bezier(0.4, 0.14, 0.3, 1);
+}
+
+/* 눌림 — **그림자가 무너진다.** transform을 쓰지 않는다.
+   clay에서는 표면 색이 한 단계 진해졌고, 워크스페이스 다수는 active:scale-95다.
+   vercel은 깊이를 그림자로 표현하므로 눌림도 그림자로 표현하는 것이 일관된 귀결이다. */
+.bm-press {
+  box-shadow: var(--bm-shadow-hairline), var(--bm-shadow-1);
+  transition: box-shadow 90ms cubic-bezier(0.4, 0.14, 0.3, 1),
+    background-color 120ms cubic-bezier(0.4, 0.14, 0.3, 1);
+}
+.bm-press:active {
+  box-shadow: var(--bm-shadow-hairline);
+}
+
+/* 그림자를 갖지 않는 곳(고스트 버튼, 내비 항목)의 눌림. 배경만 한 단계. */
+.bm-press-flat {
+  transition: background-color 90ms cubic-bezier(0.4, 0.14, 0.3, 1);
+}
+.bm-press-flat:active {
+  background-color: var(--bm-surface-strong);
+}
+
+.bm-press-ink {
+  transition: background-color 90ms cubic-bezier(0.4, 0.14, 0.3, 1);
+}
+.bm-press-ink:active {
+  background-color: #383838;
+}
+
+/* 히어로 전용 메시 그라데이션 텍스트. 아이콘 크기로 축소 금지. */
+.bm-mesh-text {
+  background-image: linear-gradient(
+    90deg,
+    var(--bm-mesh-a-1),
+    var(--bm-mesh-a-2) 45%,
+    var(--bm-mesh-b-2)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 다크 반전 밴드 위에 얹는 메시 라인. 내 구단 카드의 상단 1px. */
+.bm-mesh-rule {
+  background-image: linear-gradient(
+    90deg,
+    var(--bm-mesh-a-1),
+    var(--bm-mesh-a-2) 40%,
+    var(--bm-mesh-b-2) 75%,
+    var(--bm-mesh-c-2)
+  );
+}
+
+.bm-noscroll {
+  scrollbar-width: none;
+}
+.bm-noscroll::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-rise,
+  .bm-stagger > * {
+    animation: none;
+  }
+  .bm-swap,
+  .bm-press,
+  .bm-press-flat,
+  .bm-press-ink {
+    transition: none;
+  }
+}

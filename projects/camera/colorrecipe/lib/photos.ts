@@ -1,0 +1,158 @@
+import type { Photo } from "@/projects/camera/colorrecipe/lib/types";
+
+export const today = "2023.10.30";
+
+export const photos: Photo[] = [
+  {
+    id: "p-01",
+    seed: "colorrecipe-cafe-morning-flatlay",
+    recipeId: "clean-daily",
+    capturedAt: "2023.10.30 08:41",
+    favorite: true,
+    exif: {
+      camera: "ColorRecipe Cam",
+      lens: "26mm f/1.8",
+      focalLength: "26mm",
+      aperture: "f/1.8",
+      shutterSpeed: "1/120s",
+      iso: 100,
+      resolution: "5712 × 4284",
+      fileSize: "8.4MB",
+      fileName: "CR_20231030_0841.jpg",
+    },
+  },
+  {
+    id: "p-02",
+    seed: "colorrecipe-portrait-window-light",
+    recipeId: "soft-portrait",
+    capturedAt: "2023.10.29 16:22",
+    favorite: true,
+    exif: {
+      camera: "ColorRecipe Cam",
+      lens: "50mm f/1.4",
+      focalLength: "50mm",
+      aperture: "f/1.4",
+      shutterSpeed: "1/200s",
+      iso: 160,
+      resolution: "5712 × 4284",
+      fileSize: "9.1MB",
+      fileName: "CR_20231029_1622.jpg",
+    },
+  },
+  {
+    id: "p-03",
+    seed: "colorrecipe-city-dusk-avenue",
+    recipeId: "cinema-teal-orange",
+    capturedAt: "2023.10.28 19:47",
+    favorite: false,
+    exif: {
+      camera: "ColorRecipe Cam",
+      lens: "26mm f/1.8",
+      focalLength: "26mm",
+      aperture: "f/2.2",
+      shutterSpeed: "1/60s",
+      iso: 320,
+      resolution: "5712 × 4284",
+      fileSize: "10.2MB",
+      fileName: "CR_20231028_1947.jpg",
+    },
+  },
+  {
+    id: "p-04",
+    seed: "colorrecipe-neon-alley-night",
+    recipeId: "neon-night",
+    capturedAt: "2023.10.26 21:18",
+    favorite: true,
+    exif: {
+      camera: "ColorRecipe Cam",
+      lens: "26mm f/1.8",
+      focalLength: "26mm",
+      aperture: "f/1.8",
+      shutterSpeed: "1/40s",
+      iso: 800,
+      resolution: "4032 × 3024",
+      fileSize: "6.7MB",
+      fileName: "CR_20231026_2118.jpg",
+    },
+  },
+  {
+    id: "p-05",
+    seed: "colorrecipe-mountain-pine-forest",
+    recipeId: "deep-forest",
+    capturedAt: "2023.10.18 07:52",
+    favorite: false,
+    exif: {
+      camera: "ColorRecipe Cam",
+      lens: "77mm f/2.8",
+      focalLength: "77mm",
+      aperture: "f/2.8",
+      shutterSpeed: "1/250s",
+      iso: 100,
+      resolution: "8064 × 6048",
+      fileSize: "14.8MB",
+      fileName: "CR_20231018_0752.jpg",
+    },
+  },
+  {
+    id: "p-06",
+    seed: "colorrecipe-flower-field-pastel",
+    recipeId: "pastel-dream",
+    capturedAt: "2023.10.29 10:44",
+    favorite: true,
+    exif: {
+      camera: "ColorRecipe Cam",
+      lens: "50mm f/1.4",
+      focalLength: "50mm",
+      aperture: "f/2.0",
+      shutterSpeed: "1/500s",
+      iso: 100,
+      resolution: "5712 × 4284",
+      fileSize: "8.9MB",
+      fileName: "CR_20231029_1044.jpg",
+    },
+  },
+  {
+    id: "p-07",
+    seed: "colorrecipe-old-town-brick-street",
+    recipeId: "vintage-paper",
+    capturedAt: "2023.10.20 11:35",
+    favorite: false,
+    exif: {
+      camera: "ColorRecipe Cam",
+      lens: "26mm f/1.8",
+      focalLength: "26mm",
+      aperture: "f/4.0",
+      shutterSpeed: "1/320s",
+      iso: 100,
+      resolution: "4032 × 3024",
+      fileSize: "6.1MB",
+      fileName: "CR_20231020_1135.jpg",
+    },
+  },
+  {
+    id: "p-08",
+    seed: "colorrecipe-street-portrait-mono",
+    recipeId: "mono-contrast",
+    capturedAt: "2023.10.24 14:02",
+    favorite: false,
+    exif: {
+      camera: "ColorRecipe Cam",
+      lens: "50mm f/1.4",
+      focalLength: "50mm",
+      aperture: "f/2.8",
+      shutterSpeed: "1/500s",
+      iso: 200,
+      resolution: "5712 × 4284",
+      fileSize: "7.6MB",
+      fileName: "CR_20231024_1402.jpg",
+    },
+  },
+];
+
+export function getPhoto(id: string) {
+  return photos.find((p) => p.id === id);
+}
+
+export function photosByRecipe(recipeId: string) {
+  return photos.filter((p) => p.recipeId === recipeId);
+}

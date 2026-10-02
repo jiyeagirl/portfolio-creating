@@ -1,0 +1,128 @@
+/* MarketFlow(marketflow) 토큰.
+   색은 design-systems/claude_compact.md(디자인시스템 지정)를 최우선 출처로 새로 정의했다 —
+   레퍼런스(assetflow/vercel_compact)의 색을 베이스로 톤만 바꾸지 않았다.
+   radius(6/8/full), shadow 3단 스택, 진입 트랜지션 420ms, word-break 규칙 등
+   "구조적 값"만 web 프리셋 레퍼런스에서 그대로 재사용한다. */
+
+.marketflow {
+  /* ── 브랜드 · 잉크 ── */
+  --mf-primary: #cc785c;
+  --mf-primary-active: #a9583e;
+  --mf-primary-soft: #f3e3da;
+  --mf-on-primary: #ffffff;
+
+  --mf-ink: #141413;
+  --mf-body: #3d3d3a;
+  --mf-mute: #6c6a64;
+  --mf-mute-soft: #8e8b82;
+
+  --mf-hairline: #e6dfd8;
+  --mf-hairline-strong: #cdc2b4;
+
+  --mf-canvas: #faf9f5;
+  --mf-soft: #f5f0e8;
+  --mf-soft-2: #efe9de;
+
+  --mf-surface-dark: #181715;
+  --mf-surface-dark-elevated: #252320;
+  --mf-surface-dark-soft: #1f1e1b;
+  --mf-on-dark: #faf9f5;
+  --mf-on-dark-soft: #a09d96;
+  --mf-dark-hairline: #322f2a;
+
+  /* ── 시맨틱 · 상태 5단계 ──
+     neutral 회색(초안/대기) · info 청록(예약/진행) · warn 앰버(승인대기/조치필요) ·
+     ink 코랄 채움(발행완료/확정) · danger 빨강(반려/오류). */
+  --mf-neutral: var(--mf-mute);
+  --mf-neutral-soft: var(--mf-soft-2);
+  --mf-info: #3f8f80;
+  --mf-info-soft: #dcefeb;
+  --mf-info-deep: #2c6659;
+  --mf-warn: #b9790f;
+  --mf-warn-soft: #f7e7c9;
+  --mf-warn-deep: #8f5c0a;
+  --mf-danger: #c64545;
+  --mf-danger-soft: #f6dcdc;
+  --mf-danger-deep: #a13333;
+  --mf-success: #4f8f5f;
+
+  /* ── 차트 램프 — primary 단일 색조의 명도 단계만 ── */
+  --mf-chart-1: #a9583e;
+  --mf-chart-2: #cc785c;
+  --mf-chart-3: #db9573;
+  --mf-chart-4: #e8b696;
+  --mf-chart-5: #f3d8c0;
+  --mf-chart-rest: var(--mf-hairline);
+
+  /* ── 그림자 — 단일 두꺼운 drop-shadow 금지, 미세 3단 스택 ── */
+  --mf-shadow: 0 1px 1px rgba(20, 20, 19, 0.03), 0 2px 4px rgba(20, 20, 19, 0.04),
+    0 6px 14px rgba(20, 20, 19, 0.04);
+  --mf-shadow-pop: 0 1px 2px rgba(20, 20, 19, 0.04), 0 6px 16px rgba(20, 20, 19, 0.07),
+    0 18px 36px rgba(20, 20, 19, 0.09);
+
+  background: var(--mf-canvas);
+  color: var(--mf-ink);
+  font-feature-settings: "tnum" 0;
+}
+
+/* 한글 줄바꿈 — keep-all(어절 단위) + break-word(anywhere 금지, keep-all 무력화 방지) */
+.marketflow {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 콘텐츠 코드, 계약 기간, 일시처럼 자릿수를 맞춰 읽는 값에만. 본문에는 쓰지 않는다. */
+.mf-mono {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-feature-settings: "tnum";
+}
+
+.mf-enter {
+  animation: mf-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes mf-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 워크플로우 "실행중" 상태 점의 맥동. 색이 아니라 움직임으로 "지금 진행 중"을 전달한다. */
+.mf-live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.35;
+  animation: mf-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes mf-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  70%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.marketflow ::selection {
+  background: var(--mf-primary);
+  color: var(--mf-on-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mf-enter,
+  .mf-live-dot::after {
+    animation: none;
+  }
+}

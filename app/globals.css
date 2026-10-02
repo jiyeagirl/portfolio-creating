@@ -59,8 +59,14 @@
   --font-sans: "Pretendard Variable", "Pretendard", -apple-system, sans-serif;
 }
 
-* {
-  border-color: var(--border);
+/* 기본 테두리 색. 반드시 @layer base 안에 둔다. 레이어 밖에 두면 Tailwind 유틸리티(@layer utilities)보다
+   우선해서 border-[var(--x)], border-neutral-200 같은 테두리 색 클래스가 전부 이 색으로 덮인다. */
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--border);
+  }
 }
 
 html {

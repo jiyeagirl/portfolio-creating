@@ -43,7 +43,19 @@ export function PhoneFrame({
         <div data-phone-frame-button className="absolute -left-[2px] top-[240px] h-14 w-[3px] rounded-l-sm bg-[#0a0a09]" />
         <div data-phone-frame-button className="absolute -right-[2px] top-[200px] h-20 w-[3px] rounded-r-sm bg-[#0a0a09]" />
 
-        <div className="overflow-hidden rounded-[62px] bg-gradient-to-b from-[#2b2925] to-[#131211] p-[12px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.08)]">
+        <div
+          data-phone-frame-chassis
+          className="overflow-hidden rounded-[62px] bg-gradient-to-b from-[#2b2925] to-[#131211] p-[12px]"
+          style={{
+            /* The outer drop shadow is kept in its own custom property so the
+               screenshot script can switch it off without touching the inset
+               highlight. A drop shadow has nowhere to land in a transparent
+               export — it just prints a gray halo into the corners.
+               See scripts/capture-screenshot.ts. */
+            boxShadow:
+              "var(--phone-drop-shadow, 0 40px 100px -20px rgba(0,0,0,0.65)), inset 0 1px 0 rgba(255,255,255,0.08)",
+          }}
+        >
           <div
             className={`relative h-[852px] w-[393px] overflow-hidden rounded-[50px] ${screenClassName}`}
           >

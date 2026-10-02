@@ -1,0 +1,115 @@
+/* AssetFlow 토큰. design-systems/vercel_compact.md의 색/반경/간격을 그대로 옮겼고,
+   타이포는 CLAUDE.md 규칙에 따라 Pretendard로 고정한다(모노는 자산 코드 전용). */
+
+.assetflow {
+  /* 색 — vercel_compact colors */
+  --af-primary: #171717;
+  --af-on-primary: #ffffff;
+  --af-ink: #171717;
+  --af-body: #4d4d4d;
+  --af-mute: #888888;
+  --af-hairline: #ebebeb;
+  --af-hairline-strong: #a1a1a1;
+  --af-canvas: #ffffff;
+  --af-soft: #fafafa;
+  --af-soft-2: #f5f5f5;
+
+  --af-link: #0070f3;
+  --af-link-deep: #0761d1;
+  --af-link-soft: #d3e5ff;
+
+  --af-warn: #f5a623;
+  --af-warn-soft: #ffefcf;
+  --af-warn-deep: #ab570a;
+
+  --af-error: #ee0000;
+  --af-error-soft: #f7d4d6;
+  --af-error-deep: #c50000;
+
+  --af-violet: #7928ca;
+  --af-cyan: #50e3c2;
+
+  /* 그림자 — 단일 두꺼운 drop-shadow 금지. 미세한 스택 + inset hairline. */
+  --af-shadow: 0 1px 1px rgba(0, 0, 0, 0.02), 0 2px 2px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.03);
+  --af-shadow-pop: 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 8px rgba(0, 0, 0, 0.06),
+    0 16px 32px rgba(0, 0, 0, 0.08);
+
+  /* 차트 — 액센트 단일 색조의 명도 단계만. 새 색을 늘리지 않는다. */
+  --af-chart-1: #0761d1;
+  --af-chart-2: #0070f3;
+  --af-chart-3: #66aaf9;
+  --af-chart-4: #a8ccfb;
+  --af-chart-5: #d3e5ff;
+  --af-chart-rest: #ebebeb;
+
+  background: var(--af-canvas);
+  color: var(--af-ink);
+  font-feature-settings: "tnum" 0;
+}
+
+/* 한글은 기본값에서 어절 중간이 끊긴다 — "적용됩니 다", "줄어듭니 다".
+   keep-all 로 공백에서만 줄바꿈한다. 두 속성 모두 상속되므로 루트에만 걸면 된다.
+   overflow-wrap 은 break-word 여야 한다 — anywhere 를 쓰면 아무 글자에서나
+   끊을 수 있게 되어 keep-all 이 무력화된다. */
+.assetflow {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 자산 코드, 사업자번호, 계약번호처럼 자릿수를 눈으로 맞춰 읽는 값에만 쓴다.
+   본문에는 절대 모노를 쓰지 않는다(vercel_compact 규칙). */
+.af-mono {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-feature-settings: "tnum";
+}
+
+.af-enter {
+  animation: af-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes af-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 입찰 마감 임박 표시용. 색이 아니라 점의 맥동으로 "지금 진행 중"을 전달한다. */
+.af-live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.35;
+  animation: af-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes af-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  70%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.assetflow ::selection {
+  background: #171717;
+  color: #f2f2f2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .af-enter,
+  .af-live-dot::after {
+    animation: none;
+  }
+}

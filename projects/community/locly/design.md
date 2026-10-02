@@ -1,88 +1,113 @@
-# LOCLY — Design System
+# LOCLY — Design Notes
 
-워크스페이스 `CLAUDE.md`의 규칙(Pretendard, 8px 그리드, Phosphor Icons, Tailwind,
-Motion)을 상속한다. 새 디자인 시스템을 만들지 않고 기존 토큰을 재사용하되, LOCLY
-고유의 팔레트를 컴포넌트 스코프 CSS 변수(`styles/locly.css`)로 얹는다.
+디자인 소스는 워크스페이스 루트의 **`design-systems/claude_compact.md`** 다. 이 문서는 그
+시스템을 "지역 커뮤니티 플랫폼"이라는 도메인에 적용하면서 내린 해석과 예외만 기록한다.
+토큰 원본값은 여기서 다시 정의하지 않고 `styles/locly.css`에 CSS 변수로 옮겨 쓴다.
 
-## 0. Design Read
+## 1. 왜 이 시스템인가
 
-Reading this as: a multi-screen local-community + civic-participation web product
-(not a marketing landing page) for residents and municipal staff, with a
-trustworthy-civic-meets-neighborhood language, leaning toward Tailwind utilities +
-Pretendard + hand-rolled components. The admin surface follows the workspace's own
-"Enterprise UI" list (search, filter, status badge, tabs, data table, drawer,
-timeline, statistics) rather than a marketing-page skeleton.
+기존 LOCLY 디자인은 "파란 액센트 + 균일한 카드 그리드 + 회색 텍스트"라는 전형적인
+AI 생성 SaaS 룩이었다. `claude.md`의 크림 캔버스 + 코랄 + 다크 네이비 조합은
+그 반대편에 있다 — 따뜻하고 편집물(editorial)에 가까운 인상이라, "우리 동네 이야기가
+쌓이는 곳"이라는 LOCLY의 성격과도 맞는다.
 
-**Dials**: `DESIGN_VARIANCE: 6` (asymmetric bento on home, but every screen stays
-scannable and usable — not artsy chaos) · `MOTION_INTENSITY: 5` (fluid CSS/Motion
-transitions, scroll-reveal, tab switches; no scroll-hijack, this is a daily-use
-product not a cinematic launch page) · `VISUAL_DENSITY: 5` on consumer screens,
-`7` on the admin screen (cockpit-style tables, `font-mono` for figures).
+## 2. 토큰 매핑
 
-## 1. Concept
+`claude.md`의 토큰을 `--lc-*` 접두사로 `.locly` 스코프에 옮겼다. 이름만 축약했을 뿐
+값은 원본 그대로다.
 
-- 당근마켓의 동네 밀착감 + 정부 서비스 특유의 신뢰감을 함께 담는다.
-- 장식이 아니라 정보 위계로 화면을 구성한다 — 게시판형 서비스이므로 카드 남용을
-  피하고 리스트/행 구분을 적극 활용한다.
-- 공식 계정(구청)과 주민 콘텐츠는 시각적으로 명확히 구분한다 (배지 색상 분리).
-
-## 2. Color
-
-컴포넌트 스코프 CSS 변수, 워크스페이스 전역 토큰(`--accent` 등)은 건드리지 않는다.
-`.locly` 클래스 아래에서만 유효하다.
-
-| Token | Light | Dark | 용도 |
-|---|---|---|---|
-| `--locly-bg` | `#F5F5F1` | `#101114` | 페이지 배경 |
-| `--locly-surface` | `#ECEDE6` | `#17181C` | 보조 배경 (섹션 구분) |
-| `--locly-surface-elevated` | `#FFFFFF` | `#1D1F24` | 카드/입력 배경 |
-| `--locly-ink` | `#16181A` | `#EDEEF0` | 본문 텍스트 |
-| `--locly-muted` | `#6B6F72` | `#9A9CA3` | 보조 텍스트 |
-| `--locly-border` | `#E1E2DB` | `#2A2C31` | 테두리/구분선 |
-| `--locly-accent` | `#2E4FD9` | `#6E8CFF` | 단일 브랜드 액센트 (Civic Blue) |
-| `--locly-accent-foreground` | `#FFFFFF` | `#0B1220` | 액센트 위 텍스트 |
-| `--locly-accent-soft` | `#E7ECFB` | `#1C2440` | 액센트 배경 (배지/hover) |
-| `--locly-success` | `#17824F` | `#3FBE85` | 공식 인증/승인 상태 |
-| `--locly-success-soft` | `#E4F3EA` | `#123024` | 공식 배지 배경 |
-| `--locly-warning` | `#A9690E` | `#E3A03C` | 검토중/대기 상태 |
-| `--locly-warning-soft` | `#FBEEDD` | `#33260F` | 대기 배지 배경 |
-| `--locly-danger` | `#C13B33` | `#E86B60` | 신고/마감 상태 |
-| `--locly-danger-soft` | `#FBE9E7` | `#341815` | 위험 배지 배경 |
-
-브랜드 액센트(Civic Blue)는 CTA·링크·활성 탭에만 사용한다. success/warning/danger는
-상태 배지 전용 semantic color로, 페이지의 "단일 액센트" 원칙을 깨지 않는다.
-
-## 3. Typography
-
-Pretendard 고정 (워크스페이스 전역 `--font-sans` 상속, 별도 폰트 지정 없음).
-
-| Role | Size / Weight |
+| claude.md | locly |
 |---|---|
-| Display (홈 환영 헤드라인) | 28-34px / 700 / tracking-tight |
-| Heading (섹션 타이틀) | 20-22px / 700 |
-| Title (카드/행 제목) | 15-16px / 600 |
-| Body | 14-15px / 400, leading-relaxed |
-| Caption (메타 정보) | 12-13px / 500, `--locly-muted` |
+| `colors.canvas` | `--lc-canvas` |
+| `colors.surface-card` | `--lc-surface-card` |
+| `colors.surface-dark` | `--lc-dark` |
+| `colors.primary` | `--lc-primary` |
+| `colors.ink` / `body` / `muted` | `--lc-ink` / `--lc-body` / `--lc-muted` |
+| `colors.hairline` | `--lc-hairline` |
 
-## 4. Layout & Shape
+`--lc-hairline-dark`(#302e2a) 하나만 새로 추가했다. 다크 표면 안에서 행을 나누는
+구분선인데 원본 시스템에는 다크용 hairline 토큰이 없어서, 다크 표면 위에서 hairline과
+같은 "한 단계 밝기 차" 역할을 하도록 값을 잡았다.
 
-- 8px 그리드, 컨테이너 `max-w-[1360px] mx-auto px-6 lg:px-10`.
-- **corner radius lock**: 카드/섹션 16px(`rounded-2xl`), 입력창 8px(`rounded-lg`),
-  배지/필/버튼(소형) full(`rounded-full`). 예외 없음.
-- 홈 화면은 8개 섹션에 서로 다른 레이아웃 패밀리를 사용한다 (split header → 대표
-  카드+리스트 → 랭크드 리스트 → 가로 스크롤 카드 → 벤토 그리드 → 카드 그리드 →
-  콤팩트 리스트 → 공지 스트립) — 동일 패밀리 3연속 금지 규칙 준수.
+## 3. 타이포그래피 — Pretendard 단일 서체
 
-## 5. Icons & Motion
+`claude.md`는 디스플레이 세리프(Copernicus / Tiempos Headline)와 산세리프 본문의
+분리를 "unbreakable"이라고 못박지만, **워크스페이스 `CLAUDE.md`가 우선한다**. 그
+문서는 "design-systems 문서가 다른 폰트를 지정하더라도 타이포그래피는 반드시
+Pretendard"라고 명시하고 있으므로, 서체는 하나로 통일한다.
 
-- Phosphor Icons, `weight="regular"`(기본) / `weight="fill"`(active 상태), 고정
-  `strokeWidth` 없음(Phosphor는 weight로 대체).
-- Motion(`motion/react`)의 `whileInView`로 섹션 진입 리빌, 탭 전환에 `layoutId`
-  사용. `prefers-reduced-motion` 시 정적으로 축소.
-- 마퀴/스크롤 하이재킹 없음 — 목록형 제품이므로 스크롤 유인 요소 불필요.
+- **전체**: `Pretendard`. 디스플레이·본문·UI 모두 같은 얼굴을 쓴다.
+- **디스플레이 구분**: 서체가 아니라 **크기·굵기·자간**으로 만든다.
+  `.locly-display`는 weight 600에 자간 -0.03em이고, 본문은 weight 400에 기본 자간이다.
 
-## 6. Admin Surface
+- **목록 화면 페이지 제목**(`Display size="lg"`, `PageHeader`, 알림, 검색): 32/40(모바일 26/34),
+  weight 700, 자간 -0.02em. 처음엔 48px에 -0.03em이라 한글이 뭉쳐 보이고 바로 아래 설명(15px)과
+  크기 차가 3배라 제목만 떠 보였다. 홈 히어로와 섹션 제목(`xl`/`md`/`sm`)은 그대로 둔다.
 
-주민용 화면과 팔레트/타이포는 공유하되 밀도는 다르게 간다: 데이터 테이블 + 상태
-배지 + 검색/필터 + 탭 + 드로어(상세) + 타임라인(주민참여 처리 현황) + 통계 카드.
-카드 남용 금지, 얇은 구분선(`divide-y`)로 표 형태 목록을 구성한다.
+`claude.md`에서 가져오는 것은 서체가 아니라 **스타일**이다 — 크림 캔버스, 코랄 액센트,
+다크 밴드, 섹션 리듬, 큰 제목과 넉넉한 행간은 그대로 따르고 서체만 Pretendard로 둔다.
+강조가 필요하면 굵기를 더 올리기보다 크기를 키운다.
+
+## 4. 밴드 리듬
+
+`claude.md`의 "같은 표면을 연속 두 번 쓰지 않는다"를 홈 화면 구성 원칙으로 삼았다.
+
+```
+다크(히어로 배너 + 오늘의 나인동 스탯 바) → 크림소프트(공지 스트립 + 바로가기 칩)
+  → 크림(오늘의 소식, 비대칭 2단) → 크림카드(인기 게시글 랭크드 리스트)
+  → 다크(이번 주 행사) → 크림(동네 가게 벤토) → 크림소프트(모집 중인 모임)
+  → 코랄 콜아웃(주민참여) → 다크 푸터
+```
+
+레이아웃 패밀리도 매 밴드 다르게 간다: 배너 캐러셀 → 가로 스트립 → 비대칭 2단 →
+랭크드 리스트 → 다크 4-up 카드 → 벤토 그리드 → 3-up 카드 → full-bleed 콜아웃.
+
+## 4-1. 히어로 배너
+
+초기 히어로는 크림 배경 좌측에 display-xl(최대 56px) 헤드라인을 세 줄로 세운
+구성이었는데, 좁은 좌측 컬럼 안에서 글자만 과하게 커 보였다. 지금은 **다크
+full-bleed 밴드 안의 배너 캐러셀**이다.
+
+- 스케일은 타이포가 아니라 밴드가 만든다. 헤드라인은 display-md(최대 36px) 두 줄.
+- 슬라이드 3장: 브랜드 메시지 / 이번 주 대표 행사 / 주민 제안. 7초 자동 전환이며
+  `prefers-reduced-motion: reduce`면 자동 전환도 텍스트 페이드도 멈춘다.
+- 각 슬라이드 사진은 실제 콘텐츠 항목(`m5`, `e1`, `e2`)의 이미지를 그대로 쓴다.
+  홈에서 새 사진 id를 만들지 않기 위한 규칙이다 — 캡션·링크도 그 항목을 가리킨다.
+- 히어로에 있던 "오늘의 나인동" 요약 카드는 밴드 하단의 가로 스탯 바로,
+  "지금 많이 읽는 글" 목록은 아래 인기글 랭크드 리스트로 각각 흡수했다.
+
+## 5. 코랄 사용 규칙
+
+`claude.md`가 가장 강조하는 절제 포인트다. LOCLY에서 코랄이 허용되는 곳:
+
+1. 주요 CTA 버튼 (`글쓰기`, `참가 신청`, `제안하기`)
+2. 홈의 주민참여 full-bleed 콜아웃 밴드
+3. 본문 인라인 링크
+4. 브랜드 워드마크의 스파이크 마크
+
+그 외 상태 표시는 코랄이 아니라 semantic 토큰을 쓴다 — 공식 인증은 teal,
+진행중/대기는 amber, 마감/반려는 error. 이렇게 해야 코랄이 "행동을 유도하는 색"으로만
+읽힌다.
+
+## 6. 주민 사이트 ↔ 관리자 콘솔 분리
+
+관리자 콘솔은 이 프로젝트 안에 두지 않는다. **별도 프로젝트**
+`projects/community/locly-admin/`(`/community/locly-admin`)로 분리했다 —
+`linkon` / `linkon-admin`과 같은 구성이다.
+
+주민용 화면에는 관리자 진입점을 어디에도 두지 않는다. 상단 네비게이션은 물론
+푸터에도 없다. 주민 계정과 운영자 계정은 실제 서비스처럼 주소부터 다르다.
+
+콘솔은 LOCLY의 `lib/mock-data.ts`, `lib/types.ts`, `styles/locly.css`,
+`components/site/ui.tsx`를 그대로 가져다 쓴다. 데이터 정의를 두 벌로 복제하지 않기
+위한 의도적인 의존이며, 반대 방향 의존(LOCLY → locly-admin)은 만들지 않는다.
+
+## 7. 이미지
+
+`claude.md`는 히어로에 사진 대신 라인아트/제품 목업을 권하지만, LOCLY는 실제 지역
+콘텐츠(맛집·행사·가게 사진)가 콘텐츠 그 자체다. 그래서 히어로 우측에도 제품 목업
+대신 실제 콘텐츠 사진을 둔다 — 다만 홈 전용 사진을 새로 고르지 않고, 슬라이드가
+가리키는 항목의 사진을 그대로 가져와 캡션과 링크가 항상 같은 대상을 향하게 한다.
+
+사진은 picsum의 `id` 엔드포인트로 고정하며, 각 id는 캡션과 실제로 맞는지 확인한 것만
+쓴다 (`lib/mock-data.ts`의 `picsumId` 주석 참고).

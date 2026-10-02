@@ -1,0 +1,275 @@
+/* Veli — 팔레트 구성 5 (하이컨트라스트 / 무액센트).
+   CLAUDE.md `## Color` 참조. 잉크와 종이 두 색 + 상태색만 쓰고, 강조는 크기와 굵기로 한다.
+   apple_compact의 Action Blue(#0066cc)는 장식용 액센트가 아니라 링크/포커스 링이라는
+   기능 역할로만 남긴다(--vl-link) — 채워진 파란 버튼을 만들지 않는다.
+
+   유일하게 색을 가진 표면은 크리덴셜 카드 하나다(--vl-card-*). 아키타입 A2에서
+   카드가 곧 제품이므로, 화면의 시각적 무게를 그 한 장에 몰아준다. */
+
+.veli {
+  --vl-canvas: #ffffff;
+  --vl-surface: #f4f4f5;
+  --vl-surface-sunken: #ebebed;
+  --vl-elevated: #ffffff;
+
+  --vl-ink: #0a0a0b;
+  --vl-body: #3b3b3f;
+  --vl-muted: #6e6e73;
+  --vl-muted-soft: #a1a1a6;
+
+  --vl-border: #dcdcde;
+  --vl-border-strong: #bcbcc0;
+  --vl-divider: #efeff0;
+
+  /* 기능 색: 링크와 포커스 링에만. 배경을 채우는 데 쓰지 않는다. */
+  --vl-link: #0066cc;
+  --vl-focus: #0071e3;
+
+  /* 크리덴셜 카드 — 이 프로젝트에서 색을 가진 유일한 표면 */
+  --vl-card: #131417;
+  --vl-card-edge: #262a31;
+  --vl-card-ink: #f7f7f8;
+  --vl-card-muted: #9a9ca3;
+
+  --vl-success: #1f7a4c;
+  --vl-success-soft: #e5f3ea;
+  --vl-warning: #9a6a12;
+  --vl-warning-soft: #faf1de;
+  --vl-danger: #b23a34;
+  --vl-danger-soft: #f9e7e6;
+
+  --vl-shadow: 0 1px 2px rgba(10, 10, 11, 0.05), 0 10px 28px rgba(10, 10, 11, 0.06);
+  --vl-shadow-card: 0 2px 4px rgba(10, 10, 11, 0.1), 0 18px 40px rgba(10, 10, 11, 0.16);
+  --vl-shadow-sheet: 0 -1px 0 rgba(10, 10, 11, 0.06), 0 -18px 48px rgba(10, 10, 11, 0.14);
+
+  /* 순서가 있는 값(라이트/스탠다드/프리미엄)은 잉크 명도 단계로 표현한다. */
+  --vl-step-1: #0a0a0b;
+  --vl-step-2: #55555a;
+  --vl-step-3: #a1a1a6;
+
+  /* 팔레트 5에서 "액센트" 역할은 잉크로 접힌다 — 주요 CTA는 파란 채움이 아니라
+     잉크 솔리드가 되고, 옅은 액센트 배경은 뉴트럴 서페이스가 된다. 토큰 이름을
+     유지해 기존 호출부가 자동으로 이 규칙을 따르게 한다. 파란색은 --vl-link의
+     링크/포커스 역할로만 남는다. */
+  --vl-accent: var(--vl-ink);
+  --vl-accent-fg: var(--vl-canvas);
+  --vl-accent-soft: var(--vl-surface);
+
+  /* 차트/등급 램프도 색조가 아니라 잉크 명도 단계로 간다. */
+  --vl-chart-strong: var(--vl-step-1);
+  --vl-chart-base: var(--vl-step-2);
+  --vl-chart-soft: var(--vl-step-3);
+
+  /* 관리자 콘솔 전용 잉크 반전 사이드바 (셸 C1) */
+  --vl-rail: #15161a;
+  --vl-rail-elevated: #1e2027;
+  --vl-rail-border: #2a2c34;
+  --vl-rail-ink: #f5f5f7;
+  --vl-rail-muted: #9a9ba3;
+  --vl-rail-accent: #4d9fff;
+
+  background: var(--vl-canvas);
+  color: var(--vl-ink);
+}
+
+:root[data-theme="dark"] .veli {
+  --vl-canvas: #0d0d0f;
+  --vl-surface: #17171a;
+  --vl-surface-sunken: #1f1f23;
+  --vl-elevated: #17171a;
+  --vl-ink: #fafafa;
+  --vl-body: #c8c8cc;
+  --vl-muted: #9a9aa0;
+  --vl-muted-soft: #6e6e74;
+  --vl-border: #2a2a2e;
+  --vl-border-strong: #3d3d42;
+  --vl-divider: #212125;
+  --vl-link: #4d9fff;
+  --vl-focus: #4d9fff;
+  --vl-card: #f7f7f8;
+  --vl-card-edge: #d8d8dc;
+  --vl-card-ink: #0a0a0b;
+  --vl-card-muted: #5c5c62;
+  --vl-success: #4fd989;
+  --vl-success-soft: #123322;
+  --vl-warning: #e0ac4f;
+  --vl-warning-soft: #382a10;
+  --vl-danger: #e0857e;
+  --vl-danger-soft: #351b1a;
+  --vl-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.35);
+  --vl-shadow-card: 0 2px 4px rgba(0, 0, 0, 0.5), 0 18px 40px rgba(0, 0, 0, 0.45);
+  --vl-shadow-sheet: 0 -1px 0 rgba(255, 255, 255, 0.06), 0 -18px 48px rgba(0, 0, 0, 0.5);
+  --vl-step-1: #fafafa;
+  --vl-step-2: #8e8e94;
+  --vl-step-3: #4a4a50;
+}
+
+@media (prefers-color-scheme: dark) {
+  .veli:not([data-theme="light"] .veli) {
+    --vl-canvas: #0d0d0f;
+    --vl-surface: #17171a;
+    --vl-surface-sunken: #1f1f23;
+    --vl-elevated: #17171a;
+    --vl-ink: #fafafa;
+    --vl-body: #c8c8cc;
+    --vl-muted: #9a9aa0;
+    --vl-muted-soft: #6e6e74;
+    --vl-border: #2a2a2e;
+    --vl-border-strong: #3d3d42;
+    --vl-divider: #212125;
+    --vl-link: #4d9fff;
+    --vl-focus: #4d9fff;
+    --vl-card: #f7f7f8;
+    --vl-card-edge: #d8d8dc;
+    --vl-card-ink: #0a0a0b;
+    --vl-card-muted: #5c5c62;
+    --vl-success: #4fd989;
+    --vl-success-soft: #123322;
+    --vl-warning: #e0ac4f;
+    --vl-warning-soft: #382a10;
+    --vl-danger: #e0857e;
+    --vl-danger-soft: #351b1a;
+    --vl-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.35);
+    --vl-shadow-card: 0 2px 4px rgba(0, 0, 0, 0.5), 0 18px 40px rgba(0, 0, 0, 0.45);
+    --vl-shadow-sheet: 0 -1px 0 rgba(255, 255, 255, 0.06), 0 -18px 48px rgba(0, 0, 0, 0.5);
+    --vl-step-1: #fafafa;
+    --vl-step-2: #8e8e94;
+    --vl-step-3: #4a4a50;
+  }
+}
+
+.veli ::selection {
+  background: var(--vl-ink);
+  color: var(--vl-canvas);
+}
+
+.veli input::placeholder,
+.veli textarea::placeholder {
+  color: var(--vl-muted);
+  opacity: 1;
+}
+
+.veli input:focus-visible,
+.veli textarea:focus-visible,
+.veli select:focus-visible,
+.veli button:focus-visible {
+  outline: 2px solid var(--vl-focus);
+  outline-offset: 2px;
+}
+
+.vl-scroll-x {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.vl-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* 크리덴셜 덱 — 카드 한 장이 한 페이지가 되도록 가로 스냅. */
+.vl-deck {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.vl-deck::-webkit-scrollbar {
+  display: none;
+}
+.vl-deck > * {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.vl-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 모션 — CLAUDE.md `## Motion`의 "스케일 복제 금지" 대응.
+   앞선 프로젝트들이 쓰는 expo-out(0.16, 1, 0.3, 1) + translateY 조합을 쓰지 않는다.
+   진입은 짧은 emphasized-decelerate(0.2, 0, 0, 1) + 미세 scale, 시트는 iOS 시트 곡선
+   (0.32, 0.72, 0, 1)로 분리해 "화면이 바뀐다"와 "시트가 올라온다"를 다르게 읽히게 한다. */
+.vl-enter {
+  animation: vl-enter 160ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+@keyframes vl-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.vl-sheet-in {
+  animation: vl-sheet-in 280ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@keyframes vl-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.vl-scrim-in {
+  animation: vl-scrim-in 280ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@keyframes vl-scrim-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* CTI 연결 대기 상태를 나타내는 링 펄스. 통화 연결 화면에서만 쓴다.
+   무한 루프 모션은 실제 상태를 뜻할 때만, 화면당 하나. */
+.vl-pulse-ring {
+  animation: vl-pulse 2.2s ease-out infinite;
+}
+
+@keyframes vl-pulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.5;
+  }
+  70% {
+    transform: scale(1.32);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.32);
+    opacity: 0;
+  }
+}
+
+/* QR 스캔 화면의 스캔 라인. 스캔 진행 상태를 설명하는 모션이다. */
+.vl-scan-line {
+  animation: vl-scan 2.4s ease-in-out infinite;
+}
+
+@keyframes vl-scan {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(184px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vl-enter,
+  .vl-sheet-in,
+  .vl-scrim-in,
+  .vl-pulse-ring,
+  .vl-scan-line {
+    animation: none;
+  }
+}

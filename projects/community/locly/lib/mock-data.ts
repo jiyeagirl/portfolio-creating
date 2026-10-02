@@ -1,4 +1,5 @@
 import type {
+  ActivityEntry,
   AdminApproval,
   AdminMember,
   AdminReport,
@@ -7,7 +8,9 @@ import type {
   Comment,
   LoclyEvent,
   Meetup,
+  MyComment,
   Notification,
+  NotificationPref,
   Poll,
   Post,
   Store,
@@ -20,7 +23,7 @@ function picsumId(id: number, w: number, h: number) {
   return `https://picsum.photos/id/${id}/${w}/${h}`;
 }
 
-export const NEIGHBORHOOD = "OO시 OO구 OO동";
+export const NEIGHBORHOOD = "나인시 나인구 나인동";
 
 export const BOARDS: Board[] = [
   { key: "free", label: "자유게시판" },
@@ -42,7 +45,7 @@ export function boardLabel(key: string) {
 const REPLIES_A: Comment[] = [
   {
     id: "r1",
-    author: "OO동다람쥐",
+    author: "나인동다람쥐",
     content: "저도 어제 가봤는데 웨이팅 30분이었어요. 평일 저녁이 그나마 나아요.",
     createdAt: "2026-07-26T19:12:00",
     likes: 4,
@@ -53,11 +56,11 @@ export const POSTS: Post[] = [
   {
     id: "p1",
     board: "town-news",
-    title: "OO동 주민센터, 8월부터 무인민원발급기 야간 운영 시작",
+    title: "나인동 주민센터, 8월부터 무인민원발급기 야간 운영 시작",
     excerpt: "평일 밤 10시까지 등본·초본 발급 가능해진다고 하네요.",
     content:
-      "OO구청 공지에 따르면 8월 1일부터 OO동 주민센터 1층 무인민원발급기가 평일 오후 10시까지 연장 운영됩니다. 주말은 기존과 동일하게 오후 6시까지입니다. 직장인분들 퇴근 후에도 서류 뗄 수 있어서 편해질 것 같아요.",
-    author: "OO동주민센터",
+      "나인구청 공지에 따르면 8월 1일부터 나인동 주민센터 1층 무인민원발급기가 평일 오후 10시까지 연장 운영됩니다. 주말은 기존과 동일하게 오후 6시까지입니다. 직장인분들 퇴근 후에도 서류 뗄 수 있어서 편해질 것 같아요.",
+    author: "나인동주민센터",
     authorBadge: "official",
     createdAt: "2026-07-25T10:00:00",
     likes: 128,
@@ -86,10 +89,10 @@ export const POSTS: Post[] = [
   {
     id: "p3",
     board: "question",
-    title: "OO동에서 세탁물 당일 픽업 가능한 세탁소 아시는 분?",
+    title: "나인동에서 세탁물 당일 픽업 가능한 세탁소 아시는 분?",
     excerpt: "이사 온지 얼마 안돼서 동네 세탁소를 몰라요. 추천 부탁드려요.",
     content:
-      "OO천 숲길 근처로 이사왔는데 급하게 정장 드라이클리닝이 필요해서요. 당일 픽업 가능한 세탁소 아시는 분 계신가요? 위치도 같이 알려주시면 감사하겠습니다.",
+      "나인천 숲길 근처로 이사왔는데 급하게 정장 드라이클리닝이 필요해서요. 당일 픽업 가능한 세탁소 아시는 분 계신가요? 위치도 같이 알려주시면 감사하겠습니다.",
     author: "숲길옆신입",
     createdAt: "2026-07-27T08:05:00",
     likes: 9,
@@ -103,7 +106,7 @@ export const POSTS: Post[] = [
   {
     id: "p4",
     board: "free",
-    title: "OO천 숲길 요즘 밤에 러닝하는 분들 많아지셨네요",
+    title: "나인천 숲길 요즘 밤에 러닝하는 분들 많아지셨네요",
     excerpt: "저녁 9시쯤 나가면 항상 러너 분들이 꽤 많더라고요.",
     content:
       "더위 피해서 밤에 뛰시는 분들이 확실히 늘었어요. 혹시 같이 페이스 맞춰 뛸 러닝 크루 있으신 분? 모임 카테고리에 만들어볼까 고민중입니다.",
@@ -113,7 +116,7 @@ export const POSTS: Post[] = [
     comments: 11,
     bookmarks: 5,
     views: 620,
-    tags: ["러닝", "OO천 숲길"],
+    tags: ["러닝", "나인천 숲길"],
   },
   {
     id: "p5",
@@ -133,10 +136,10 @@ export const POSTS: Post[] = [
   {
     id: "p6",
     board: "parenting",
-    title: "OO동 근처 실내 놀이터 정보 공유해요 (7세 아이 기준)",
+    title: "나인동 근처 실내 놀이터 정보 공유해요 (7세 아이 기준)",
     excerpt: "장마철에 애 데리고 갈만한 실내 놀이시설 정리했습니다.",
     content:
-      "1. OO구육아종합지원센터 - 예약 필수, 평일 오전 추천\n2. 번화가 인근 키즈카페 - 시간당 요금이지만 시설 좋음\n3. OO동 작은도서관 - 무료, 아이 책 읽히기 좋아요\n\n다들 참고하세요!",
+      "1. 나인구육아종합지원센터 - 예약 필수, 평일 오전 추천\n2. 번화가 인근 키즈카페 - 시간당 요금이지만 시설 좋음\n3. 나인동 작은도서관 - 무료, 아이 책 읽히기 좋아요\n\n다들 참고하세요!",
     author: "일곱살엄마",
     createdAt: "2026-07-23T11:00:00",
     likes: 45,
@@ -148,7 +151,7 @@ export const POSTS: Post[] = [
   {
     id: "p7",
     board: "pet",
-    title: "OO동 OO천 숲길 강아지 산책 매너 관련 부탁드려요",
+    title: "나인동 나인천 숲길 강아지 산책 매너 관련 부탁드려요",
     excerpt: "목줄 길이 조절이랑 배변봉투 챙기는 것만 지켜주셔도 좋을 것 같아요.",
     content:
       "숲길이 좁은 구간이 많아서 목줄을 짧게 잡아주시면 서로 부딪히는 일이 줄어들 것 같습니다. 배변 처리도 다들 잘 해주고 계시지만 한번 더 부탁드려요.",
@@ -163,7 +166,7 @@ export const POSTS: Post[] = [
   {
     id: "p8",
     board: "lost",
-    title: "[분실] OO파출소 앞에서 회색 캐리어 잃어버렸습니다",
+    title: "[분실] 나인파출소 앞에서 회색 캐리어 잃어버렸습니다",
     excerpt: "7/26 저녁 8시경, 캐리어 손잡이에 노란 리본 달려있어요.",
     content:
       "택시에서 내리면서 놓고 온 것 같습니다. 캐리어 안에 여권과 노트북이 있어서 급합니다. 목격하신 분 댓글이나 쪽지 부탁드립니다.",
@@ -181,7 +184,7 @@ export const POSTS: Post[] = [
     title: "유아용 침대(범퍼침대) 무료 나눔합니다",
     excerpt: "상태 깨끗하고 매트리스 포함이에요. 직접 방문 수령만 가능합니다.",
     content:
-      "아이가 커서 더 이상 쓰지 않는 범퍼침대 나눔합니다. 사용감은 있지만 관리 잘 했습니다. OO동 주민센터 근처에서 직접 수령 가능하신 분 댓글 남겨주세요.",
+      "아이가 커서 더 이상 쓰지 않는 범퍼침대 나눔합니다. 사용감은 있지만 관리 잘 했습니다. 나인동 주민센터 근처에서 직접 수령 가능하신 분 댓글 남겨주세요.",
     author: "정리하는집",
     createdAt: "2026-07-21T09:30:00",
     likes: 21,
@@ -193,11 +196,11 @@ export const POSTS: Post[] = [
   {
     id: "p10",
     board: "meetup-review",
-    title: "OO 독서모임 7월 후기 - 다음 책은 에세이로 정했어요",
+    title: "나인 독서모임 7월 후기 - 다음 책은 에세이로 정했어요",
     excerpt: "8명이 모여서 소설 이야기 나눴는데 다음 모임도 벌써 기대됩니다.",
     content:
       "이번 달 책은 <아무튼, 하루>였는데 다들 감상이 달라서 얘기가 풍성했어요. 카페 자리 예약해주신 모임장님 감사합니다. 다음 모임은 8월 둘째 주 토요일입니다.",
-    author: "책벌레OO",
+    author: "책벌레나인",
     createdAt: "2026-07-19T20:00:00",
     likes: 33,
     comments: 7,
@@ -208,7 +211,7 @@ export const POSTS: Post[] = [
   {
     id: "p11",
     board: "free",
-    title: "OO동 밤 매미 소리 너무 심하지 않나요",
+    title: "나인동 밤 매미 소리 너무 심하지 않나요",
     excerpt: "창문 닫아도 소리가 들려요. 다들 어떻게 주무시나요.",
     content: "가로수가 많아서 그런지 밤에도 매미 소리가 엄청나네요. 다들 잘 주무시는지 궁금해서 올려봅니다.",
     author: "잠못드는밤",
@@ -225,8 +228,8 @@ export const POSTS: Post[] = [
     title: "폭염 특보 발효, 무더위쉼터 21곳 연장 운영 안내",
     excerpt: "낮 최고기온 35도 예보. 인근 무더위쉼터 운영시간이 오후 7시까지 연장됩니다.",
     content:
-      "OO구는 폭염특보 발효에 따라 관내 무더위쉼터 21곳의 운영시간을 오후 7시까지 연장합니다. OO동 주민센터, OO마을극장, 동진시장 관리사무소 등이 포함되며 정수기와 냉방기가 구비되어 있습니다. 어르신과 야외 근로자분들의 이용을 권장드립니다.",
-    author: "OO구청",
+      "나인구는 폭염특보 발효에 따라 관내 무더위쉼터 21곳의 운영시간을 오후 7시까지 연장합니다. 나인동 주민센터, 나인마을극장, 동진시장 관리사무소 등이 포함되며 정수기와 냉방기가 구비되어 있습니다. 어르신과 야외 근로자분들의 이용을 권장드립니다.",
+    author: "나인구청",
     authorBadge: "official",
     createdAt: "2026-07-27T07:00:00",
     likes: 64,
@@ -241,7 +244,7 @@ export const POSTS: Post[] = [
     board: "question",
     title: "재활용 분리배출 요일 헷갈리는데 정리해주실 분?",
     excerpt: "이사 온 지 얼마 안 돼서 요일별 배출 품목이 헷갈립니다.",
-    content: "OO동 기준으로 재활용, 음식물, 일반쓰레기 배출 요일을 정확히 아시는 분 계신가요?",
+    content: "나인동 기준으로 재활용, 음식물, 일반쓰레기 배출 요일을 정확히 아시는 분 계신가요?",
     author: "새댁입니다",
     createdAt: "2026-07-18T13:15:00",
     likes: 27,
@@ -251,6 +254,51 @@ export const POSTS: Post[] = [
     tags: ["질문", "분리배출"],
     isQuestion: true,
     isAnswered: false,
+  },
+  {
+    id: "p14",
+    board: "tips",
+    title: "동진시장 장보기 전에 알아두면 좋은 요일별 특가 정리",
+    excerpt: "수요일 채소, 금요일 생선. 폐점 1시간 전 할인도 요일마다 달라요.",
+    content:
+      "반년 넘게 동진시장에서 장을 보면서 정리한 내용입니다. 수요일은 채소 상회 세 곳이 같이 떨이를 하고, 금요일 오후에는 생선가게 물량이 가장 좋습니다. 폐점 1시간 전 할인은 정육점이 가장 큰 편이고 반찬가게는 소분 포장 위주로 남습니다. 장바구니는 시장 입구 안내소에서 500원에 대여할 수 있어요.",
+    author: "면식수행자",
+    createdAt: "2026-07-21T18:40:00",
+    likes: 143,
+    comments: 31,
+    bookmarks: 96,
+    views: 2870,
+    tags: ["생활꿀팁", "동진시장", "장보기"],
+  },
+  {
+    id: "p15",
+    board: "meetup-review",
+    title: "나인 사진 산책 모임 첫 참가 후기 - 골목만 두 시간 걸었습니다",
+    excerpt: "필름 카메라 없어도 괜찮았어요. 동네를 다시 보게 되는 경험이었습니다.",
+    content:
+      "사진을 잘 찍는 편이 아니라 망설였는데, 장비 이야기보다 어디를 어떻게 걷는지 이야기가 훨씬 많았습니다. 나인천 숲길에서 시작해 동진시장 뒷골목까지 두 시간 정도 걸었고, 중간에 카페에서 서로 찍은 사진을 보면서 이야기하는 시간이 좋았어요. 다음 모임은 8월 둘째 주 저녁이라고 합니다.",
+    author: "면식수행자",
+    createdAt: "2026-07-13T21:10:00",
+    likes: 58,
+    comments: 12,
+    bookmarks: 19,
+    views: 940,
+    tags: ["모임후기", "사진산책"],
+  },
+  {
+    id: "p16",
+    board: "food",
+    title: "나인동 백반집 세 곳 비교해봤어요 (가격/반찬/웨이팅)",
+    excerpt: "혼밥 기준으로 정리했습니다. 결론은 목적에 따라 다릅니다.",
+    content:
+      "한 달 동안 세 곳을 번갈아 다니며 정리했습니다. 가격은 8,000원에서 11,000원 사이이고 반찬 가짓수는 여섯에서 아홉 가지입니다. 웨이팅은 12시에서 12시 30분 사이가 가장 길었고, 1시 이후에는 대부분 바로 앉을 수 있었습니다. 조용히 먹고 싶다면 시장 안쪽보다 큰길 쪽이 낫습니다.",
+    author: "면식수행자",
+    createdAt: "2026-06-29T12:05:00",
+    likes: 91,
+    comments: 24,
+    bookmarks: 63,
+    views: 1810,
+    tags: ["맛집", "백반", "혼밥"],
   },
 ];
 
@@ -284,13 +332,13 @@ export const POST_COMMENTS: Record<string, Comment[]> = {
 export const EVENTS: LoclyEvent[] = [
   {
     id: "e1",
-    title: "2026 OO동 여름밤 야시장",
+    title: "2026 나인동 여름밤 야시장",
     description:
-      "OO천 숲길 일대에서 열리는 여름밤 야시장. 지역 소상공인 부스 40여 개와 버스킹 공연이 함께합니다.",
-    organizer: "OO구청",
+      "나인천 숲길 일대에서 열리는 여름밤 야시장. 지역 소상공인 부스 40여 개와 버스킹 공연이 함께합니다.",
+    organizer: "나인구청",
     official: true,
     category: "축제",
-    location: "OO천 숲길 OO동 구간",
+    location: "나인천 숲길 나인동 구간",
     date: "2026-08-01",
     endDate: "2026-08-03",
     time: "18:00 - 22:00",
@@ -299,17 +347,17 @@ export const EVENTS: LoclyEvent[] = [
     image: picsumId(407, 900, 600),
     pinned: true,
     reviews: [
-      { author: "OO토박이", rating: 5, content: "작년보다 부스가 더 많아진 것 같아요. 아이랑 가기 좋았습니다." },
+      { author: "나인토박이", rating: 5, content: "작년보다 부스가 더 많아진 것 같아요. 아이랑 가기 좋았습니다." },
     ],
   },
   {
     id: "e2",
     title: "제로웨이스트 실천 워크숍",
     description: "천연 수세미 만들기와 제로웨이스트 생활 팁을 나누는 주민 참여형 워크숍입니다.",
-    organizer: "OO동 주민센터",
+    organizer: "나인동 주민센터",
     official: true,
     category: "환경",
-    location: "OO동 주민센터 2층 다목적실",
+    location: "나인동 주민센터 2층 다목적실",
     date: "2026-08-05",
     time: "14:00 - 16:00",
     capacity: 20,
@@ -319,7 +367,7 @@ export const EVENTS: LoclyEvent[] = [
   },
   {
     id: "e3",
-    title: "OO 플리마켓 - 여름 정리 마켓",
+    title: "나인 플리마켓 - 여름 정리 마켓",
     description: "주민들이 직접 참여하는 소규모 플리마켓입니다. 판매 부스는 선착순 신청.",
     organizer: "동네러너모임",
     official: false,
@@ -338,10 +386,10 @@ export const EVENTS: LoclyEvent[] = [
     id: "e4",
     title: "찾아가는 어르신 스마트폰 교실",
     description: "키오스크·모바일 뱅킹 사용법을 알려드리는 어르신 대상 무료 강좌입니다.",
-    organizer: "OO구청 디지털복지과",
+    organizer: "나인구청 디지털복지과",
     official: true,
     category: "교육",
-    location: "OO동 주민센터 1층 강의실",
+    location: "나인동 주민센터 1층 강의실",
     date: "2026-08-06",
     time: "10:00 - 12:00",
     capacity: 15,
@@ -351,12 +399,12 @@ export const EVENTS: LoclyEvent[] = [
   },
   {
     id: "e5",
-    title: "OO 독서모임 8월 정기모임",
+    title: "나인 독서모임 8월 정기모임",
     description: "이번 달 도서는 에세이 장르로 진행합니다. 신규 참여 환영.",
-    organizer: "책벌레OO",
+    organizer: "책벌레나인",
     official: false,
     category: "모임",
-    location: "카페 오후네시 (OO로 소재)",
+    location: "카페 오후네시 (나인로 소재)",
     date: "2026-08-08",
     time: "19:00 - 21:00",
     capacity: 10,
@@ -368,10 +416,10 @@ export const EVENTS: LoclyEvent[] = [
     id: "e6",
     title: "여름철 감염병 예방 무료 접종 안내",
     description: "독감 및 A형간염 무료 예방접종을 지원합니다. 사전 예약 필수.",
-    organizer: "OO동 보건지소",
+    organizer: "나인동 보건지소",
     official: true,
     category: "보건",
-    location: "OO동 보건지소",
+    location: "나인동 보건지소",
     date: "2026-08-12",
     time: "09:00 - 17:00",
     capacity: 200,
@@ -381,12 +429,12 @@ export const EVENTS: LoclyEvent[] = [
   },
   {
     id: "e7",
-    title: "OO 러닝크루 새벽 러닝 모임",
-    description: "매주 화/목 새벽 6시, OO천 숲길을 함께 뛰는 러닝 모임입니다.",
+    title: "나인 러닝크루 새벽 러닝 모임",
+    description: "매주 화/목 새벽 6시, 나인천 숲길을 함께 뛰는 러닝 모임입니다.",
     organizer: "야간러너",
     official: false,
     category: "운동",
-    location: "OO천 숲길 OO동 입구",
+    location: "나인천 숲길 나인동 입구",
     date: "2026-07-29",
     time: "06:00 - 07:00",
     capacity: 12,
@@ -399,11 +447,11 @@ export const EVENTS: LoclyEvent[] = [
 export const STORES: Store[] = [
   {
     id: "s1",
-    name: "OO면가",
+    name: "나인면가",
     category: "맛집",
     rating: 4.6,
     reviewCount: 312,
-    address: "OO시 OO구 OO동 227-4",
+    address: "나인시 나인구 나인동 227-4",
     hours: "매일 11:00 - 21:30 (브레이크타임 15:00-17:00)",
     phone: "02-333-1210",
     distance: "320m",
@@ -421,23 +469,23 @@ export const STORES: Store[] = [
     category: "카페",
     rating: 4.8,
     reviewCount: 189,
-    address: "OO시 OO구 OO로 45길 12",
+    address: "나인시 나인구 나인로 45길 12",
     hours: "매일 10:00 - 22:00",
     phone: "02-322-8890",
     distance: "180m",
     image: picsumId(431, 900, 700),
     tags: ["모임장소", "콘센트많음", "디저트"],
     reviews: [
-      { author: "책벌레OO", rating: 5, content: "모임하기 정말 좋은 자리 배치예요.", createdAt: "2026-07-19" },
+      { author: "책벌레나인", rating: 5, content: "모임하기 정말 좋은 자리 배치예요.", createdAt: "2026-07-19" },
     ],
   },
   {
     id: "s3",
-    name: "OO가정의학과",
+    name: "나인가정의학과",
     category: "병원",
     rating: 4.4,
     reviewCount: 97,
-    address: "OO시 OO구 OO로 21",
+    address: "나인시 나인구 나인로 21",
     hours: "평일 09:00 - 18:30, 토 09:00 - 13:00",
     phone: "02-338-4567",
     distance: "450m",
@@ -447,11 +495,11 @@ export const STORES: Store[] = [
   },
   {
     id: "s4",
-    name: "OO온누리약국",
+    name: "나인온누리약국",
     category: "약국",
     rating: 4.5,
     reviewCount: 64,
-    address: "OO시 OO구 OO로 11",
+    address: "나인시 나인구 나인로 11",
     hours: "매일 09:00 - 22:00",
     phone: "02-335-2020",
     distance: "290m",
@@ -465,7 +513,7 @@ export const STORES: Store[] = [
     category: "미용실",
     rating: 4.7,
     reviewCount: 221,
-    address: "OO시 OO구 OO로 38길 7",
+    address: "나인시 나인구 나인로 38길 7",
     hours: "화-일 11:00 - 20:00 (월요일 휴무)",
     phone: "02-336-7654",
     distance: "510m",
@@ -476,11 +524,11 @@ export const STORES: Store[] = [
   },
   {
     id: "s6",
-    name: "OO 스마트코딩교습소",
+    name: "나인 스마트코딩교습소",
     category: "학원",
     rating: 4.3,
     reviewCount: 41,
-    address: "OO시 OO구 OO로 5",
+    address: "나인시 나인구 나인로 5",
     hours: "평일 14:00 - 21:00",
     phone: "02-337-9911",
     distance: "600m",
@@ -490,11 +538,11 @@ export const STORES: Store[] = [
   },
   {
     id: "s7",
-    name: "OO 24시 세탁특공대",
+    name: "나인 24시 세탁특공대",
     category: "생활서비스",
     rating: 4.5,
     reviewCount: 88,
-    address: "OO시 OO구 OO로 27길 3",
+    address: "나인시 나인구 나인로 27길 3",
     hours: "24시간 무인 운영 (수거는 07:00-23:00)",
     phone: "02-334-1188",
     distance: "230m",
@@ -504,11 +552,11 @@ export const STORES: Store[] = [
   },
   {
     id: "s8",
-    name: "OO 브런치 식탁",
+    name: "나인 브런치 식탁",
     category: "맛집",
     rating: 4.5,
     reviewCount: 156,
-    address: "OO시 OO구 OO동 240-1",
+    address: "나인시 나인구 나인동 240-1",
     hours: "매일 09:00 - 20:00",
     phone: "02-339-5567",
     distance: "410m",
@@ -518,11 +566,11 @@ export const STORES: Store[] = [
   },
   {
     id: "s9",
-    name: "OO 펫케어 동물병원",
+    name: "나인 펫케어 동물병원",
     category: "병원",
     rating: 4.6,
     reviewCount: 133,
-    address: "OO시 OO구 OO로 25",
+    address: "나인시 나인구 나인로 25",
     hours: "매일 10:00 - 19:00",
     phone: "02-332-0033",
     distance: "540m",
@@ -535,12 +583,12 @@ export const STORES: Store[] = [
 export const MEETUPS: Meetup[] = [
   {
     id: "m1",
-    title: "OO 새벽 러닝크루",
+    title: "나인 새벽 러닝크루",
     category: "운동",
-    description: "매주 화/목 새벽 6시, OO천 숲길을 함께 달리는 모임입니다. 페이스는 5:30-6:00/km 수준이에요.",
+    description: "매주 화/목 새벽 6시, 나인천 숲길을 함께 달리는 모임입니다. 페이스는 5:30-6:00/km 수준이에요.",
     host: "야간러너",
     schedule: "매주 화, 목 06:00",
-    location: "OO천 숲길 OO동 입구",
+    location: "나인천 숲길 나인동 입구",
     capacity: 12,
     applied: 9,
     status: "recruiting",
@@ -550,27 +598,27 @@ export const MEETUPS: Meetup[] = [
   },
   {
     id: "m2",
-    title: "OO 독서모임 <책과 오후>",
+    title: "나인 독서모임 <책과 오후>",
     category: "독서",
     description: "매달 둘째 주 토요일, 함께 정한 책을 읽고 이야기 나누는 소규모 독서모임입니다.",
-    host: "책벌레OO",
+    host: "책벌레나인",
     schedule: "매월 둘째 주 토요일 19:00",
     location: "카페 오후네시",
     capacity: 10,
     applied: 8,
     status: "recruiting",
     image: picsumId(6, 800, 600),
-    members: ["책벌레OO", "일곱살엄마", "잠못드는밤"],
+    members: ["책벌레나인", "일곱살엄마", "잠못드는밤"],
     reviews: [{ author: "일곱살엄마", content: "다양한 연령대가 모여서 시야가 넓어져요." }],
   },
   {
     id: "m3",
-    title: "OO 초보 베이킹 클래스",
+    title: "나인 초보 베이킹 클래스",
     category: "취미",
     description: "매주 수요일, 서로 레시피를 공유하며 베이킹을 배우는 모임입니다. 재료비는 1/n.",
     host: "버터향기",
     schedule: "매주 수요일 10:00",
-    location: "공유주방 OO점",
+    location: "공유주방 나인점",
     capacity: 6,
     applied: 6,
     status: "closed",
@@ -582,10 +630,10 @@ export const MEETUPS: Meetup[] = [
     id: "m4",
     title: "반려견 산책 동행 모임",
     category: "반려동물",
-    description: "주말 오전, 강아지와 함께 OO천 숲길을 산책하며 정보를 나누는 모임입니다.",
+    description: "주말 오전, 강아지와 함께 나인천 숲길을 산책하며 정보를 나누는 모임입니다.",
     host: "댕댕이보호자",
     schedule: "매주 토요일 10:00",
-    location: "OO천 숲길 OO동 구간",
+    location: "나인천 숲길 나인동 구간",
     capacity: 15,
     applied: 10,
     status: "recruiting",
@@ -595,12 +643,12 @@ export const MEETUPS: Meetup[] = [
   },
   {
     id: "m5",
-    title: "OO 사진 산책 모임",
+    title: "나인 사진 산책 모임",
     category: "취미",
     description: "지난 시즌 모임은 종료되었습니다. 가을 시즌 재모집 예정.",
     host: "필름한컷",
     schedule: "종료됨",
-    location: "OO동 일대",
+    location: "나인동 일대",
     capacity: 8,
     applied: 8,
     status: "done",
@@ -613,7 +661,7 @@ export const MEETUPS: Meetup[] = [
 export const CIVIC_PROPOSALS: CivicProposal[] = [
   {
     id: "c1",
-    title: "OO천 숲길 야간 조명 밝기 개선 요청",
+    title: "나인천 숲길 야간 조명 밝기 개선 요청",
     content: "숲길 일부 구간이 어두워서 밤 산책 시 불안합니다. LED 조명 추가 설치를 요청드립니다.",
     author: "야간러너",
     category: "안전",
@@ -645,7 +693,7 @@ export const CIVIC_PROPOSALS: CivicProposal[] = [
   },
   {
     id: "c3",
-    title: "OO동 주민센터 내 수유실 설치 요청",
+    title: "나인동 주민센터 내 수유실 설치 요청",
     content: "인근에 수유실이 없어 영유아 동반 외출 시 불편함이 큽니다. 설치 검토 부탁드립니다.",
     author: "일곱살엄마",
     category: "복지",
@@ -680,7 +728,7 @@ export const CIVIC_PROPOSALS: CivicProposal[] = [
 export const POLLS: Poll[] = [
   {
     id: "poll1",
-    title: "OO동 여름밤 야시장, 어떤 프로그램을 더 원하시나요?",
+    title: "나인동 여름밤 야시장, 어떤 프로그램을 더 원하시나요?",
     description: "8월 야시장 기획에 반영할 주민 의견을 수렴합니다. 중복 투표는 불가합니다.",
     deadline: "2026-07-30",
     totalVotes: 842,
@@ -714,7 +762,7 @@ export const NOTIFICATIONS: Notification[] = [
     id: "n3",
     type: "event",
     message: "신청하신 행사가 곧 시작됩니다.",
-    target: "OO 새벽 러닝크루 - 07/29(수) 06:00",
+    target: "나인 새벽 러닝크루 - 07/29(수) 06:00",
     createdAt: "2026-07-26T20:00:00",
     read: true,
   },
@@ -730,7 +778,7 @@ export const NOTIFICATIONS: Notification[] = [
     id: "n5",
     type: "notice",
     message: "관심 지역에 새로운 공지사항이 등록되었습니다.",
-    target: "OO동 주민센터, 8월부터 무인민원발급기 야간 운영 시작",
+    target: "나인동 주민센터, 8월부터 무인민원발급기 야간 운영 시작",
     createdAt: "2026-07-25T10:02:00",
     read: true,
   },
@@ -748,14 +796,146 @@ export const CURRENT_USER = {
   name: "면식수행자",
   handle: "@yeonnam_foodie",
   joinedAt: "2024-03-12",
-  interestRegion: "OO시 OO구 OO동",
-  interestCategories: ["맛집추천", "생활꿀팁", "모임"],
-  stats: { posts: 24, comments: 87, bookmarks: 15 },
+  interestRegion: "나인시 나인구 나인동",
+  interestCategories: ["맛집추천", "생활꿀팁", "모임후기"],
+  // Kept in step with MY_* below and the POSTS this user authored — 마이페이지
+  // shows these next to the per-tab counts, so they must not contradict.
+  stats: { posts: 4, comments: 5, bookmarks: 5 },
 };
 
+export const MY_COMMENTS: MyComment[] = [
+  {
+    id: "mc1",
+    postId: "p2",
+    postTitle: "동진시장 안쪽 냉면집, 여름 한정 콩국수 시작했어요",
+    board: "food",
+    content: "시장 중앙통로 기준 안쪽에서 세 번째 골목이에요!",
+    createdAt: "2026-07-26T14:40:00",
+    likes: 5,
+  },
+  {
+    id: "mc2",
+    postId: "p12",
+    postTitle: "재활용 분리배출 요일 헷갈리는데 정리해주실 분?",
+    board: "question",
+    content:
+      "나인동은 화·목·일 재활용, 음식물은 매일 저녁 6시 이후예요. 일반쓰레기는 월·수·금입니다.",
+    createdAt: "2026-07-19T09:24:00",
+    likes: 18,
+  },
+  {
+    id: "mc3",
+    postId: "p4",
+    postTitle: "나인천 숲길 요즘 밤에 러닝하는 분들 많아지셨네요",
+    board: "free",
+    content: "새벽 러닝크루도 있어요. 페이스 6분대라 부담 없이 뛸 만합니다.",
+    createdAt: "2026-07-17T22:08:00",
+    likes: 7,
+  },
+  {
+    id: "mc4",
+    postId: "p6",
+    postTitle: "나인동 근처 실내 놀이터 정보 공유해요 (7세 아이 기준)",
+    board: "parenting",
+    content: "나인마을극장 3층에도 작은 놀이방이 있어요. 주말 오전은 예약제로 운영합니다.",
+    createdAt: "2026-07-15T11:52:00",
+    likes: 11,
+  },
+  {
+    id: "mc5",
+    postId: "p8",
+    postTitle: "[분실] 나인파출소 앞에서 회색 캐리어 잃어버렸습니다",
+    board: "lost",
+    content: "동진시장 관리사무소에도 유실물 보관함이 있으니 한번 확인해보세요.",
+    createdAt: "2026-07-11T16:30:00",
+    likes: 9,
+  },
+];
+
+/** Posts the resident bookmarked — ids point into POSTS. */
+export const MY_BOOKMARK_IDS = ["p1", "p5", "p9", "p13", "p12"];
+
+export const MY_ACTIVITY: ActivityEntry[] = [
+  {
+    id: "a1",
+    type: "comment",
+    label: "댓글을 남겼습니다",
+    detail: "동진시장 안쪽 냉면집, 여름 한정 콩국수 시작했어요",
+    date: "2026-07-26",
+  },
+  {
+    id: "a2",
+    type: "store",
+    label: "가게 후기를 작성했습니다",
+    detail: "동진시장 냉면 · 별점 5.0",
+    date: "2026-07-26",
+  },
+  {
+    id: "a3",
+    type: "post",
+    label: "게시글을 작성했습니다",
+    detail: "동진시장 장보기 전에 알아두면 좋은 요일별 특가 정리",
+    date: "2026-07-21",
+  },
+  {
+    id: "a4",
+    type: "civic",
+    label: "정책 제안에 공감했습니다",
+    detail: "나인천 숲길 야간 조명 밝기 개선 요청",
+    date: "2026-07-20",
+  },
+  {
+    id: "a5",
+    type: "meetup",
+    label: "모임 참가가 승인되었습니다",
+    detail: "나인 사진 산책 모임",
+    date: "2026-07-12",
+  },
+  {
+    id: "a6",
+    type: "event",
+    label: "행사에 참가 신청했습니다",
+    detail: "2026 나인동 여름밤 야시장",
+    date: "2026-07-08",
+  },
+];
+
+export const NOTIFICATION_PREFS: NotificationPref[] = [
+  {
+    key: "comment",
+    label: "내 글의 댓글·답글",
+    description: "작성한 게시글과 댓글에 반응이 달리면 알려드려요.",
+    enabled: true,
+  },
+  {
+    key: "board",
+    label: "관심 게시판 새 글",
+    description: "맛집추천, 생활꿀팁, 모임후기 게시판에 글이 올라오면 알려드려요.",
+    enabled: true,
+  },
+  {
+    key: "official",
+    label: "구청·주민센터 공지",
+    description: "폭염·한파 특보, 행정 서비스 변경 등 공식 공지를 받습니다.",
+    enabled: true,
+  },
+  {
+    key: "meetup",
+    label: "모임·행사 일정 알림",
+    description: "신청한 모임과 행사 하루 전에 미리 알려드려요.",
+    enabled: false,
+  },
+  {
+    key: "marketing",
+    label: "동네가게 이벤트 소식",
+    description: "즐겨찾기한 가게의 할인·이벤트 소식을 받습니다.",
+    enabled: false,
+  },
+];
+
 export const ADMIN_MEMBERS: AdminMember[] = [
-  { id: "u1", name: "면식수행자", email: "foodie@locly.town", joinedAt: "2024-03-12", status: "정상", role: "주민", posts: 24 },
-  { id: "u2", name: "OO동주민센터", email: "office@oogu.go.kr", joinedAt: "2023-11-01", status: "정상", role: "공식계정", posts: 63 },
+  { id: "u1", name: "면식수행자", email: "foodie@locly.town", joinedAt: "2024-03-12", status: "정상", role: "주민", posts: 4 },
+  { id: "u2", name: "나인동주민센터", email: "office@nine.go.kr", joinedAt: "2023-11-01", status: "정상", role: "공식계정", posts: 63 },
   { id: "u3", name: "잠못드는밤", email: "night.owl@locly.town", joinedAt: "2025-06-20", status: "정상", role: "주민", posts: 6 },
   { id: "u4", name: "급한마음", email: "hurry@locly.town", joinedAt: "2026-01-15", status: "정상", role: "주민", posts: 3 },
   { id: "u5", name: "탈퇴예정계정", email: "leaving@locly.town", joinedAt: "2023-08-02", status: "제한", role: "주민", posts: 41 },
@@ -765,7 +945,7 @@ export const ADMIN_MEMBERS: AdminMember[] = [
 ];
 
 export const ADMIN_REPORTS: AdminReport[] = [
-  { id: "rp1", targetTitle: "[분실] OO파출소 앞에서 회색 캐리어 잃어버렸습니다", reason: "개인정보 노출 의심", reporter: "동네주민A", createdAt: "2026-07-27", status: "대기" },
+  { id: "rp1", targetTitle: "[분실] 나인파출소 앞에서 회색 캐리어 잃어버렸습니다", reason: "개인정보 노출 의심", reporter: "동네주민A", createdAt: "2026-07-27", status: "대기" },
   { id: "rp2", targetTitle: "스팸계정0421님의 게시글 - 대출 광고", reason: "광고/스팸", reporter: "면식수행자", createdAt: "2026-07-26", status: "대기" },
   { id: "rp3", targetTitle: "탈퇴예정계정님의 댓글", reason: "욕설/비방", reporter: "일곱살엄마", createdAt: "2026-07-24", status: "대기" },
   { id: "rp4", targetTitle: "벼룩시장 게시글 - 중복 등록", reason: "중복 게시", reporter: "정리하는집", createdAt: "2026-07-21", status: "처리완료" },
@@ -773,15 +953,15 @@ export const ADMIN_REPORTS: AdminReport[] = [
 ];
 
 export const ADMIN_EVENT_APPROVALS: AdminApproval[] = [
-  { id: "ea1", name: "OO 플리마켓 - 여름 정리 마켓", category: "마켓", requester: "동네러너모임", requestedAt: "2026-07-24", status: "승인" },
-  { id: "ea2", name: "OO 독서모임 8월 정기모임", category: "모임", requester: "책벌레OO", requestedAt: "2026-07-25", status: "승인" },
+  { id: "ea1", name: "나인 플리마켓 - 여름 정리 마켓", category: "마켓", requester: "동네러너모임", requestedAt: "2026-07-24", status: "승인" },
+  { id: "ea2", name: "나인 독서모임 8월 정기모임", category: "모임", requester: "책벌레나인", requestedAt: "2026-07-25", status: "승인" },
   { id: "ea3", name: "여름 골목 사진전 참가자 모집", category: "문화", requester: "필름한컷", requestedAt: "2026-07-27", status: "대기" },
   { id: "ea4", name: "무허가 홍보 목적 행사(반려)", category: "기타", requester: "unknown0912", requestedAt: "2026-07-23", status: "반려" },
 ];
 
 export const ADMIN_STORE_APPROVALS: AdminApproval[] = [
-  { id: "sa1", name: "OO 브런치 식탁", category: "맛집", requester: "브런치식탁 사장님", requestedAt: "2026-07-22", status: "승인" },
-  { id: "sa2", name: "OO 스마트코딩교습소", category: "학원", requester: "코딩교습소 원장", requestedAt: "2026-07-20", status: "승인" },
+  { id: "sa1", name: "나인 브런치 식탁", category: "맛집", requester: "브런치식탁 사장님", requestedAt: "2026-07-22", status: "승인" },
+  { id: "sa2", name: "나인 스마트코딩교습소", category: "학원", requester: "코딩교습소 원장", requestedAt: "2026-07-20", status: "승인" },
   { id: "sa3", name: "새로 오픈한 반찬가게", category: "생활서비스", requester: "반찬가게 사장님", requestedAt: "2026-07-27", status: "대기" },
   { id: "sa4", name: "출처 불분명 등록 요청", category: "기타", requester: "unknown_biz", requestedAt: "2026-07-25", status: "반려" },
 ];

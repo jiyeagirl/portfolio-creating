@@ -1,0 +1,182 @@
+/*
+ * 책도장 — design tokens. See design.md.
+ * Warm paper canvas + a single ink-green accent. Scoped to `.book` so the
+ * workspace's own global tokens stay untouched.
+ */
+.book {
+  /* Surfaces */
+  --bk-canvas: #f6f3ec;
+  --bk-surface: #ffffff;
+  --bk-surface-soft: #efeae0;
+  --bk-surface-sunk: #e7e1d3;
+
+  /* Ink */
+  --bk-ink: #1a1d19;
+  --bk-body: #3b403a;
+  --bk-muted: #6e7369;
+  --bk-faint: #a0a497;
+
+  /* Lines */
+  --bk-line: #e1daca;
+  --bk-line-soft: #ede8dc;
+
+  /* Accent — the only highlight color in the product */
+  --bk-accent: #1e6b4e;
+  --bk-accent-deep: #14503a;
+  --bk-accent-soft: #e2ede6;
+  --bk-on-accent: #f6f3ec;
+
+  /* Dark surfaces (this month's challenge card, QR scanner) */
+  --bk-dark: #16211c;
+  --bk-dark-soft: #20302a;
+  --bk-on-dark: #f0eee4;
+  --bk-on-dark-muted: #9aa79e;
+
+  /* Semantic tones — status labels only, never used as a second accent */
+  --bk-visit: #2c5f86;
+  --bk-visit-soft: #e4edf4;
+  --bk-read: #1e6b4e;
+  --bk-read-soft: #e2ede6;
+  --bk-gold: #9c6b15;
+  --bk-gold-soft: #f6edd8;
+  --bk-event: #a4453c;
+  --bk-event-soft: #f7e6e2;
+
+  background: var(--bk-canvas);
+  color: var(--bk-body);
+  font-family: var(--font-sans);
+  /* Korean wraps between 어절, never mid-word. No `anywhere` fallback — it
+     cancels keep-all outright. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  color-scheme: light;
+}
+
+/* Counts, dates and percentages keep their column width while they animate. */
+.book-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.book ::selection {
+  background: rgba(30, 107, 78, 0.2);
+  color: var(--bk-ink);
+}
+
+.book-scroll-x {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.book-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Motion ------------------------------------------------------------ */
+
+@keyframes book-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.book-enter {
+  animation: book-enter 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* The signature motion: a rubber stamp coming down on paper. */
+@keyframes book-stamp {
+  0% {
+    opacity: 0;
+    transform: scale(1.7) rotate(-14deg);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(0.94) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+.book-stamp-in {
+  animation: book-stamp 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Ink spreading out from under the stamp. */
+@keyframes book-ink {
+  from {
+    opacity: 0.35;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+.book-ink-ring {
+  animation: book-ink 700ms ease-out both;
+}
+
+/* Progress fills animate transform, never width. */
+@keyframes book-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.book-fill {
+  transform-origin: left center;
+  animation: book-fill 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes book-scanline {
+  0%,
+  100% {
+    transform: translateY(-84px);
+  }
+  50% {
+    transform: translateY(84px);
+  }
+}
+.book-scanline {
+  animation: book-scanline 2.4s ease-in-out infinite;
+}
+
+@keyframes book-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.book-pulse {
+  animation: book-pulse 1.8s ease-in-out infinite;
+}
+
+/* globals.css already neutralizes durations, but the infinite loops above need
+   to be switched off outright so nothing keeps moving. */
+@media (prefers-reduced-motion: reduce) {
+  .book-enter,
+  .book-stamp-in,
+  .book-fill {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .book-ink-ring,
+  .book-scanline,
+  .book-pulse {
+    animation: none;
+  }
+  .book-ink-ring {
+    opacity: 0;
+  }
+}

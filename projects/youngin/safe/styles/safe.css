@@ -1,0 +1,182 @@
+/*
+ * 용인 SAFE — 생활안전 대응 훈련 콘텐츠 토큰.
+ * 구조적 값(8px 그리드, 타입 스케일, radius, spring 타이밍)은 filmate 레퍼런스를 따르고
+ * 색상만 새로 정의한다. `.safe` 스코프라 워크스페이스 전역 토큰은 건드리지 않는다.
+ *
+ * 팔레트 축: 따뜻한 종이 캔버스 + 비상구 그린 액센트.
+ * 한국의 비상구/AED 표지가 초록이라 "안전 시설 = 초록"을 그대로 브랜드 축으로 삼고,
+ * 빨강/앰버/파랑/슬레이트는 브랜드가 아니라 시나리오 구분용 의미색으로만 쓴다.
+ */
+.safe {
+  /* 표면 */
+  --sf-canvas: #f4f1ea;
+  --sf-surface: #ffffff;
+  --sf-sunken: #eae5db;
+  --sf-raised: #fbfaf6;
+
+  /* 게임 맵 / HUD 딥 서페이스 */
+  --sf-deep: #131f1a;
+  --sf-deep-raised: #1c2b25;
+  --sf-deep-line: #2b3f37;
+
+  /* 잉크 */
+  --sf-ink: #171512;
+  --sf-body: #3b372f;
+  --sf-muted: #6e6a60;
+  --sf-muted-soft: #97928a;
+  --sf-hairline: #e1dbd0;
+  --sf-hairline-soft: #ede8df;
+  --sf-on-dark: #f1efe8;
+  --sf-on-dark-muted: #8fa79c;
+
+  /* 브랜드 액센트 (비상구 그린) */
+  --sf-accent: #0e7a55;
+  --sf-accent-strong: #0a5d41;
+  --sf-accent-soft: #e1eee7;
+  --sf-accent-bright: #34c48a;
+  --sf-on-accent: #ffffff;
+
+  /* 시나리오 의미색 */
+  --sf-cardiac: #c33b2c;
+  --sf-cardiac-soft: #fae7e3;
+  --sf-heat: #c07211;
+  --sf-heat-soft: #fbeeda;
+  --sf-cold: #2a6ba0;
+  --sf-cold-soft: #e1edf6;
+  --sf-quake: #55606b;
+  --sf-quake-soft: #e8eaec;
+
+  /* 맵 지물 */
+  --sf-map-land: #16231e;
+  --sf-map-block: #1e2f28;
+  --sf-map-block-alt: #253a31;
+  --sf-map-road: #2e463c;
+  --sf-map-road-major: #3a5c4e;
+  --sf-map-water: #1a3340;
+  --sf-map-park: #1d3527;
+
+  color-scheme: light;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 시간, 거리, 점수는 자리수가 흔들리면 안 된다. */
+.sf-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 화면 진입 (iOS 스타일 진입, 레퍼런스 스프링 타이밍을 CSS로 근사). */
+.sf-enter {
+  animation: sf-enter 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes sf-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 미션 단계가 넘어갈 때 액션 패널이 아래에서 올라온다. */
+.sf-panel-in {
+  animation: sf-panel-in 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes sf-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 리스트 스태거. --sf-i 인덱스로 지연을 준다. */
+.sf-stagger {
+  animation: sf-enter 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--sf-i, 0) * 55ms);
+}
+
+/* 현재 위치 마커의 확산 링. 위치 갱신 중이라는 상태 신호다.
+   SVG에서 transform-box 기본값은 view-box라, fill-box로 바꾸지 않으면 링이 자기 중심이
+   아니라 viewBox 중심을 기준으로 커지면서 핀에서 떨어져 나간다. */
+.sf-ping {
+  animation: sf-ping 2000ms cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes sf-ping {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+/* 심정지 시나리오의 제한시간 경고. 골든타임이 얼마 안 남았다는 유일한 경고 모션. */
+.sf-urgent {
+  animation: sf-urgent 900ms ease-in-out infinite;
+}
+
+@keyframes sf-urgent {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* 이동 단계의 경로 점선이 목적지 방향으로 흐른다. */
+.sf-route-flow {
+  stroke-dasharray: 7 6;
+  animation: sf-route-flow 900ms linear infinite;
+}
+
+@keyframes sf-route-flow {
+  to {
+    stroke-dashoffset: -13;
+  }
+}
+
+/* AED 패드 분석 대기 인디케이터. */
+.sf-analyze {
+  animation: sf-analyze 1400ms ease-in-out infinite;
+}
+
+@keyframes sf-analyze {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sf-enter,
+  .sf-panel-in,
+  .sf-stagger,
+  .sf-ping,
+  .sf-urgent,
+  .sf-route-flow,
+  .sf-analyze {
+    animation: none;
+  }
+
+  .sf-route-flow {
+    stroke-dasharray: 7 6;
+  }
+}

@@ -1,23 +1,25 @@
 "use client";
 
-import { CalendarBlank, CheckCircle, ForkKnife, House } from "@phosphor-icons/react";
+import { ChartBar, CheckCircle, ForkKnife, House, User } from "@phosphor-icons/react";
 import type {
   HabitkongNavigate,
   HabitkongScreen,
+  TabKey,
 } from "@/projects/healthcare/habitkong/lib/navigation";
 
-const TABS: { key: HabitkongScreen; label: string; icon: typeof House }[] = [
-  { key: "home", label: "홈", icon: House },
-  { key: "diet", label: "식단", icon: ForkKnife },
-  { key: "routine", label: "루틴", icon: CheckCircle },
-  { key: "diary", label: "다이어리", icon: CalendarBlank },
+const TABS: { key: TabKey; screen: HabitkongScreen; label: string; icon: typeof House }[] = [
+  { key: "home", screen: "home", label: "홈", icon: House },
+  { key: "diet", screen: "diet", label: "식단", icon: ForkKnife },
+  { key: "routine", screen: "routine", label: "루틴", icon: CheckCircle },
+  { key: "report", screen: "report", label: "리포트", icon: ChartBar },
+  { key: "mypage", screen: "mypage", label: "마이", icon: User },
 ];
 
 export function BottomNav({
   active,
   onNavigate,
 }: {
-  active: HabitkongScreen;
+  active: TabKey;
   onNavigate: HabitkongNavigate;
 }) {
   return (
@@ -28,8 +30,9 @@ export function BottomNav({
           <button
             key={tab.key}
             type="button"
-            onClick={() => onNavigate(tab.key)}
-            className={`flex flex-col items-center gap-1 px-4 py-1 transition-colors ${
+            onClick={() => onNavigate(tab.screen)}
+            aria-current={isActive ? "page" : undefined}
+            className={`flex flex-1 flex-col items-center gap-1 py-1 transition-colors ${
               isActive ? "text-[#17140F]" : "text-[#C9C0B8]"
             }`}
           >

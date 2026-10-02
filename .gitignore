@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# visual verification captures (scripts/visual-check.ts)
+.visual/
+
+# hook markers (.claude/hooks/)
+.skill-read
+.visual-pending
+
+# portfolio export PNGs (scripts/capture-screenshot.ts), kept on disk only
+projects/*/*/screenshots/

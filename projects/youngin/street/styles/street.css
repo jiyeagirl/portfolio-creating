@@ -1,0 +1,159 @@
+/*
+ * 용인 보행길 제보 — 토큰.
+ * 색상, radius, 그림자 철학은 design-systems/apple_compact.md가 최우선 출처다
+ * (spec.md의 `디자인시스템:` 줄). 구조적 값(8px 그리드, 안전 영역, 스프링 타이밍)만
+ * filmate 레퍼런스를 따른다. `.street` 스코프라 워크스페이스 전역 토큰은 건드리지 않는다.
+ *
+ * 액센트는 Action Blue 하나뿐이다. 위험 유형 7종에는 색을 주지 않고 아이콘으로만
+ * 구분하며, 색은 처리 상태 4단계에만 쓴다.
+ */
+.street {
+  /* 표면 */
+  --st-canvas: #ffffff;
+  --st-parchment: #f5f5f7;
+  --st-surface: #ffffff;
+  --st-pearl: #fafafc;
+  --st-chip: #d2d2d7;
+
+  /* 잉크 */
+  --st-ink: #1d1d1f;
+  --st-ink-80: #333333;
+  --st-ink-48: #7a7a7a;
+  --st-hairline: #e0e0e0;
+  --st-divider: #f0f0f0;
+
+  /* 다크 표면 (사진 히어로 위 크롬) */
+  --st-ink-surface: #272729;
+  --st-on-dark: #ffffff;
+  --st-on-dark-muted: #cccccc;
+
+  /* 액센트 — 하나뿐이다 */
+  --st-accent: #0066cc;
+  --st-accent-focus: #0071e3;
+  --st-accent-soft: #eaf2fc;
+  --st-accent-on-dark: #2997ff;
+  --st-on-accent: #ffffff;
+
+  /* 처리 상태 4단계 (브랜드 색이 아니라 진행 단계 표시) */
+  --st-received: #6e6e73;
+  --st-received-soft: #f0f0f2;
+  --st-reviewing: #b25000;
+  --st-reviewing-soft: #fbf0e6;
+  --st-working: #0066cc;
+  --st-working-soft: #eaf2fc;
+  --st-done: #248a3d;
+  --st-done-soft: #e9f4ec;
+
+  /* 지도 지물 */
+  --st-map-land: #f1f0eb;
+  --st-map-block: #e4e2db;
+  --st-map-block-alt: #eceae3;
+  --st-map-landmark: #dcd8cb;
+  --st-map-road: #ffffff;
+  --st-map-road-casing: #e2e0d8;
+  --st-map-water: #c9dee9;
+  --st-map-park: #dce7d3;
+  --st-map-label: #8a877e;
+
+  /* radius 문법 — 섞지 않는다 */
+  --st-r-xs: 5px;
+  --st-r-sm: 8px;
+  --st-r-md: 11px;
+  --st-r-lg: 18px;
+
+  /* 시스템 전체에서 유일하게 허용한 그림자. 지도 위 부유 요소 전용이다.
+     지도는 면이 아니라 텍스처라 1px 헤어라인이 지물 위에서 사라진다. */
+  --st-shadow-float: 0 3px 30px rgba(0, 0, 0, 0.1);
+
+  color-scheme: light;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 접수번호, 날짜, 건수, 거리, 포인트는 자릿수가 흔들리면 행정 데이터로 안 읽힌다. */
+.st-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 화면 진입 (레퍼런스 스프링 stiffness 300 / damping 30을 CSS로 근사). */
+.st-enter {
+  animation: st-enter 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes st-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 지도 마커를 눌렀을 때 상세 시트가 올라온다. */
+.st-sheet-in {
+  animation: st-sheet-in 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes st-sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 제보 목록 스태거. --st-i 인덱스로 지연을 준다. */
+.st-stagger {
+  animation: st-enter 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--st-i, 0) * 45ms);
+}
+
+/* 현재 위치 마커의 확산 링. 위치를 갱신하고 있다는 상태 신호다.
+   SVG에서 transform-box 기본값은 view-box라, fill-box로 바꾸지 않으면 링이 자기 중심이
+   아니라 viewBox 중심을 기준으로 커지면서 핀에서 떨어져 나간다. */
+.st-ping {
+  animation: st-ping 2000ms cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes st-ping {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* 제보 접수 처리 중 인디케이터. */
+.st-submit {
+  animation: st-submit 900ms ease-in-out infinite;
+}
+
+@keyframes st-submit {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-enter,
+  .st-sheet-in,
+  .st-stagger,
+  .st-ping,
+  .st-submit {
+    animation: none;
+  }
+}

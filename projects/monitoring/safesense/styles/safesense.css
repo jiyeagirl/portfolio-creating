@@ -1,0 +1,126 @@
+/*
+ * SafeSense design tokens — Tactical Telemetry mode of industrial-brutalist-ui.
+ * Zero border-radius, one hazard-red accent, single-purpose terminal green.
+ * Scoped to `.safesense` so the workspace's own global tokens stay untouched.
+ */
+.safesense {
+  --ss-bg: #0a0a0a;
+  --ss-panel: #121212;
+  --ss-panel-2: #1a1a1a;
+  --ss-foreground: #eaeaea;
+  --ss-muted: #6e6e6e;
+  --ss-border: #262626;
+  --ss-border-strong: #3a3a3a;
+  --ss-accent: #ff2a2a;
+  --ss-accent-wash: rgba(255, 42, 42, 0.12);
+  --ss-safe: #4af626;
+
+  background: var(--ss-bg);
+  color: var(--ss-foreground);
+  font-family: var(--font-sans);
+  word-break: keep-all;
+  color-scheme: dark;
+}
+
+.safesense ::selection {
+  background: rgba(255, 42, 42, 0.28);
+  color: var(--ss-foreground);
+}
+
+/* Telemetry data axis — labels, timestamps, coordinates, unit ids. Never the
+   base body font; scoped narrowly like assetflow's .af-mono. */
+.ss-mono {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-feature-settings: "tnum";
+}
+
+/* Macro structural headers — heavy weight, tight tracking, compressed leading. */
+.ss-display {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+/* ASCII bracket framing for section labels: [ 라벨 ] */
+.ss-bracket::before {
+  content: "[ ";
+  color: var(--ss-muted);
+}
+.ss-bracket::after {
+  content: " ]";
+  color: var(--ss-muted);
+}
+
+/* Zero-radius press feedback shared across buttons/rows. */
+.ss-press {
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+.ss-press:active {
+  background-color: var(--ss-panel-2);
+}
+
+.ss-focusable:focus-visible {
+  outline: 2px solid var(--ss-accent);
+  outline-offset: 2px;
+}
+
+/* LIVE indicator — a status LED blink, not a soft UI pulse. */
+@keyframes ss-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0.25;
+  }
+}
+.ss-blink {
+  animation: ss-blink 800ms steps(1) infinite;
+}
+
+@keyframes ss-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.ss-fade {
+  animation: ss-fade 120ms linear both;
+}
+
+/* Countdown ring for watch/phone danger-confirmation screens. */
+@keyframes ss-ring-drain {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: var(--ss-ring-length);
+  }
+}
+.ss-ring-drain {
+  animation: ss-ring-drain var(--ss-ring-duration, 15s) linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-blink,
+  .ss-fade,
+  .ss-ring-drain {
+    animation: none;
+  }
+  .ss-press:active {
+    background-color: transparent;
+  }
+}
+
+.ss-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.ss-no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

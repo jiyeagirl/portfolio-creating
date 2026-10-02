@@ -1,0 +1,223 @@
+/* PetLive 토큰. design-systems/wise_compact.md의 구조(단일 액센트, canvas/canvas-soft
+   순환, radius-xl 24px 시그니처, elevation은 색 대비 우선·그림자 희소)를 따르되
+   색상은 반려동물 모니터링 도메인에 맞춰 독립적으로 설계했다. 타이포는 CLAUDE.md 규칙에
+   따라 Pretendard로 고정한다. 관리자 콘솔(components/admin/)도 이 파일의 토큰을
+   그대로 상속한다 — --pl-rail-* 만 관리자 다크 사이드바 전용으로 추가했다. */
+
+.petlive {
+  /* 브랜드 액센트 — 웜 탠저린. CTA·선택 상태 전용, 세만틱 색과 절대 겹치지 않는다. */
+  --pl-accent: #ff6f3c;
+  --pl-accent-active: #e85a28;
+  --pl-accent-pale: #ffe4d6;
+  --pl-on-accent: #ffffff;
+
+  /* 잉크 / 표면 — 웜 오프화이트. 순수 화이트 대신 아주 옅은 크림으로 통일. */
+  --pl-ink: #201a14;
+  --pl-body: #5b5347;
+  --pl-mute: #948c7e;
+  --pl-mute-soft: #b7b0a2;
+  --pl-hairline: #eae3d6;
+  --pl-hairline-strong: #d8cfbe;
+  --pl-canvas: #fffcf8;
+  --pl-canvas-soft: #f6f1e9;
+  --pl-canvas-strong: #efe7d8;
+
+  /* 세만틱 — 브랜드 액센트와 분리. positive=온라인/정상, warning=주의, negative=오프라인/오류, info=안내 */
+  --pl-positive: #2e9e5b;
+  --pl-positive-soft: #dff4e7;
+  --pl-positive-deep: #1f7a44;
+
+  --pl-warning: #f2a93e;
+  --pl-warning-soft: #fdedd2;
+  --pl-warning-deep: #92600b;
+
+  --pl-negative: #e5484d;
+  --pl-negative-soft: #fbe0df;
+  --pl-negative-deep: #b23033;
+
+  --pl-info: #3e8ff2;
+  --pl-info-soft: #dcebfe;
+  --pl-info-deep: #1f5fb5;
+
+  /* 관리자 다크 레일 전용 — 잉크를 베이스로 한 반전 표면 */
+  --pl-rail-bg: #201a14;
+  --pl-rail-surface: #2a231a;
+  --pl-rail-active: #362c20;
+  --pl-rail-text: #fffcf8;
+  --pl-rail-text-mute: #a89d8a;
+  --pl-rail-border: #362c20;
+
+  /* 그림자 — color-block 우선, 미세한 스택만. 라이브 영상 카드/FAB 등 정말 뜬 요소에만. */
+  --pl-shadow-soft: 0 1px 2px rgba(32, 26, 20, 0.04), 0 8px 20px rgba(32, 26, 20, 0.08);
+  --pl-shadow-pop: 0 2px 4px rgba(32, 26, 20, 0.06), 0 16px 32px rgba(32, 26, 20, 0.12);
+
+  background: var(--pl-canvas);
+  color: var(--pl-ink);
+  font-feature-settings: "tnum" 0;
+  color-scheme: light;
+}
+
+/* ------------------------------------------------------------------
+   .petlive-app — 모바일 앱 전용 다크 스코프 (팔레트 구성 2: 다크 우선).
+
+   아키타입 A5(라이브 모니터 캔버스)에서 홈은 라이브 영상 캔버스다. 영상 위에 UI를
+   얹으려면 캔버스가 잉크여야 하고, 야간에 반려동물을 확인하는 사용이 실제로 가장
+   잦다. 관리자 콘솔은 표를 읽는 도구라 반대 요구를 가지므로 `.petlive`(웜 라이트)를
+   그대로 쓴다 — 그래서 `--pl-canvas`를 뒤집지 않고 앱에만 별도 스코프를 준다.
+   이 분리가 없으면 `admin-shell.tsx`의 `bg-[var(--pl-canvas)]`까지 함께 뒤집힌다.
+   ------------------------------------------------------------------ */
+.petlive-app {
+  /* 브랜드 액센트는 유지하되 다크 위에서 눈이 부시지 않게 한 단 밝힌다. */
+  --pl-accent: #ff7d4f;
+  --pl-accent-active: #ff9268;
+  --pl-accent-pale: #3a1f14;
+  --pl-on-accent: #150c07;
+
+  --pl-ink: #f2f4f6;
+  --pl-body: #b8bdc4;
+  --pl-mute: #7c838c;
+  --pl-mute-soft: #565c64;
+  --pl-hairline: #24282e;
+  --pl-hairline-strong: #333941;
+  --pl-canvas: #0b0c0e;
+  --pl-canvas-soft: #14161a;
+  --pl-canvas-strong: #1c1f24;
+
+  --pl-positive: #45d17f;
+  --pl-positive-soft: #10301e;
+  --pl-positive-deep: #7ee3a8;
+
+  --pl-warning: #f5b757;
+  --pl-warning-soft: #33260e;
+  --pl-warning-deep: #f8cd8a;
+
+  --pl-negative: #ff6b6f;
+  --pl-negative-soft: #3a1618;
+  --pl-negative-deep: #ff9a9d;
+
+  --pl-info: #5aa2ff;
+  --pl-info-soft: #12253d;
+  --pl-info-deep: #8fc0ff;
+
+  /* 라이브 캔버스 전용 — 영상 위에 얹는 오버레이 칩/컨트롤의 표면.
+     팔레트 구성 6(글로우 표면)이 여기서만 허용된다: 영상 위 비네트와 상태 글로우는
+     장식이 아니라 "이 영역은 컨트롤이다"를 읽히게 하는 기능이다. */
+  --pl-overlay: rgba(11, 12, 14, 0.72);
+  --pl-overlay-strong: rgba(11, 12, 14, 0.88);
+  --pl-overlay-ink: #f2f4f6;
+  --pl-vignette: linear-gradient(
+    to top,
+    rgba(6, 7, 8, 0.86) 0%,
+    rgba(6, 7, 8, 0.28) 34%,
+    rgba(6, 7, 8, 0) 62%
+  );
+  --pl-live-glow: 0 0 0 1px rgba(69, 209, 127, 0.32), 0 0 18px rgba(69, 209, 127, 0.16);
+
+  --pl-shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 20px rgba(0, 0, 0, 0.42);
+  --pl-shadow-pop: 0 2px 4px rgba(0, 0, 0, 0.55), 0 16px 32px rgba(0, 0, 0, 0.5);
+
+  background: var(--pl-canvas);
+  color: var(--pl-ink);
+  color-scheme: dark;
+}
+
+/* 한글은 기본값에서 어절 중간이 끊긴다. keep-all로 공백에서만 줄바꿈하고,
+   overflow-wrap은 anywhere가 아닌 break-word로 둔다(anywhere는 keep-all을 무력화). */
+.petlive {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 배터리 %, Wi-Fi 신호, 타임스탬프처럼 자릿수를 맞춰 읽는 값 전용. 본문에는 쓰지 않는다. */
+.pl-mono {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-feature-settings: "tnum";
+}
+
+/* 화면 진입 — CLAUDE.md `## Motion`의 "스케일 복제 금지" 대응.
+   워크스페이스 CSS 11개가 `420ms` + `translateY`로 "떠오르는" 진입을 쓴다. 관제 화면은
+   그렇게 움직이지 않는다 — 피드는 컷인된다. 짧은 opacity-only 컷(180ms)으로 바꿨고,
+   translate를 쓰지 않는다. */
+.pl-enter {
+  animation: pl-enter 180ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes pl-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 카메라를 바꿀 때 히어로 피드가 갈리는 크로스페이드. 화면 진입(180ms)보다 느려서
+   "화면이 바뀐 것"이 아니라 "같은 화면에서 소스가 갈린 것"으로 읽힌다. */
+.pl-feed-cut {
+  animation: pl-feed-cut 320ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes pl-feed-cut {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 라이브 피드 위 비네트. 오버레이 컨트롤이 밝은 영상 위에서도 읽히게 한다.
+   `backdrop-filter`가 아니라 순수 그라디언트다 — PhoneFrame의 라운드 코너 클립을
+   뚫지 않는다(CLAUDE.md "Device edge integrity"). */
+.pl-vignette {
+  background: var(--pl-vignette);
+}
+
+/* 실시간 스트리밍 · 온라인 상태 표시용 맥동 점 */
+.pl-live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.4;
+  animation: pl-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes pl-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  70%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.petlive ::selection {
+  background: var(--pl-accent);
+  color: var(--pl-on-accent);
+}
+
+/* 타임라인 스크러버 — 이벤트 이력을 리스트가 아니라 가로 축으로 읽는다(A5). */
+.pl-scrub {
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.pl-scrub::-webkit-scrollbar {
+  display: none;
+}
+.pl-scrub > * {
+  scroll-snap-align: start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-enter,
+  .pl-feed-cut,
+  .pl-live-dot::after {
+    animation: none;
+  }
+}

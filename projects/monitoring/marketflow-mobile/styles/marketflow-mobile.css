@@ -1,0 +1,46 @@
+/* MarketFlow Mobile — component-scoped tokens.
+   design-systems/claude_compact.md 색 토큰을 그대로 채택(1차 소스로 지정된 spec.md
+   디자인시스템 라인). 워크스페이스 전역 토큰은 건드리지 않는다. */
+
+.marketflow-mobile {
+  --mfm-canvas: #faf9f5;
+  --mfm-surface: #ffffff;
+  --mfm-surface-soft: #f5f0e8;
+  --mfm-surface-card: #efe9de;
+  --mfm-surface-cream-strong: #e8e0d2;
+  --mfm-surface-dark: #181715;
+  --mfm-surface-dark-elevated: #252320;
+  --mfm-surface-dark-soft: #1f1e1b;
+
+  --mfm-ink: #141413;
+  --mfm-body: #3d3d3a;
+  --mfm-body-strong: #252523;
+  --mfm-muted: #6c6a64;
+  --mfm-muted-soft: #8e8b82;
+
+  --mfm-hairline: #e6dfd8;
+  --mfm-hairline-soft: #ebe6df;
+
+  --mfm-primary: #cc785c;
+  --mfm-primary-active: #a9583e;
+  --mfm-primary-disabled: #e6dfd8;
+  --mfm-on-primary: #ffffff;
+  --mfm-on-dark: #faf9f5;
+  --mfm-on-dark-soft: #a09d96;
+
+  --mfm-accent-teal: #5db8a6;
+  --mfm-accent-amber: #e8a55a;
+
+  --mfm-success: #5db872;
+  --mfm-success-soft: #e3f0e6;
+  --mfm-warning: #d4a017;
+  --mfm-warning-soft: #f6ecd2;
+  --mfm-error: #c64545;
+  --mfm-error-soft: #f6e2e0;
+
+  color-scheme: light;
+}
+
+.marketflow-mobile .mfm-tabular {
+  font-variant-numeric: tabular-nums;
+}

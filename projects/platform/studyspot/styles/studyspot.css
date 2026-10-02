@@ -1,0 +1,109 @@
+/* StudySpot 토큰. minimalist-ui 스킬의 웜 모노크롬 + 파스텔 4색 구조를 그대로
+   따른다(§4 팔레트값). CTA는 컬러 액센트가 아니라 잉크 블랙 솔리드. 타이포는 CLAUDE.md
+   규칙에 따라 Pretendard로 고정한다. 점주(components/admin/)·본사(components/hq/) 두
+   관리자 콘솔도 이 파일의 토큰을 그대로 상속한다 — --ss-rail-*만 본사 다크 사이드바 전용. */
+
+.studyspot {
+  /* 잉크 / 표면 */
+  --ss-ink: #111111;
+  --ss-on-ink: #ffffff;
+  --ss-body: #2f3437;
+  --ss-mute: #787774;
+  --ss-mute-soft: #a8a29b;
+  --ss-hairline: #eaeaea;
+  --ss-hairline-strong: #d8d6d0;
+  --ss-canvas: #ffffff;
+  --ss-canvas-soft: #f7f6f3;
+  --ss-surface: #f9f9f8;
+
+  /* 세만틱 파스텔 4색 (minimalist-ui §4) */
+  --ss-positive: #346538;
+  --ss-positive-soft: #edf3ec;
+
+  --ss-warning: #956400;
+  --ss-warning-soft: #fbf3db;
+
+  --ss-negative: #9f2f2d;
+  --ss-negative-soft: #fdebec;
+
+  --ss-info: #1f6c9f;
+  --ss-info-soft: #e1f3fe;
+
+  /* 본사 콘솔 전용 다크 레일 (잉크 베이스 반전) */
+  --ss-rail-bg: #111111;
+  --ss-rail-surface: #1c1c1c;
+  --ss-rail-active: #292929;
+  --ss-rail-text: #ffffff;
+  --ss-rail-text-mute: #9a9a9a;
+  --ss-rail-border: #292929;
+
+  /* 그림자 — 카드 hover-lift 전용 하나만. 두꺼운 drop-shadow 금지 */
+  --ss-shadow-soft: 0 2px 8px rgba(17, 17, 17, 0.04);
+
+  background: var(--ss-canvas);
+  color: var(--ss-ink);
+  font-feature-settings: "tnum" 0;
+}
+
+/* 한글 줄바꿈: 어절 중간이 끊기지 않도록 keep-all + break-word */
+.studyspot {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 좌석 번호, 금액, 남은 시간, 시리얼 번호 전용. 본문에는 쓰지 않는다. */
+.ss-mono {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-feature-settings: "tnum";
+}
+
+/* 화면/섹션 진입 — minimalist-ui §7: translateY(12px) + opacity, 600ms */
+.ss-enter {
+  animation: ss-enter 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes ss-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 실시간 이용 세션 표시용 맥동 점 */
+.ss-live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.4;
+  animation: ss-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ss-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  70%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.studyspot ::selection {
+  background: var(--ss-ink);
+  color: var(--ss-on-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-enter,
+  .ss-live-dot::after {
+    animation: none;
+  }
+}

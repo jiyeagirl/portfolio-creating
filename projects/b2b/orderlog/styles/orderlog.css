@@ -1,0 +1,118 @@
+/* OrderLog 토큰. 색은 design.md에서 새로 정의(디자인시스템/스타일 미지정 프로젝트),
+   반경/그림자/모션 철학만 filmate 구조를 참고했다. 타이포는 CLAUDE.md 규칙에 따라
+   Pretendard로 고정(모노는 금액/단가/일시 자릿수 정렬 전용). */
+
+.orderlog {
+  /* 표면 */
+  --ot-canvas: #f5f6fa;
+  --ot-surface: #ffffff;
+  --ot-surface-soft: #eef0f7;
+  --ot-ink: #10152a;
+  --ot-body: #4a5170;
+  --ot-mute: #8991ac;
+  --ot-hairline: #e2e5f0;
+  --ot-hairline-strong: #c6cbdd;
+
+  /* 액센트 */
+  --ot-accent: #3b54f5;
+  --ot-accent-soft: #e8eafe;
+  --ot-accent-deep: #2740c4;
+  --ot-on-accent: #ffffff;
+
+  /* 사이드바 (반전 표면) */
+  --ot-nav-bg: #0a0f22;
+  --ot-nav-surface: #141a34;
+  --ot-nav-fg: #eef0fa;
+  --ot-nav-mute: #7c86ac;
+  --ot-nav-border: #232a4c;
+
+  /* 상태 */
+  --ot-warn: #b4740e;
+  --ot-warn-soft: #fbeacb;
+  --ot-warn-deep: #8a5709;
+  --ot-success: #12875a;
+  --ot-success-soft: #dcf3e7;
+  --ot-success-deep: #0c6a44;
+  --ot-danger: #c22a3e;
+  --ot-danger-soft: #fbe0e4;
+  --ot-danger-deep: #971f30;
+
+  /* 차트 램프 — 액센트 단일 색조 명도 단계만 */
+  --ot-chart-1: #2740c4;
+  --ot-chart-2: #3b54f5;
+  --ot-chart-3: #7c8ef9;
+  --ot-chart-4: #aab6fb;
+  --ot-chart-5: #d6dbfc;
+  --ot-chart-rest: #e2e5f0;
+
+  /* 그림자 — 단일 두꺼운 drop-shadow 금지 */
+  --ot-shadow: 0 1px 1px rgba(16, 21, 42, 0.03), 0 2px 4px rgba(16, 21, 42, 0.04),
+    0 8px 16px rgba(16, 21, 42, 0.04);
+  --ot-shadow-pop: 0 2px 4px rgba(16, 21, 42, 0.05), 0 12px 24px rgba(16, 21, 42, 0.1),
+    0 24px 48px rgba(16, 21, 42, 0.08);
+
+  background: var(--ot-canvas);
+  color: var(--ot-ink);
+  font-feature-settings: "tnum" 0;
+}
+
+/* 한글 어절 중간 줄바꿈 방지. 상속되므로 루트에만 건다. */
+.orderlog {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.ot-mono {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-feature-settings: "tnum";
+}
+
+.ot-enter {
+  animation: ot-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes ot-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 알림 미확인 상태의 실시간 점. 색이 아니라 맥동으로 "새 알림"을 전달한다. */
+.ot-live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.35;
+  animation: ot-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ot-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  70%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.orderlog ::selection {
+  background: var(--ot-accent);
+  color: var(--ot-on-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ot-enter,
+  .ot-live-dot::after {
+    animation: none;
+  }
+}

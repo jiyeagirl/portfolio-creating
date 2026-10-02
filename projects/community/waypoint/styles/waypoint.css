@@ -1,0 +1,171 @@
+/* Waypoint 토큰. design.md의 Tokens/팔레트 절을 그대로 옮겼다. 타이포는
+   CLAUDE.md 규칙에 따라 Pretendard로 고정한다(모노는 관리자 콘솔의 회원/거래
+   번호, 일시 정렬 전용). 관리자 콘솔(components/admin/)도 이 클래스를 그대로
+   상속해서 쓴다 — 별도 admin 토큰 세트를 만들지 않는다. */
+
+.waypoint {
+  --wp-canvas: #f6f7fa;
+  --wp-surface: #ffffff;
+  --wp-surface-soft: #eef1f6;
+  --wp-surface-sunken: #e9ebf1;
+  --wp-border: #e2e5ec;
+  --wp-border-strong: #cbd0db;
+
+  --wp-ink: #12141c;
+  --wp-body: #4b5162;
+  --wp-muted: #8b90a0;
+
+  /* 팔레트 구성 3 — 듀오톤 (CLAUDE.md `## Color`).
+     이 제품의 정체성은 "집과 직장, 두 지점 사이의 동선"이다. 액센트 하나로는
+     출발과 도착을 구분할 수 없어서 대등한 두 색을 둔다. 지도 위 핀, 동선 폴리라인의
+     그라디언트, 세그먼트 컨트롤이 전부 이 두 색의 관계로 읽힌다.
+     둘은 장식이 아니라 의미다 — 파랑=집(내 동네), 청록=직장(동선 반대편). */
+  --wp-accent: #3454d1; /* 집 / 내 동네 */
+  --wp-accent-soft: #e7ecfc;
+  --wp-accent-ink: #22348d;
+
+  --wp-accent-2: #0f8f8a; /* 직장 / 동선 반대편 */
+  --wp-accent-2-soft: #dff3f1;
+  --wp-accent-2-ink: #0a625e;
+
+  /* 지도 표면 — 라이브러리 없이 SVG로 직접 그린다(워크스페이스 차트 규칙과 동일). */
+  --wp-map-land: #eceef3;
+  --wp-map-block: #e0e4ec;
+  --wp-map-block-alt: #d7dce6;
+  --wp-map-road: #ffffff;
+  --wp-map-road-major: #fdfdfe;
+  --wp-map-water: #cfe0ee;
+  --wp-map-park: #dceada;
+
+  --wp-success: #17915f;
+  --wp-success-soft: #e4f5ec;
+  --wp-warn: #b9740e;
+  --wp-warn-soft: #fbeedc;
+  --wp-danger: #d93b31;
+  --wp-danger-soft: #fbe7e5;
+
+  /* 관리자 대시보드 차트 — 액센트 단일 색조의 명도 단계만, 새 색을 늘리지 않는다. */
+  --wp-chart-1: #22348d;
+  --wp-chart-2: #3454d1;
+  --wp-chart-3: #7d94e6;
+  --wp-chart-4: #b3c1f2;
+  --wp-chart-5: #dbe2f9;
+  --wp-chart-rest: #e2e5ec;
+
+  /* 그림자 — 단일 두꺼운 drop-shadow 금지. 미세한 스택. */
+  --wp-shadow: 0 1px 1px rgba(18, 20, 28, 0.02), 0 2px 4px rgba(18, 20, 28, 0.03),
+    0 8px 20px rgba(18, 20, 28, 0.05);
+  --wp-shadow-pop: 0 1px 1px rgba(18, 20, 28, 0.02), 0 8px 16px rgba(18, 20, 28, 0.06),
+    0 24px 48px rgba(18, 20, 28, 0.10);
+
+  background: var(--wp-canvas);
+  color: var(--wp-ink);
+  font-feature-settings: "tnum" 0;
+}
+
+/* 한글은 기본값에서 어절 중간이 끊긴다. keep-all 로 공백에서만 줄바꿈하고,
+   overflow-wrap 은 반드시 break-word 여야 한다 — anywhere 를 쓰면 keep-all 이
+   무력화된다. */
+.waypoint {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 관리자 콘솔의 회원 ID, 거래 번호, 일시 정렬 전용. 사용자 앱 본문에는 쓰지 않는다. */
+.wp-mono {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-feature-settings: "tnum";
+}
+
+/* 모션 — CLAUDE.md `## Motion`의 "스케일 복제 금지" 대응.
+   이전 값은 `420ms cubic-bezier(0.16, 1, 0.3, 1)` + `translateY(8px)`로, 워크스페이스
+   CSS 11개가 쓰는 것과 같은 계열이었다. A4는 지도가 홈이라 "화면이 떠오르는" 모션이
+   맞지 않는다 — 지도는 팬되고, 시트는 스냅되고, 핀은 떨어진다. 세 가지를 분리했다. */
+
+/* 진입: 지도는 이동하지 않는다. opacity + 아주 미세한 scale만. */
+.wp-enter {
+  animation: wp-enter 240ms cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+@keyframes wp-enter {
+  from {
+    opacity: 0;
+    transform: scale(1.012);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 시트 스냅: 3단(peek/half/full) 사이를 오갈 때. 진입(240ms)과 다른 곡선이라
+   "화면이 바뀐 것"이 아니라 "시트를 끌어올린 것"으로 읽힌다. */
+.wp-sheet {
+  transition: transform 340ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* 핀 낙하: 지도 위에 매물이 얹히는 순간. 인덱스별 stagger는 인라인 delay로 준다. */
+.wp-pin-drop {
+  animation: wp-pin-drop 300ms cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+@keyframes wp-pin-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 동선 폴리라인이 집에서 직장으로 그려지는 모션. 듀오톤 두 색을 잇는 그라디언트
+   스트로크라, 이 한 줄이 "출발 → 도착"이라는 제품 개념을 그대로 보여준다. */
+.wp-route-draw {
+  stroke-dasharray: 1000;
+  animation: wp-route-draw 1400ms cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+@keyframes wp-route-draw {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 현재 위치 맥동. 무한 루프 모션은 실제 상태를 뜻할 때만, 화면당 하나. */
+.wp-here {
+  animation: wp-here 2.4s ease-out infinite;
+}
+
+@keyframes wp-here {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+.waypoint ::selection {
+  background: var(--wp-accent);
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wp-enter,
+  .wp-pin-drop,
+  .wp-route-draw,
+  .wp-here {
+    animation: none;
+  }
+  .wp-sheet {
+    transition: none;
+  }
+}
