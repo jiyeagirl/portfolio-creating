@@ -1,0 +1,170 @@
+/* TeeFinder 토큰. 팔레트 구성 4(틴티드 뉴트럴, 그린 슬레이트). 값의 근거는 design.md Tokens 절. */
+
+.teefinder {
+  --tf-canvas: #f3f5f2;
+  --tf-surface: #ffffff;
+  --tf-soft: #e9eee8;
+  --tf-pressed: #dde4dc;
+  --tf-line: #dce2da;
+  --tf-line-soft: #e8ece6;
+
+  --tf-ink: #18231d;
+  --tf-ink-2: #46554b;
+  --tf-ink-3: #64736a;
+  --tf-disabled: #a3aea6;
+
+  --tf-brand: #23402f;
+  --tf-brand-press: #19301f;
+  --tf-on-brand: #ffffff;
+  --tf-focus: #1f5e96;
+
+  --tf-rail: #eaefe8;
+
+  /* 상태 5색: fg는 흰 바탕 AA, bg는 배지 바닥 */
+  --tf-green: #2f8a4d;
+  --tf-green-fg: #2a6b40;
+  --tf-green-bg: #e2f1e5;
+  --tf-orange: #d98a1c;
+  --tf-orange-fg: #8f5509;
+  --tf-orange-bg: #fbeacf;
+  --tf-red: #d24a3c;
+  --tf-red-fg: #a3342a;
+  --tf-red-bg: #fbe3df;
+  --tf-gray: #8b968e;
+  --tf-gray-fg: #4f5b53;
+  --tf-gray-bg: #e5e9e4;
+  --tf-blue: #2a73b5;
+  --tf-blue-fg: #1d5a94;
+  --tf-blue-bg: #dfedf9;
+
+  --tf-sheet-shadow: 0 1px 2px rgba(24, 35, 29, 0.06), 0 8px 24px rgba(24, 35, 29, 0.1);
+  --tf-ease: cubic-bezier(0.25, 0.8, 0.3, 1);
+
+  font-family: "Pretendard Variable", "Pretendard", -apple-system, sans-serif;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  font-variant-numeric: tabular-nums;
+  color: var(--tf-ink);
+  background: var(--tf-canvas);
+}
+
+.teefinder h1,
+.teefinder h2,
+.teefinder h3 {
+  text-wrap: balance;
+}
+
+.teefinder p {
+  text-wrap: pretty;
+}
+
+.teefinder input,
+.teefinder select,
+.teefinder textarea,
+.teefinder button {
+  font-family: inherit;
+}
+
+.teefinder :focus-visible {
+  outline: 2px solid var(--tf-focus);
+  outline-offset: 2px;
+}
+
+.teefinder .tf-mono {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-variant-numeric: normal;
+}
+
+.teefinder .tf-scroll-x {
+  scrollbar-width: none;
+}
+.teefinder .tf-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* 화면 진입: 페이드 + 12px 상승 */
+@keyframes tf-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.teefinder .tf-enter {
+  animation: tf-enter 280ms var(--tf-ease) both;
+}
+
+/* 푸시 배너 하강 */
+@keyframes tf-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.teefinder .tf-drop {
+  animation: tf-drop 320ms var(--tf-ease) both;
+}
+
+/* 하단 시트 상승 */
+@keyframes tf-rise {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.teefinder .tf-rise {
+  animation: tf-rise 320ms var(--tf-ease) both;
+}
+
+/* 관리자 우측 패널 */
+@keyframes tf-slide {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.teefinder .tf-slide {
+  animation: tf-slide 220ms var(--tf-ease) both;
+}
+
+/* 앱 눌림: 1px 하강 + 배경 톤 */
+.teefinder .tf-press {
+  transition: background-color 120ms linear, transform 120ms linear;
+}
+.teefinder .tf-press:active {
+  transform: translateY(1px);
+}
+
+/* 웹뷰 진행 막대 */
+.teefinder .tf-progress {
+  transition: width 900ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .teefinder .tf-enter,
+  .teefinder .tf-drop,
+  .teefinder .tf-rise,
+  .teefinder .tf-slide {
+    animation: none;
+  }
+  .teefinder .tf-press,
+  .teefinder .tf-progress {
+    transition: none;
+  }
+  .teefinder .tf-press:active {
+    transform: none;
+  }
+}
