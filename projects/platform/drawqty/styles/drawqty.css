@@ -1,0 +1,182 @@
+/* DrawQty 토큰. 팔레트 구성 4(틴티드 뉴트럴, 콜드 슬레이트). 값의 근거는 design.md Tokens 절. */
+
+.drawqty {
+  --dq-surface: #ffffff;
+  --dq-soft: #f3f5f8;
+  --dq-soft-2: #e8ecf1;
+  --dq-line: #dbe1e8;
+  --dq-line-strong: #c2cbd5;
+
+  --dq-ink: #16202b;
+  --dq-ink-2: #434f5c;
+  --dq-ink-3: #5b6773;
+  --dq-disabled: #9aa5b0;
+
+  --dq-brand: #1d3a57;
+  --dq-brand-press: #14293f;
+  --dq-on-brand: #ffffff;
+  --dq-focus: #2b6cb0;
+
+  /* 관리자 상단 바 전용 짙은 면. 본문은 흰색 */
+  --dq-bar: #17293b;
+  --dq-bar-hover: #20374d;
+  --dq-bar-active: #2a4660;
+  --dq-bar-line: #2d4258;
+  --dq-bar-ink: #e8eef4;
+  --dq-bar-ink-2: #a6b6c6;
+
+  --dq-paper: #fbfcfd;
+  --dq-grid: #d3dae2;
+  --dq-wall: #2a3642;
+
+  /* 상태 5색: fg는 흰 바탕 AA, bg는 배지 바닥, 본색은 도면 오버레이 */
+  --dq-green: #2f8f5b;
+  --dq-green-fg: #1f6a42;
+  --dq-green-bg: #e2f2e8;
+  --dq-orange: #d9861a;
+  --dq-orange-fg: #8c4f08;
+  --dq-orange-bg: #fcebd2;
+  --dq-blue: #2d73bf;
+  --dq-blue-fg: #1d5a99;
+  --dq-blue-bg: #e0edfa;
+  --dq-red: #cc4a3d;
+  --dq-red-fg: #a1352b;
+  --dq-red-bg: #fbe5e2;
+  --dq-gray: #8794a1;
+  --dq-gray-fg: #4c5864;
+  --dq-gray-bg: #e8ecf0;
+
+  --dq-pop-shadow: 0 1px 2px rgba(22, 32, 43, 0.06), 0 8px 24px rgba(22, 32, 43, 0.1);
+  --dq-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  font-family: "Pretendard Variable", "Pretendard", -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  font-variant-numeric: tabular-nums;
+  color: var(--dq-ink);
+  background: var(--dq-surface);
+}
+
+.drawqty h1,
+.drawqty h2,
+.drawqty h3 {
+  text-wrap: balance;
+}
+
+.drawqty p {
+  text-wrap: pretty;
+}
+
+.drawqty input,
+.drawqty select,
+.drawqty textarea,
+.drawqty button {
+  font-family: inherit;
+}
+
+.drawqty :focus-visible {
+  outline: 2px solid var(--dq-focus);
+  outline-offset: 2px;
+}
+
+.drawqty .dq-mono {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-variant-numeric: normal;
+}
+
+.drawqty .dq-scroll-x {
+  scrollbar-width: none;
+}
+.drawqty .dq-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* 관리자 본문 13px / 19px */
+.drawqty.dq-admin {
+  font-size: 13px;
+  line-height: 19px;
+}
+
+/* 단계 전환과 화면 진입: 페이드 + 16px 상승 */
+@keyframes dq-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.drawqty .dq-enter {
+  animation: dq-enter 220ms var(--dq-ease) both;
+}
+
+/* 관리자 우측 패널 */
+@keyframes dq-slide {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.drawqty .dq-slide {
+  animation: dq-slide 200ms var(--dq-ease) both;
+}
+
+/* 토스트 */
+@keyframes dq-toast {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.drawqty .dq-toast {
+  animation: dq-toast 200ms var(--dq-ease) both;
+}
+
+/* 버튼 눌림: scale(0.98) */
+.drawqty .dq-press {
+  transition:
+    background-color 120ms linear,
+    border-color 120ms linear,
+    transform 120ms linear;
+}
+.drawqty .dq-press:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* 분석 진행 막대는 선형 */
+.drawqty .dq-progress {
+  transition: width 900ms linear;
+}
+
+/* 도면 오버레이 구간 하이라이트 */
+.drawqty .dq-seg {
+  transition: opacity 160ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawqty .dq-enter,
+  .drawqty .dq-slide,
+  .drawqty .dq-toast {
+    animation: none;
+  }
+  .drawqty .dq-press,
+  .drawqty .dq-progress,
+  .drawqty .dq-seg {
+    transition: none;
+  }
+  .drawqty .dq-press:active:not(:disabled) {
+    transform: none;
+  }
+}
