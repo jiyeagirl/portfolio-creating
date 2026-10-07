@@ -7,45 +7,84 @@ import { useStore } from "@/projects/b2b/teefinder/lib/store";
 
 export function LoginScreen({ onSignup }: { onSignup: () => void }) {
   const { loginDemo } = useStore();
+  const [loginId, setLoginId] = useState("");
+  const [password, setPassword] = useState("");
+  const ready = loginId.trim() !== "" && password.length >= 4;
+
   return (
-    <div className="tf-enter flex h-full flex-col bg-[var(--tf-canvas)] px-5 pb-[48px] pt-[120px]">
-      <div className="flex-1">
-        <p className="text-[32px] font-bold leading-[1.15] tracking-[-0.03em] text-[var(--tf-brand)]">
-          TeeFinder
+    <div className="tf-enter flex h-full flex-col bg-[var(--tf-canvas)] px-5 pb-[48px] pt-[96px]">
+      <p className="text-[28px] font-bold leading-[1.15] tracking-[-0.03em] text-[var(--tf-brand)]">TeeFinder</p>
+      <h1 className="mt-4 text-[24px] font-bold leading-[1.3] tracking-[-0.02em]">
+        골프장 빈자리를
+        <br />
+        한 곳에서 확인해요
+      </h1>
+
+      <form
+        className="mt-8 space-y-3"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (ready) loginDemo();
+        }}
+      >
+        <Field label="아이디" value={loginId} onChange={setLoginId} placeholder="아이디를 입력해 주세요" />
+        <Field
+          label="비밀번호"
+          value={password}
+          onChange={setPassword}
+          type="password"
+          placeholder="비밀번호를 입력해 주세요"
+        />
+        <div className="pt-2">
+          <PrimaryButton type="submit" disabled={!ready}>
+            로그인
+          </PrimaryButton>
+        </div>
+        <div className="flex items-center justify-center gap-1 text-[14px] text-[var(--tf-ink-3)]">
+          <button type="button" className="tf-press h-11 px-3">
+            아이디 찾기
+          </button>
+          <span className="h-3 w-px bg-[var(--tf-line)]" />
+          <button type="button" className="tf-press h-11 px-3">
+            비밀번호 재설정
+          </button>
+        </div>
+      </form>
+
+      <div className="mt-auto">
+        <div className="flex items-center gap-3 pb-4 text-[13px] text-[var(--tf-ink-3)]">
+          <span className="h-px flex-1 bg-[var(--tf-line)]" />
+          간편 로그인
+          <span className="h-px flex-1 bg-[var(--tf-line)]" />
+        </div>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={loginDemo}
+            className="tf-press flex h-[52px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#fee500] text-[15px] font-semibold text-[#191600] active:bg-[#f0d800]"
+          >
+            <ChatCircle size={22} weight="fill" />
+            카카오
+          </button>
+          <button
+            type="button"
+            onClick={loginDemo}
+            className="tf-press flex h-[52px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[var(--tf-ink)] text-[15px] font-semibold text-white active:bg-[#2c3a32]"
+          >
+            <AppleLogo size={22} weight="fill" />
+            Apple
+          </button>
+        </div>
+        <p className="mt-5 text-center text-[15px] text-[var(--tf-ink-2)]">
+          아직 회원이 아니신가요?
+          <button
+            type="button"
+            onClick={onSignup}
+            className="tf-press ml-1 h-11 px-2 font-semibold text-[var(--tf-brand)] underline underline-offset-4"
+          >
+            가입 신청
+          </button>
         </p>
-        <h1 className="mt-6 text-[26px] font-bold leading-[1.3] tracking-[-0.02em]">
-          골프장 빈자리를
-          <br />
-          한 곳에서 확인해요
-        </h1>
-        <p className="mt-3 text-[16px] leading-6 text-[var(--tf-ink-2)]">
-          회원권 회원 전용이에요. 승인 후 이용할 수 있어요.
-        </p>
-      </div>
-      <div className="space-y-3">
-        <button
-          type="button"
-          onClick={loginDemo}
-          className="tf-press flex h-[52px] w-full items-center justify-center gap-2 rounded-[14px] bg-[#fee500] text-[16px] font-semibold text-[#191600] active:bg-[#f0d800]"
-        >
-          <ChatCircle size={22} weight="fill" />
-          카카오로 로그인
-        </button>
-        <button
-          type="button"
-          onClick={loginDemo}
-          className="tf-press flex h-[52px] w-full items-center justify-center gap-2 rounded-[14px] bg-[var(--tf-ink)] text-[16px] font-semibold text-white active:bg-[#2c3a32]"
-        >
-          <AppleLogo size={22} weight="fill" />
-          Apple로 로그인
-        </button>
-        <button
-          type="button"
-          onClick={onSignup}
-          className="tf-press mx-auto flex h-11 items-center justify-center px-4 text-[15px] font-medium text-[var(--tf-ink-2)] underline underline-offset-4"
-        >
-          가입 신청하기
-        </button>
       </div>
     </div>
   );
@@ -56,6 +95,8 @@ export function SignupScreen({ onBack }: { onBack: () => void }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [membershipNo, setMembershipNo] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreeAccount, setAgreeAccount] = useState(false);
 
@@ -63,6 +104,8 @@ export function SignupScreen({ onBack }: { onBack: () => void }) {
     name.trim() !== "" &&
     phone.trim().length >= 10 &&
     membershipNo.trim() !== "" &&
+    password.length >= 8 &&
+    password === password2 &&
     agreeTerms &&
     agreeAccount;
 
@@ -91,6 +134,23 @@ export function SignupScreen({ onBack }: { onBack: () => void }) {
             value={membershipNo}
             onChange={setMembershipNo}
             placeholder="TF-0000-0000"
+            required
+          />
+          <Field
+            label="비밀번호"
+            value={password}
+            onChange={setPassword}
+            type="password"
+            placeholder="8자 이상"
+            required
+          />
+          <Field
+            label="비밀번호 확인"
+            value={password2}
+            onChange={setPassword2}
+            type="password"
+            placeholder="비밀번호를 한 번 더 입력해 주세요"
+            error={password2 !== "" && password !== password2 ? "비밀번호가 일치하지 않아요" : undefined}
             required
           />
           <div className="space-y-1 pt-2">
