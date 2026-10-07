@@ -1,0 +1,89 @@
+/* PartLoop 토큰. design-systems/apple_compact.md의 색, 반경, 컴포넌트 문법을 따르고
+   타입은 CLAUDE.md 규칙대로 Pretendard로 고정한다. 액센트는 primary 하나뿐이다. */
+
+.partloop {
+  --pl-paper: #ffffff;
+  --pl-parchment: #f5f5f7;
+  --pl-ink: #1d1d1f;
+  /* apple_compact의 ink-muted-48(#7a7a7a)은 흰 바탕 대비가 4.3:1이라 AA 미달이다. 한 단계 진하게 쓴다. */
+  --pl-mute: #6e6e73;
+  --pl-hairline: #e0e0e0;
+  --pl-hairline-strong: #d2d2d7;
+  --pl-tint: #f5f5f7;
+
+  --pl-primary: #0066cc;
+  --pl-primary-focus: #0071e3;
+  --pl-on-primary: #ffffff;
+  --pl-nav: #000000;
+  --pl-on-nav: #ffffff;
+  --pl-on-nav-muted: #cccccc;
+  --pl-tile: #272729;
+
+  /* 상태색: 파스텔 배경 + 짙은 글자. 의미는 모든 화면에서 같다. 브랜드 액센트와 별개의 기능색이다. */
+  --pl-wait-bg: #fcf0d0;
+  --pl-wait-fg: #7a5200;
+  --pl-neutral-bg: #ececf0;
+  --pl-neutral-fg: #48484a;
+  --pl-progress-bg: #e3eefa;
+  --pl-progress-fg: #0a4f99;
+  --pl-action-bg: #fde6e3;
+  --pl-action-fg: #a3281d;
+  --pl-done-bg: #e1f3e5;
+  --pl-done-fg: #1d6b35;
+
+  background: var(--pl-paper);
+  color: var(--pl-ink);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.016em;
+  /* 한글은 공백에서만 줄바꿈한다. anywhere는 keep-all을 무력화하므로 쓰지 않는다. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.pl-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 화면 진입: 상태 전환을 알리는 불투명도 변화 하나. */
+.pl-enter {
+  animation: pl-enter 200ms cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+
+@keyframes pl-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 눌림 피드백은 1px 내려앉는 것 하나로 고정한다. */
+.pl-press:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.partloop :focus-visible {
+  outline: 2px solid var(--pl-primary-focus);
+  outline-offset: 2px;
+}
+
+.partloop ::selection {
+  background: var(--pl-primary);
+  color: var(--pl-on-primary);
+}
+
+.partloop input[type="date"] {
+  font-family: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-enter {
+    animation: none;
+  }
+  .pl-press:active:not(:disabled) {
+    transform: none;
+  }
+}
