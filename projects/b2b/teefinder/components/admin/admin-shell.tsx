@@ -13,7 +13,7 @@ const NAV: Array<{ id: AdminScreenName; label: string; Icon: typeof UserPlus }> 
   { id: "push", label: "푸시 발송", Icon: PaperPlaneTilt },
 ];
 
-/* C2 라이트 워크벤치: 밝은 248px 레일, 56px 헤더, 풀블리드 본문. lg 미만에서는 레일 대신 가로 세그먼트. */
+/* C2 워크벤치: 다크 브랜드 248px 레일, 흰 56px 헤더, 흰 풀블리드 본문. lg 미만에서는 레일 대신 가로 세그먼트. */
 export function AdminShell({
   screen,
   onNavigate,
@@ -27,10 +27,10 @@ export function AdminShell({
   const pending = members.filter((m) => m.status === "승인 대기").length;
 
   return (
-    <div className="teefinder flex min-h-dvh bg-[var(--tf-canvas)] text-[var(--tf-ink)]">
-      <aside className="sticky top-0 hidden h-dvh w-[248px] shrink-0 flex-col border-r border-[var(--tf-line)] bg-[var(--tf-rail)] lg:flex">
+    <div className="teefinder flex min-h-dvh !bg-[var(--tf-surface)] text-[var(--tf-ink)]">
+      <aside className="sticky top-0 hidden h-dvh w-[248px] shrink-0 flex-col bg-[var(--tf-side)] text-[var(--tf-side-ink)] lg:flex">
         <div className="flex h-14 items-center gap-2.5 px-5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-[6px] bg-[var(--tf-brand)] text-white">
+          <span className="flex h-7 w-7 items-center justify-center rounded-[6px] bg-[var(--tf-side-active)] text-white">
             <Golf size={16} weight="fill" />
           </span>
           <span className="text-[15px] font-bold tracking-[-0.02em]">TeeFinder</span>
@@ -46,14 +46,14 @@ export function AdminShell({
                 aria-current={active ? "page" : undefined}
                 className={`flex h-10 items-center gap-3 rounded-[6px] px-3 text-[13.5px] transition-colors ${
                   active
-                    ? "bg-[var(--tf-surface)] font-semibold shadow-[0_1px_2px_rgba(24,35,29,0.06)]"
-                    : "font-medium text-[var(--tf-ink-2)] hover:bg-[var(--tf-soft)]"
+                    ? "bg-[var(--tf-side-active)] font-semibold text-white"
+                    : "font-medium text-[var(--tf-side-ink-2)] hover:bg-[var(--tf-side-hover)] hover:text-white"
                 }`}
               >
                 <Icon size={18} weight={active ? "fill" : "regular"} />
                 <span className="flex-1 text-left">{label}</span>
                 {id === "approvals" && pending > 0 && (
-                  <span className="rounded-[4px] bg-[var(--tf-orange-bg)] px-1.5 text-[12px] font-semibold tabular-nums text-[var(--tf-orange-fg)]">
+                  <span className="rounded-[4px] bg-[var(--tf-orange)] px-1.5 text-[12px] font-semibold tabular-nums text-[var(--tf-side)]">
                     {pending}
                   </span>
                 )}
@@ -64,14 +64,14 @@ export function AdminShell({
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-[var(--tf-line)] bg-[var(--tf-canvas)] px-5 lg:px-8">
+        <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-[var(--tf-line-soft)] bg-[var(--tf-surface)] px-5 lg:px-8">
           <p className="text-[13.5px] font-medium">A회원권 운영</p>
           <p className="text-[13px] text-[var(--tf-ink-3)]">운영팀 계정</p>
         </header>
 
         <nav
           aria-label="관리자 메뉴"
-          className="tf-scroll-x flex gap-1 overflow-x-auto border-b border-[var(--tf-line)] bg-[var(--tf-rail)] px-3 py-2 lg:hidden"
+          className="tf-scroll-x flex gap-1 overflow-x-auto bg-[var(--tf-side)] px-3 py-2 lg:hidden"
         >
           {NAV.map(({ id, label }) => (
             <button
@@ -80,7 +80,7 @@ export function AdminShell({
               onClick={() => onNavigate(id)}
               aria-current={screen === id ? "page" : undefined}
               className={`h-9 shrink-0 rounded-[6px] px-3 text-[13px] ${
-                screen === id ? "bg-[var(--tf-surface)] font-semibold" : "font-medium text-[var(--tf-ink-2)]"
+                screen === id ? "bg-[var(--tf-side-active)] font-semibold text-white" : "font-medium text-[var(--tf-side-ink-2)]"
               }`}
             >
               {label}

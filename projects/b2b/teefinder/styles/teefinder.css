@@ -19,6 +19,13 @@
   --tf-focus: #1f5e96;
 
   --tf-rail: #eaefe8;
+  /* 관리자 사이드바 전용 다크 면. 본문은 흰색 */
+  --tf-side: #17271f;
+  --tf-side-hover: #1f3328;
+  --tf-side-active: #26402f;
+  --tf-side-line: #2b4034;
+  --tf-side-ink: #e6ede8;
+  --tf-side-ink-2: #9db0a3;
 
   /* 상태 5색: fg는 흰 바탕 AA, bg는 배지 바닥 */
   --tf-green: #2f8a4d;
