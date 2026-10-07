@@ -1,0 +1,55 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash scripts/scaffold.sh *)",
+      "Bash(npm run visual *)",
+      "Bash(npm run capture *)",
+      "Bash(open \"http://localhost:3000/platform/dressday\")",
+      "Bash(open \"http://localhost:3000/platform/dressday?view=mobile\")",
+      "Bash(open \"http://localhost:3000/platform/dressday-admin\")",
+      "Bash(command grep -n \"revert-layer\" projects/platform/dressday/styles/dressday.css)",
+      "Bash(command grep -rln \"^\\\\s*\\\\*\\\\s*{\\\\|^\\\\s*\\\\*,\\\\|border-color\" projects/*/*/styles/*.css)",
+      "Bash(open \"http://localhost:3000/community/locly?screen=community\")",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git rm *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-write-skill-gate.mjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-edit-check.mjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/stop-visual-gate.mjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
