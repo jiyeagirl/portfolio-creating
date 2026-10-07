@@ -15,6 +15,7 @@ import {
   Row,
   Segmented,
   Select,
+  SpecBand,
   SpecCell,
   Table,
 } from "@/projects/b2b/logisync/components/ui";
@@ -33,7 +34,6 @@ const CENTER_OPTIONS = [ALL_CENTERS, ...CENTERS.map((c) => `${c.id} ${c.name}`)]
 const PARTNER_OPTIONS = [ALL_PARTNERS, ...Array.from(new Set(SETTLEMENTS.map((s) => s.partner)))];
 
 const won = (n: number) => `₩${fmt(n)}`;
-const man = (n: number) => fmt(Math.round(n / 10_000));
 const extrasOf = (s: Settlement) => s.extras.reduce((a, e) => a + e.amount, 0);
 const totalOf = (s: Settlement) => s.base + extrasOf(s);
 
@@ -72,15 +72,13 @@ export function SettlementScreen() {
   return (
     <div className="space-y-8">
       <PageHead
-        code="03 통합"
         title="물류비 자동 정산"
-        desc="수집된 입고 및 출고 데이터를 기준으로 물류비를 자동 산정하고, 기간별 정산 내역을 조회합니다."
         actions={
           <>
-            <Button variant="outline" icon="solar:tag-price-linear" onClick={() => setRateOpen(true)}>
+            <Button variant="outline" icon="tag" onClick={() => setRateOpen(true)}>
               단가 기준표
             </Button>
-            <Button variant="primary" icon="solar:calculator-linear" onClick={() => setRecalcAt("14:36")}>
+            <Button variant="primary" icon="calculator" onClick={() => setRecalcAt("14:36")}>
               {recalcAt ? `${recalcAt} 재산정 완료` : "물류비 산정 실행"}
             </Button>
           </>
@@ -105,12 +103,11 @@ export function SettlementScreen() {
         </div>
       </div>
 
-      <Flow collected={Math.round(count * 1.037)} target={count} rates={rows.length} total={base + extras} settlements={rows.length} />
+      <Flow collected={Math.round(count * 1.037)} target={count} settlements={rows.length} />
 
-      <div className="grid grid-cols-2 gap-x-8 gap-y-8 lg:grid-cols-4">
-        <SpecCell label="총 물류비" value={man(base + extras)} unit="만원" sub={won(base + extras)} />
-        <SpecCell label="추가 비용" value={man(extras)} unit="만원" sub={base ? `${won(extras)} | 기본 대비 ${((extras / base) * 100).toFixed(1)}%` : "해당 없음"} />
-        <SpecCell label="정산 대상 건수" value={fmt(count)} unit="건" />
+      <SpecBand cols={3}>
+        <SpecCell label="총 물류비" value={fmt(base + extras)} unit="원" />
+        <SpecCell label="추가 비용" value={fmt(extras)} unit="원" sub={base ? `기본 물류비 대비 ${((extras / base) * 100).toFixed(1)}%` : "해당 없음"} />
         <SpecCell
           label="확정 정산"
           value={`${confirmed} / ${rows.length}`}
@@ -118,7 +115,7 @@ export function SettlementScreen() {
           sub={confirmed === rows.length && rows.length ? "전체 확정" : "미확정 포함"}
           subTone={confirmed === rows.length && rows.length ? "ok" : "info"}
         />
-      </div>
+      </SpecBand>
 
       <Panel
         title="정산 내역"
@@ -183,50 +180,21 @@ export function SettlementScreen() {
   );
 }
 
-function Flow({
-  collected,
-  target,
-  rates,
-  total,
-  settlements,
-}: {
-  collected: number;
-  target: number;
-  rates: number;
-  total: number;
-  settlements: number;
-}) {
+function Flow({ collected, target, settlements }: { collected: number; target: number; settlements: number }) {
   const steps = [
-    { icon: "solar:inbox-in-linear", label: "입출고 데이터 수집 (건)", value: fmt(collected) },
-    { icon: "solar:filter-linear", label: "정산 대상 집계 (건)", value: fmt(target) },
-    { icon: "solar:tag-price-linear", label: "단가 적용 (건)", value: String(rates) },
-    { icon: "solar:calculator-linear", label: "물류비 자동 산정 (원)", value: fmt(total) },
-    { icon: "solar:document-text-linear", label: "정산 내역 조회 (건)", value: String(settlements) },
+    { label: "입출고 데이터 수집 (건)", value: fmt(collected) },
+    { label: "정산 대상 집계 (건)", value: fmt(target) },
+    { label: "정산 내역 (건)", value: String(settlements) },
   ];
   return (
-    <ol className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-      {steps.map((s, i) => (
-        <li
-          key={s.label}
-          className="ls-stagger relative flex items-center gap-3 rounded-2xl bg-[var(--ls-surface)] px-4 py-4 shadow-[var(--ls-shadow)]"
-          style={{ "--i": i } as React.CSSProperties}
-        >
-          <span
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
-              i === 3 ? "bg-[var(--ls-primary-soft)] text-[var(--ls-primary)]" : "bg-[var(--ls-canvas)] text-[var(--ls-body-strong)]"
-            }`}
-          >
-            <I icon={s.icon} size={18} />
+    <ol className="flex flex-wrap items-center gap-x-4 gap-y-2 border-y border-[var(--ls-hairline-soft)] py-3 text-[13px]">
+      {steps.map((st, i) => (
+        <li key={st.label} className="flex items-center gap-4">
+          <span className="flex items-baseline gap-2">
+            <span className="text-[var(--ls-body)]">{st.label}</span>
+            <span className="ls-num font-semibold text-[var(--ls-ink)]">{st.value}</span>
           </span>
-          <span className="min-w-0">
-            <span className="ls-num block text-[11px] text-[var(--ls-muted)]">
-              {String(i + 1).padStart(2, "0")} {s.label}
-            </span>
-            <span className="ls-figure mt-0.5 block truncate text-[16px] text-[var(--ls-ink)]">{s.value}</span>
-          </span>
-          {i < steps.length - 1 && (
-            <I icon="solar:alt-arrow-right-linear" size={16} className="absolute -right-[14px] z-10 hidden text-[var(--ls-disabled)] xl:block" />
-          )}
+          {i < steps.length - 1 && <I icon="caret-right" size={14} className="text-[var(--ls-disabled)]" />}
         </li>
       ))}
     </ol>
@@ -294,18 +262,18 @@ function SettlementDetail({ s, onAdvance }: { s: Settlement; onAdvance: () => vo
           </ol>
           <div className="mt-4">
             {s.status === "예정" && (
-              <Button variant="secondary" icon="solar:clipboard-check-linear" onClick={onAdvance} full>
+              <Button variant="secondary" icon="list-checks" onClick={onAdvance} full>
                 검토 요청
               </Button>
             )}
             {s.status === "검토" && (
-              <Button variant="primary" icon="solar:lock-keyhole-minimalistic-linear" onClick={onAdvance} full>
+              <Button variant="primary" icon="lock-key" onClick={onAdvance} full>
                 정산 확정
               </Button>
             )}
             {s.status === "확정" && (
               <p className="flex items-center gap-2 rounded-xl bg-[var(--ls-ok-bg)] px-4 py-3 text-[12px] text-[var(--ls-ok-fg)]">
-                <I icon="solar:lock-keyhole-minimalistic-linear" size={16} />
+                <I icon="lock-key" size={16} />
                 {s.confirmedAt} 확정. 이 기간의 데이터 기준으로 금액이 보존됩니다.
               </p>
             )}
@@ -322,7 +290,7 @@ function SettlementDetail({ s, onAdvance }: { s: Settlement; onAdvance: () => vo
           </span>
         }
       >
-        <Table head={["통합 ID", "상품", `${s.basis} (${s.basisUnit})`, "원천 수집 시점", "금액 (원)"]} align={["left", "left", "right", "left", "right"]} minWidth={640}>
+        <Table head={["통합 ID", "상품", "원천 수집 시점", "금액 (원)"]} align={["left", "left", "left", "right"]} minWidth={520}>
           {s.lines.map((l) => (
             <Row key={l.unifiedId}>
               <Cell>
@@ -330,17 +298,13 @@ function SettlementDetail({ s, onAdvance }: { s: Settlement; onAdvance: () => vo
                 <p className="mt-0.5 text-[12px] text-[var(--ls-muted)]">{l.movement}</p>
               </Cell>
               <Cell>
-                <p className="max-w-[180px] truncate text-[var(--ls-ink)]">{l.product}</p>
+                <p className="max-w-[170px] truncate text-[var(--ls-ink)]">{l.product}</p>
                 <p className="ls-num mt-0.5 text-[12px] text-[var(--ls-muted)]">
                   {fmt(l.qty)} {l.unit} | {fmt(l.weightKg)}kg
                 </p>
               </Cell>
-              <Cell align="right">
-                <span className="ls-num">{fmt(l.basisValue)}</span>
-              </Cell>
               <Cell>
-                <CenterTag id={s.centerId} withName={false} />
-                <p className="ls-num mt-1 text-[12px] text-[var(--ls-muted)]">2026.{l.collectedAt}</p>
+                <span className="ls-num whitespace-nowrap text-[12px] text-[var(--ls-body)]">{l.collectedAt}</span>
               </Cell>
               <Cell align="right">
                 <span className="ls-num font-semibold text-[var(--ls-ink)]">{fmt(l.amount)}</span>
@@ -350,7 +314,7 @@ function SettlementDetail({ s, onAdvance }: { s: Settlement; onAdvance: () => vo
         </Table>
         <div className="flex flex-wrap items-center justify-between gap-3 bg-[var(--ls-canvas)] px-6 py-4 text-[12px]">
           <span className="flex items-center gap-2 text-[var(--ls-body)]">
-            <I icon="solar:routing-2-linear" size={16} />
+            <I icon="path" size={16} />
             원천 센터 {c.name} | {c.system} | 모든 레코드에 수집 시점 보존
           </span>
           <Code className="text-[11px]">{s.basis} × {won(s.rate)}</Code>

@@ -12,6 +12,8 @@ import {
   KeyValue,
   MiniBars,
   PageHead,
+  SpecBand,
+  SpecCell,
   Panel,
   Photo,
   Row,
@@ -19,16 +21,17 @@ import {
   Table,
   Toggle,
 } from "@/projects/b2b/logisync/components/ui";
+import type { IconName } from "@/projects/b2b/logisync/lib/icons";
 import { CENTERS, HOUR_LABELS, INGEST_RUNS, PIPELINE } from "@/projects/b2b/logisync/lib/mock-data";
 import { LINK_TONE, fmt, type View } from "@/projects/b2b/logisync/lib/navigation";
 import type { Center, IngestRun, Tone } from "@/projects/b2b/logisync/lib/types";
 
 const RUN_TONE: Record<IngestRun["status"], Tone> = { 완료: "ok", "진행 중": "info", 지연: "warn", 실패: "danger" };
 
-const METHOD_ICON: Record<Center["method"], string> = {
-  API: "solar:code-square-linear",
-  DB: "solar:database-linear",
-  파일: "solar:file-text-linear",
+const METHOD_ICON: Record<Center["method"], IconName> = {
+  API: "code",
+  DB: "database",
+  파일: "file-text",
 };
 
 export function IngestScreen({ onNavigate }: { onNavigate: (v: View) => void }) {
@@ -38,16 +41,13 @@ export function IngestScreen({ onNavigate }: { onNavigate: (v: View) => void }) 
   return (
     <div className="space-y-10">
       <PageHead
-        code="01 수집"
         title="데이터 수집 및 연계"
-        oneLine
-        desc="센터마다 다른 WMS와 작업 시스템을 각자의 방식으로 연결하고, 모든 레코드에 원천 시스템과 수집 시점을 함께 기록합니다."
         actions={
           <>
-            <Button variant="outline" icon="solar:monitor-linear" onClick={() => onNavigate("monitor")}>
+            <Button variant="outline" icon="monitor" onClick={() => onNavigate("monitor")}>
               상태 모니터링
             </Button>
-            <Button variant="primary" icon="solar:add-square-linear">
+            <Button variant="primary" icon="plus">
               센터 연계 추가
             </Button>
           </>
@@ -62,7 +62,7 @@ export function IngestScreen({ onNavigate }: { onNavigate: (v: View) => void }) 
             <h2 className="text-[20px] font-medium leading-7 text-[var(--ls-ink)]">센터별 연계</h2>
           </div>
           <p className="hidden items-center gap-1.5 text-[12px] text-[var(--ls-muted)] sm:flex">
-            <I icon="solar:chart-2-linear" size={14} />
+            <I icon="chart-line" size={14} />
             최근 12시간 시간대별 수집 건수
           </p>
         </div>
@@ -79,7 +79,7 @@ export function IngestScreen({ onNavigate }: { onNavigate: (v: View) => void }) 
         </div>
       </div>
 
-      <Panel title="최근 수집 이력" flush action={<Button size="sm" variant="ghost" icon="solar:history-linear">전체 이력</Button>}>
+      <Panel title="최근 수집 이력" flush action={<Button size="sm" variant="ghost" icon="clock-counter-clockwise">전체 이력</Button>}>
         <Table
           head={["배치 ID", "센터", "데이터", "시작", "수집 건수", "소요", "상태"]}
           align={["left", "left", "left", "left", "right", "right", "left"]}
@@ -127,7 +127,7 @@ function Pipeline() {
   const hidden = SOURCES_SORTED.length - SOURCES_FOLDED;
 
   return (
-    <div className="grid gap-3 lg:grid-cols-[minmax(0,1.4fr)_repeat(4,minmax(0,1fr))]">
+    <div className="grid gap-3 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,4fr)]">
       <div className="rounded-2xl bg-[var(--ls-surface)] px-5 py-4 shadow-[var(--ls-shadow)]">
         <div className="flex items-center justify-between">
           <p className="ls-eyebrow text-[var(--ls-muted)]">연계 센터 {CENTERS.length}</p>
@@ -138,7 +138,7 @@ function Pipeline() {
             className="flex items-center gap-0.5 text-[12px] text-[var(--ls-body)] transition-colors hover:text-[var(--ls-ink)]"
           >
             {expanded ? "접기" : `${hidden}개 더 보기`}
-            <I icon={expanded ? "solar:alt-arrow-up-linear" : "solar:alt-arrow-down-linear"} size={14} />
+            <I icon={expanded ? "caret-up" : "caret-down"} size={14} />
           </button>
         </div>
         <ul className="mt-3 space-y-2">
@@ -157,23 +157,11 @@ function Pipeline() {
           ))}
         </ul>
       </div>
-      {PIPELINE.map((p, i) => (
-        <div key={p.code} className="relative flex flex-col gap-2 rounded-2xl bg-[var(--ls-surface)] px-5 py-4 shadow-[var(--ls-shadow)]">
-          <div className="flex items-center justify-between">
-            <p className="ls-eyebrow text-[var(--ls-muted)]">
-              {String(i + 1).padStart(2, "0")}
-            </p>
-            {i < PIPELINE.length - 1 && <I icon="solar:alt-arrow-right-linear" size={16} className="text-[var(--ls-disabled)]" />}
-          </div>
-          <div>
-            <p className="text-[13px] text-[var(--ls-body-strong)]">{p.label} (건)</p>
-            <p className="ls-figure mt-1 whitespace-nowrap text-[26px] leading-8 text-[var(--ls-ink)]">{fmt(p.value)}</p>
-            <p className="mt-2 truncate text-[12px] leading-[18px] text-[var(--ls-body)]" title={p.note}>
-              {p.note}
-            </p>
-          </div>
-        </div>
-      ))}
+      <SpecBand cols={4}>
+        {PIPELINE.map((p) => (
+          <SpecCell key={p.code} label={p.label} unit="건" value={fmt(p.value)} sub={p.note} />
+        ))}
+      </SpecBand>
     </div>
   );
 }
@@ -209,7 +197,7 @@ function CenterCard({
 
         {c.statusNote && (
           <p className="mt-3 flex items-start gap-2 text-[12px] leading-[18px]" style={{ color: tone === "danger" ? "var(--ls-danger-fg)" : "var(--ls-warn-fg)" }}>
-            <I icon="solar:danger-triangle-linear" size={14} className="mt-0.5" />
+            <I icon="warning" size={14} className="mt-0.5" />
             {c.statusNote}
           </p>
         )}
@@ -251,10 +239,10 @@ function CenterCard({
         </div>
 
         <div className="mt-5 flex gap-2 pt-1">
-          <Button size="sm" variant={requested ? "ghost" : "secondary"} icon={requested ? "solar:check-circle-linear" : "solar:refresh-linear"} onClick={onRequest} disabled={requested}>
+          <Button size="sm" variant={requested ? "ghost" : "secondary"} icon={requested ? "check-circle" : "arrows-clockwise"} onClick={onRequest} disabled={requested}>
             {requested ? "수집 요청됨" : "수동 수집"}
           </Button>
-          <Button size="sm" variant="ghost" icon="solar:settings-linear" onClick={onEdit}>
+          <Button size="sm" variant="ghost" icon="gear-six" onClick={onEdit}>
             연계 설정
           </Button>
         </div>

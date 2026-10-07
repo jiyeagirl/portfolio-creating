@@ -1,17 +1,14 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Dot, I, toneColor } from "@/projects/b2b/logisync/components/ui";
+import { Dot, I } from "@/projects/b2b/logisync/components/ui";
 import { LAST_SYNC, NOW_LABEL, OPERATOR } from "@/projects/b2b/logisync/lib/mock-data";
 import { SECTIONS, sectionOf, viewLabel, type View } from "@/projects/b2b/logisync/lib/navigation";
 
-/* 셸 아키타입 C4: 아이콘 레일 + 섹션 리스트 (3-column). ARCHETYPES.md 참조.
-   섹션은 파이프라인 단계(수집 → 검증 → 통합 → 활용)다.
-
-   쓰지 않는 부품: 236px 라벨 레일, 전폭 h-14 헤더, 264px 모바일 드로어,
-   max-w-[1400px], 헤더 우측 벽시계. 모바일은 하단 아이콘 바 + 가로 세그먼트로 접는다.
-   엣지 고정 바에는 backdrop-blur를 쓰지 않고 불투명 표면만 쓴다.
-   어두운 면은 아이콘 레일 하나(.ls-dark)뿐이고, 나머지는 선 대신 면의 명도 차로 나눈다. */
+/* 셸: 아이콘과 이름이 함께 나오는 248px 단일 사이드바 + 본문 컬럼 위에만 얹는 헤더.
+   메뉴는 파이프라인 단계(수집, 검증, 통합, 활용)로 묶는다. 어두운 면은 사이드바 하나(.ls-dark)뿐이다.
+   쓰지 않는 부품: 전폭 h-14 헤더, 264px 모바일 드로어, max-w-[1400px], 헤더 우측 벽시계.
+   모바일은 하단 아이콘 바 + 가로 세그먼트로 접는다. 엣지 고정 바에는 backdrop-blur 없이 불투명 표면만 쓴다. */
 
 export function Shell({
   view,
@@ -26,88 +23,54 @@ export function Shell({
 
   return (
     <div className="logisync flex min-h-dvh">
-      {/* 1열: 64px 아이콘 레일 */}
-      <nav
-        aria-label="파이프라인 단계"
-        className="ls-dark sticky top-0 hidden h-dvh w-16 shrink-0 flex-col items-center bg-[var(--ls-canvas)] py-4 lg:flex"
+      {/* 사이드바: 파이프라인 단계별로 묶고, 모든 화면을 아이콘과 이름으로 나열한다 */}
+      <aside
+        aria-label="주 메뉴"
+        className="ls-dark sticky top-0 hidden h-dvh w-[248px] shrink-0 flex-col overflow-y-auto bg-[var(--ls-canvas)] px-3 py-5 lg:flex"
       >
-        <BrandMark />
-        <ul className="mt-8 flex flex-1 flex-col items-center gap-1">
-          {SECTIONS.map((s, i) => {
-            const on = s.key === section.key;
-            return (
-              <li key={s.key} className="flex flex-col items-center">
-                {i > 0 && <span aria-hidden className="mb-1 h-3 w-px bg-[var(--ls-elevated)]" />}
-                <button
-                  type="button"
-                  onClick={() => onNavigate(s.views[0].key)}
-                  title={`${s.step} ${s.label}`}
-                  aria-label={`${s.step} ${s.label}`}
-                  aria-current={on ? "page" : undefined}
-                  className={`ls-swap flex h-11 w-11 items-center justify-center rounded-xl ${
-                    on ? "bg-[var(--ls-ink)] text-[var(--ls-canvas)]" : "text-[var(--ls-muted)] hover:bg-[var(--ls-elevated)] hover:text-[var(--ls-ink)]"
-                  }`}
-                >
-                  <I icon={on ? s.icon.replace("-linear", "-bold") : s.icon} size={20} />
-                </button>
-                <span aria-hidden className="ls-num mt-1 text-[9px] font-semibold leading-3 text-[var(--ls-disabled)]">
-                  {s.step}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
-        <button
-          type="button"
-          aria-label="환경 설정"
-          title="환경 설정"
-          className="ls-swap flex h-11 w-11 items-center justify-center rounded-xl text-[var(--ls-muted)] hover:bg-[var(--ls-elevated)]"
-        >
-          <I icon="solar:settings-linear" size={20} />
-        </button>
-      </nav>
-
-      {/* 2열: 섹션 리스트 + 섹션 고유 요약 */}
-      <aside className="sticky top-0 hidden h-dvh w-[240px] shrink-0 flex-col bg-[var(--ls-surface)] lg:flex">
-        <div className="flex h-16 items-center px-5">
-          <p className="text-[15px] font-bold tracking-[0.2px] text-[var(--ls-ink)]">LogiSync</p>
+        <div className="flex items-center gap-2.5 px-3 pb-6">
+          <BrandMark small />
+          <p className="text-[15px] font-bold text-[var(--ls-ink)]">LogiSync</p>
         </div>
 
-        <div className="px-5 pb-3 pt-4">
-          <p className="ls-num text-[12px] font-semibold text-[var(--ls-muted)]">{section.step}</p>
-          <h2 className="mt-1 text-[19px] font-bold leading-[26px] text-[var(--ls-ink)]">{section.label}</h2>
-        </div>
+        <nav className="flex flex-col gap-6">
+          {SECTIONS.map((s) => (
+            <div key={s.key}>
+              <p className="px-3 text-[12px] font-semibold text-[var(--ls-muted)]">{s.label}</p>
+              <ul className="mt-1.5 space-y-0.5">
+                {s.views.map((v) => {
+                  const on = v.key === view;
+                  return (
+                    <li key={v.key}>
+                      <button
+                        type="button"
+                        onClick={() => onNavigate(v.key)}
+                        aria-current={on ? "page" : undefined}
+                        className={`ls-swap flex w-full items-center gap-3 rounded-[10px] px-3 py-2.5 text-left text-[14px] leading-5 ${
+                          on
+                            ? "bg-[var(--ls-elevated)] font-semibold text-[var(--ls-ink)]"
+                            : "text-[var(--ls-body)] hover:bg-[var(--ls-pressed)] hover:text-[var(--ls-ink)]"
+                        }`}
+                      >
+                        <I icon={v.icon} size={18} weight={on ? "fill" : "regular"} />
+                        <span className="min-w-0 truncate">{v.label}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </nav>
 
-        <ul className="flex-1 space-y-0.5 px-3">
-          {section.views.map((v) => {
-            const on = v.key === view;
-            return (
-              <li key={v.key}>
-                <button
-                  type="button"
-                  onClick={() => onNavigate(v.key)}
-                  aria-current={on ? "page" : undefined}
-                  className={`ls-swap relative w-full rounded-xl px-3 py-2.5 text-left ${
-                    on ? "bg-[var(--ls-canvas)]" : "hover:bg-[var(--ls-canvas)]"
-                  }`}
-                >
-                  <span className={`block text-[14px] leading-5 ${on ? "font-bold text-[var(--ls-ink)]" : "text-[var(--ls-body-strong)]"}`}>
-                    {v.label}
-                  </span>
-                  <span className="mt-0.5 block text-[12px] leading-4 text-[var(--ls-muted)]">{v.hint}</span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-
-        <div className="m-3 rounded-2xl bg-[var(--ls-canvas)] p-4">
-          <p className="text-[12px] text-[var(--ls-muted)]">{section.summary.label}</p>
-          <p className="ls-figure mt-1 text-[28px] leading-9 text-[var(--ls-ink)]">{section.summary.value}</p>
-          <p className="mt-1 flex items-center gap-2 text-[12px]" style={{ color: section.summary.tone === "neutral" ? "var(--ls-body)" : toneColor(section.summary.tone) }}>
-            {section.summary.tone !== "neutral" && <Dot tone={section.summary.tone} size={6} />}
-            {section.summary.sub}
-          </p>
+        <div className="mt-auto pt-6">
+          <button
+            type="button"
+            className="ls-swap flex w-full items-center gap-3 rounded-[10px] px-3 py-2.5 text-left text-[14px] text-[var(--ls-body)] hover:bg-[var(--ls-pressed)] hover:text-[var(--ls-ink)]"
+          >
+            <I icon="gear-six" size={18} />
+            환경 설정
+          </button>
         </div>
       </aside>
 
@@ -124,7 +87,7 @@ export function Shell({
           </p>
 
           <label className="relative ml-auto hidden h-10 w-[320px] items-center xl:flex">
-            <I icon="solar:magnifer-linear" size={16} className="pointer-events-none absolute left-3 text-[var(--ls-muted)]" />
+            <I icon="magnifying-glass" size={16} className="pointer-events-none absolute left-3 text-[var(--ls-muted)]" />
             <input
               placeholder="통합 ID, 상품코드, 원천 문서번호 검색"
               className="h-full w-full rounded-xl bg-[var(--ls-surface)] pl-9 pr-12 text-[13px] text-[var(--ls-ink)] shadow-[var(--ls-shadow)] outline-none placeholder:text-[var(--ls-muted)]"
@@ -139,7 +102,7 @@ export function Shell({
           </span>
 
           <button type="button" aria-label="알림 3건" className="ls-swap relative ml-auto flex h-10 w-10 items-center justify-center rounded-xl text-[var(--ls-body-strong)] hover:bg-[var(--ls-elevated)] md:ml-0">
-            <I icon="solar:bell-linear" size={20} />
+            <I icon="bell" size={20} />
             <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[var(--ls-primary)]" />
           </button>
 
@@ -194,7 +157,7 @@ export function Shell({
               className={`relative flex flex-col items-center justify-center gap-0.5 ${on ? "text-[var(--ls-ink)]" : "text-[var(--ls-muted)]"}`}
             >
               {on && <span aria-hidden className="absolute inset-x-8 top-0 h-[3px] rounded-b-full bg-[var(--ls-primary)]" />}
-              <I icon={on ? s.icon.replace("-linear", "-bold") : s.icon} size={20} />
+              <I icon={s.icon} size={20} weight={on ? "fill" : "regular"} />
               <span className="text-[10px] font-semibold leading-3">{s.label}</span>
             </button>
           );

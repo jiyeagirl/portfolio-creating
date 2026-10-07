@@ -116,11 +116,10 @@
   }
 
   .ls-eyebrow {
-    font-size: 11px;
-    line-height: 15px;
+    font-size: 12px;
+    line-height: 16px;
     font-weight: 600;
-    letter-spacing: 1.1px;
-    text-transform: uppercase;
+    letter-spacing: 0;
   }
 
   .ls-noscroll {

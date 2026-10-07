@@ -35,15 +35,13 @@ export function StandardizeScreen() {
   return (
     <div className="space-y-8">
       <PageHead
-        code="03 통합"
         title="데이터 표준화 및 통합"
-        desc="센터마다 다른 상품코드, 상품명, 단위, 상태값을 하나의 기준으로 맞추고 공통 데이터 구조로 변환합니다."
         actions={
           <>
-            <Button variant="outline" icon="solar:upload-minimalistic-linear">
+            <Button variant="outline" icon="upload-simple">
               매핑 일괄 등록
             </Button>
-            <Button variant="primary" icon="solar:check-square-linear">
+            <Button variant="primary" icon="check-square">
               규칙 v3.15 배포
             </Button>
           </>
@@ -64,7 +62,7 @@ export function StandardizeScreen() {
                       <Photo id={m.photo} alt={m.name} w={88} h={88} sizes="44px" className="h-11 w-11 shrink-0 rounded-[10px]" />
                     ) : (
                       <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-[var(--ls-elevated)] text-[var(--ls-muted)]">
-                        <I icon="solar:box-linear" size={18} />
+                        <I icon="package" size={18} />
                       </span>
                     )}
                     <div className="min-w-0">
@@ -107,7 +105,7 @@ export function StandardizeScreen() {
         </Table>
       </Panel>
 
-      <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
         <SchemaCompare />
 
         <Panel
@@ -133,7 +131,7 @@ export function StandardizeScreen() {
                     <span className="ml-2 text-[var(--ls-muted)]">{r.domain}</span>
                   </span>
                   <span className="ls-code truncate text-[var(--ls-body-strong)]">{r.raw}</span>
-                  <I icon="solar:arrow-right-linear" size={14} className="text-[var(--ls-disabled)]" />
+                  <I icon="arrow-right" size={14} className="text-[var(--ls-disabled)]" />
                   <Badge tone={r.std.includes("보류") ? "warn" : "ok"} dot={false}>
                     {r.std}
                   </Badge>
@@ -152,7 +150,7 @@ export function StandardizeScreen() {
                         </Code>
                       ))}
                     </div>
-                    <I icon="solar:arrow-right-linear" size={14} className="text-[var(--ls-disabled)]" />
+                    <I icon="arrow-right" size={14} className="text-[var(--ls-disabled)]" />
                     <span className="ls-code w-10 text-[14px] font-bold text-[var(--ls-ink)]">{u.std}</span>
                   </div>
                   <p className="mt-1.5 text-[12px] text-[var(--ls-muted)]">{u.note}</p>
@@ -192,7 +190,7 @@ function Convergence({ mapping }: { mapping: Mapping }) {
         </ul>
       </div>
       <div className="flex items-center justify-center py-1 lg:py-0">
-        <I icon="solar:arrow-right-linear" size={28} className="rotate-90 text-[var(--ls-ink)] lg:rotate-0" />
+        <I icon="arrow-right" size={28} className="rotate-90 text-[var(--ls-ink)] lg:rotate-0" />
       </div>
       {/* 사진은 상품 식별용 썸네일로만 쓴다. 카드의 주인공은 표준 코드다. */}
       <div className="self-start rounded-2xl bg-[var(--ls-surface)] p-5 shadow-[var(--ls-shadow)]">

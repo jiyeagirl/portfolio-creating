@@ -10,6 +10,8 @@ import {
   I,
   MiniBars,
   PageHead,
+  SpecBand,
+  SpecCell,
   Panel,
   Photo,
   Segmented,
@@ -37,9 +39,7 @@ export function MonitorScreen() {
   return (
     <div className="space-y-8">
       <PageHead
-        code="01 수집"
         title="데이터 수집 상태 모니터링"
-        desc="물류센터별 연계 상태와 최근 수집 시각, 성공과 실패 건수를 나타냅니다."
         actions={
           <>
             <button
@@ -51,35 +51,19 @@ export function MonitorScreen() {
               <Dot tone={auto ? "ok" : "neutral"} live={auto} />
               {auto ? "10초마다 자동 갱신" : "자동 갱신 꺼짐"}
             </button>
-            <Button variant="primary" icon="solar:bell-bing-linear">
+            <Button variant="primary" icon="bell-ringing">
               알림 규칙
             </Button>
           </>
         }
       />
 
-      {/* 상태 요약: 카드 없이 숫자만. 상태 색은 숫자 자체에 준다. */}
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-[repeat(3,minmax(0,1fr))_repeat(2,minmax(0,1.5fr))]">
-        {(["정상", "지연", "장애"] as LinkStatus[]).map((s) => (
-          <div key={s} className="rounded-2xl bg-[var(--ls-surface)] p-5 shadow-[var(--ls-shadow)]">
-            <p className="flex items-center gap-2 text-[12px] text-[var(--ls-muted)]">
-              <Dot tone={LINK_TONE[s]} />
-              {s} (센터)
-            </p>
-            <p className="ls-figure mt-2 text-[32px] leading-10" style={{ color: s === "정상" ? "var(--ls-ink)" : toneColor(LINK_TONE[s]) }}>
-              {counts(s)}
-            </p>
-          </div>
-        ))}
-        <div className="rounded-2xl bg-[var(--ls-surface)] p-5 shadow-[var(--ls-shadow)]">
-          <p className="text-[12px] text-[var(--ls-muted)]">오늘 수집 성공 (건)</p>
-          <p className="ls-figure mt-2 text-[32px] leading-10 text-[var(--ls-ink)]">{fmt(totalSuccess)}</p>
-        </div>
-        <div className="rounded-2xl bg-[var(--ls-surface)] p-5 shadow-[var(--ls-shadow)]">
-          <p className="text-[12px] text-[var(--ls-muted)]">오늘 수집 실패 (건)</p>
-          <p className="ls-figure mt-2 text-[32px] leading-10 text-[var(--ls-danger-fg)]">{fmt(totalFail)}</p>
-        </div>
-      </div>
+      {/* 센터 상태 건수는 아래 탭이 맡는다. 여기는 수집 결과 두 값만 카드 없이 둔다. */}
+      <SpecBand cols={3}>
+        <SpecCell label="오늘 수집 성공" unit="건" value={fmt(totalSuccess)} />
+        <SpecCell label="오늘 수집 실패" unit="건" value={fmt(totalFail)} highlight />
+        <SpecCell label="수집 성공률" unit="%" value={((totalSuccess / (totalSuccess + totalFail)) * 100).toFixed(2)} />
+      </SpecBand>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Segmented
@@ -92,7 +76,6 @@ export function MonitorScreen() {
             { key: "정상", label: `정상 ${counts("정상")}` },
           ]}
         />
-        <p className="ls-num text-[12px] text-[var(--ls-muted)]">마지막 갱신 14:36:02</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -136,7 +119,7 @@ export function MonitorScreen() {
             {FAILURE_LOGS.map((f) => (
               <li key={f.id} className="flex gap-3">
                 <I
-                  icon={f.resolved ? "solar:check-circle-linear" : "solar:danger-circle-linear"}
+                  icon={f.resolved ? "check-circle" : "warning-circle"}
                   size={18}
                   className={f.resolved ? "text-[var(--ls-ok-fg)]" : "text-[var(--ls-danger-fg)]"}
                 />
@@ -216,7 +199,7 @@ function StatusTile({ center: c }: { center: Center }) {
 
       {alarm && (
         <div className="mt-5 flex gap-2">
-          <Button size="sm" variant="primary" icon="solar:restart-linear">
+          <Button size="sm" variant="primary" icon="arrow-counter-clockwise">
             재연결 시도
           </Button>
           <Button size="sm" variant="outline">

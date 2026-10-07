@@ -6,7 +6,6 @@ import {
   Button,
   CenterTag,
   Code,
-  I,
   PageHead,
   Pagination,
   Panel,
@@ -16,6 +15,7 @@ import {
   SearchInput,
   Segmented,
   Select,
+  SpecBand,
   SpecCell,
   Table,
   Tabs,
@@ -48,15 +48,11 @@ export function UnifiedScreen() {
   }, [move, center, query]);
 
   const selected = rows.find((r) => r.id === selectedId) ?? rows[0];
-  const inCount = UNIFIED.filter((r) => r.movement === "입고").length;
 
   return (
     <div className="space-y-8">
       <PageHead
-        code="03 통합"
         title="통합 물류 데이터"
-        oneLine
-        desc="물류센터의 입고 및 출고 데이터를 공통 스키마로 통합하여 조회하고, 원본 데이터까지 추적할 수 있도록 구축했습니다."
         actions={
           <>
             <Segmented
@@ -68,17 +64,17 @@ export function UnifiedScreen() {
                 { key: "30d", label: "30일" },
               ]}
             />
-            <Button icon="solar:download-minimalistic-linear">CSV 내보내기</Button>
+            <Button icon="download-simple">CSV 내보내기</Button>
           </>
         }
       />
 
-      <div className="grid grid-cols-2 gap-x-8 gap-y-8 lg:grid-cols-4">
+      <SpecBand cols={4}>
         <SpecCell label="통합 입고" value="59,176" unit="건" sub="어제 같은 시각 대비 +4.1%" />
         <SpecCell label="통합 출고" value="68,528" unit="건" sub="어제 같은 시각 대비 +2.7%" />
         <SpecCell label="통합 적재 레코드" value="127,704" unit="건" sub="원천 수신 128,612건 중 99.3%" />
-        <SpecCell label="원천 데이터 추적 가능" value="100" unit="%" />
-      </div>
+        <SpecCell label="표준화 보류 레코드" value="17" unit="건" />
+      </SpecBand>
 
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_400px]">
         <Panel flush>
@@ -87,9 +83,9 @@ export function UnifiedScreen() {
               value={move}
               onChange={setMove}
               items={[
-                { key: "all", label: "전체", count: UNIFIED.length },
-                { key: "입고", label: "입고", count: inCount },
-                { key: "출고", label: "출고", count: UNIFIED.length - inCount },
+                { key: "all", label: "전체", count: 127_704 },
+                { key: "입고", label: "입고", count: 59_176 },
+                { key: "출고", label: "출고", count: 68_528 },
               ]}
             />
             <div className="flex flex-col gap-2 pb-4 sm:flex-row">
@@ -148,7 +144,7 @@ export function UnifiedScreen() {
         {selected ? <TracePanel key={selected.id} record={selected} /> : <EmptyTrace />}
       </div>
 
-      <div className="grid items-start gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2">
         <CenterFlow />
         {selected && <ProductHistory std={selected.std} product={selected.product} />}
       </div>
@@ -262,10 +258,10 @@ function TracePanel({ record }: { record: UnifiedRecord }) {
       </ol>
 
       <div className="flex gap-2 bg-[var(--ls-canvas)] px-6 py-4">
-        <Button variant="outline" size="sm" icon="solar:document-text-linear">
+        <Button variant="outline" size="sm" icon="file-text">
           원본 파일 열기
         </Button>
-        <Button variant="ghost" size="sm" icon="solar:link-linear">
+        <Button variant="ghost" size="sm" icon="link">
           추적 링크 복사
         </Button>
       </div>
@@ -302,10 +298,6 @@ function CenterFlow() {
         <span className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-[var(--ls-chart-2)]" />
           출고
-        </span>
-        <span className="ml-auto flex items-center gap-1.5 text-[var(--ls-muted)]">
-          <I icon="solar:ranking-linear" size={14} />
-          합계 1위 센터만 레드로 표시
         </span>
       </div>
     </Panel>

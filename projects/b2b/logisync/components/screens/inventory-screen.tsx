@@ -14,21 +14,23 @@ import {
   Photo,
   Row,
   Segmented,
+  SpecBand,
   SpecCell,
   Sparkline,
   Table,
 } from "@/projects/b2b/logisync/components/ui";
+import type { IconName } from "@/projects/b2b/logisync/lib/icons";
 import { DAILY, INVENTORY, MAPPINGS, STOCK_EVENTS } from "@/projects/b2b/logisync/lib/mock-data";
 import { fmt } from "@/projects/b2b/logisync/lib/navigation";
 import type { InventoryRow, StockEvent, Tone } from "@/projects/b2b/logisync/lib/types";
 
 const PHOTO_BY_STD = Object.fromEntries(MAPPINGS.filter((m) => m.photo).map((m) => [m.std, m.photo as number]));
 
-const EVENT_ICON: Record<StockEvent["kind"], string> = {
-  입고: "solar:inbox-in-linear",
-  출고: "solar:inbox-out-linear",
-  조정: "solar:tuning-2-linear",
-  이동: "solar:transfer-horizontal-linear",
+const EVENT_ICON: Record<StockEvent["kind"], IconName> = {
+  입고: "tray-arrow-down",
+  출고: "tray-arrow-up",
+  조정: "sliders-horizontal",
+  이동: "arrows-left-right",
 };
 
 function health(r: InventoryRow): { tone: Tone; label: string } {
@@ -60,27 +62,25 @@ export function InventoryScreen() {
   return (
     <div className="space-y-8">
       <PageHead
-        code="03 통합"
         title="재고 현황 관리"
-        desc="표준 상품코드 기준으로 센터별 재고를 한 줄에 나타냅니다."
         actions={
           <>
-            <Button variant="outline" icon="solar:calendar-linear">
+            <Button variant="outline" icon="calendar-blank">
               04.02 ~ 04.15
             </Button>
-            <Button variant="primary" icon="solar:bell-bing-linear">
+            <Button variant="primary" icon="bell-ringing">
               부족 알림 설정
             </Button>
           </>
         }
       />
 
-      <div className="grid grid-cols-2 gap-x-8 gap-y-8 lg:grid-cols-4">
+      <SpecBand cols={4}>
         <SpecCell label="관리 표준 상품" value="4,812" unit="SKU" />
         <SpecCell label="오늘 재고 순변동" value="−9,352" unit="EA" sub="입고 59,176 | 출고 68,528" />
         <SpecCell label="안전재고 미달" value={String(short)} unit="건" sub="평택 원두, 용인 채소 믹스" subTone="danger" />
         <SpecCell label="이상 데이터" value={String(alerts - short)} unit="건" sub="음수 재고, 장시간 미갱신" subTone="warn" />
-      </div>
+      </SpecBand>
 
       <div className="grid items-start gap-6 2xl:grid-cols-[minmax(0,1fr)_380px]">
         <Panel flush>
@@ -116,7 +116,7 @@ export function InventoryScreen() {
                         <Photo id={photo} alt={r.product} w={80} h={80} sizes="40px" className="h-10 w-10 shrink-0 rounded-[10px]" />
                       ) : (
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-[var(--ls-elevated)] text-[var(--ls-muted)]">
-                          <I icon="solar:box-linear" size={16} />
+                          <I icon="package" size={16} />
                         </span>
                       )}
                       <div className="min-w-0">

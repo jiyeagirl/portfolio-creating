@@ -8,9 +8,9 @@
  */
 
 import Image from "next/image";
-import { Icon } from "@iconify/react";
 import { useId, useState } from "react";
 import { Toggle as SharedToggle } from "@/components/shared/toggle";
+import { ICONS, type IconName } from "@/projects/b2b/logisync/lib/icons";
 import { CENTER_BY_ID } from "@/projects/b2b/logisync/lib/mock-data";
 import { fmt } from "@/projects/b2b/logisync/lib/navigation";
 import { photoUrl } from "@/projects/b2b/logisync/lib/photos";
@@ -18,8 +18,19 @@ import type { CenterId, Tone } from "@/projects/b2b/logisync/lib/types";
 
 /* ── Icon ── */
 
-export function I({ icon, size = 16, className = "" }: { icon: string; size?: number; className?: string }) {
-  return <Icon icon={icon} width={size} height={size} className={`shrink-0 ${className}`} aria-hidden />;
+export function I({
+  icon,
+  size = 16,
+  className = "",
+  weight = "regular",
+}: {
+  icon: IconName;
+  size?: number;
+  className?: string;
+  weight?: "regular" | "fill";
+}) {
+  const Glyph = ICONS[icon];
+  return <Glyph size={size} weight={weight} className={`shrink-0 ${className}`} aria-hidden />;
 }
 
 /* ── Status ── */
@@ -80,7 +91,7 @@ export function Button({
   children?: React.ReactNode;
   variant?: "primary" | "secondary" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
-  icon?: string;
+  icon?: IconName;
   onClick?: () => void;
   full?: boolean;
   disabled?: boolean;
@@ -101,7 +112,7 @@ export function Button({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`ls-swap inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-[10px] font-bold leading-4 tracking-[0.2px] disabled:cursor-not-allowed disabled:opacity-40 ${variants[variant]} ${sizes[size]} ${full ? "w-full" : ""}`}
+      className={`ls-swap inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-[10px] font-bold leading-4 disabled:cursor-not-allowed disabled:opacity-40 ${variants[variant]} ${sizes[size]} ${full ? "w-full" : ""}`}
     >
       {icon && <I icon={icon} size={size === "sm" ? 14 : 16} />}
       {children}
@@ -109,7 +120,7 @@ export function Button({
   );
 }
 
-export function IconButton({ icon, label, onClick }: { icon: string; label: string; onClick?: () => void }) {
+export function IconButton({ icon, label, onClick }: { icon: IconName; label: string; onClick?: () => void }) {
   return (
     <button
       type="button"
@@ -125,41 +136,10 @@ export function IconButton({ icon, label, onClick }: { icon: string; label: stri
 
 /* ── Layout ── */
 
-export function PageHead({
-  code,
-  title,
-  desc,
-  actions,
-  oneLine = false,
-}: {
-  code: string;
-  title: string;
-  desc?: string;
-  actions?: React.ReactNode;
-  /** 설명을 버튼 줄 아래 전체 폭으로 내려 한 줄로 둔다. */
-  oneLine?: boolean;
-}) {
-  if (oneLine) {
-    return (
-      <header className="pb-2">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="min-w-0">
-            <p className="ls-eyebrow text-[var(--ls-muted)]">{code}</p>
-            <h1 className="mt-2 text-[28px] font-semibold leading-9 tracking-[-0.28px] text-[var(--ls-ink)]">{title}</h1>
-          </div>
-          {actions && <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div>}
-        </div>
-        {desc && <p className="mt-2 text-[14px] leading-[21px] text-[var(--ls-body)] xl:whitespace-nowrap">{desc}</p>}
-      </header>
-    );
-  }
+export function PageHead({ title, actions }: { title: string; actions?: React.ReactNode }) {
   return (
     <header className="flex flex-col gap-5 pb-2 lg:flex-row lg:items-end lg:justify-between">
-      <div className="min-w-0">
-        <p className="ls-eyebrow text-[var(--ls-muted)]">{code}</p>
-        <h1 className="mt-2 text-[28px] font-semibold leading-9 tracking-[-0.28px] text-[var(--ls-ink)]">{title}</h1>
-        {desc && <p className="mt-2 max-w-[640px] text-[14px] leading-[21px] text-[var(--ls-body)]">{desc}</p>}
-      </div>
+      <h1 className="min-w-0 text-[28px] font-semibold leading-9 tracking-[-0.28px] text-[var(--ls-ink)]">{title}</h1>
       {actions && <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div>}
     </header>
   );
@@ -200,6 +180,12 @@ export function Panel({
 }
 
 /** farrari spec-cell. 카드 없이 숫자와 캡션만. */
+/* 페이지 맨 위 핵심 지표. 정합성 화면의 스코어보드와 같은 규격(카드 하나에 라벨과 30px 숫자)이다. */
+export function SpecBand({ children, cols }: { children: React.ReactNode; cols: 2 | 3 | 4 }) {
+  const lg = { 2: "lg:grid-cols-2", 3: "lg:grid-cols-3", 4: "lg:grid-cols-4" }[cols];
+  return <div className={`grid grid-cols-2 gap-3 ${lg}`}>{children}</div>;
+}
+
 export function SpecCell({
   label,
   value,
@@ -207,7 +193,6 @@ export function SpecCell({
   sub,
   subTone,
   highlight = false,
-  size = "md",
 }: {
   label: string;
   value: string;
@@ -215,22 +200,18 @@ export function SpecCell({
   sub?: string;
   subTone?: Tone;
   highlight?: boolean;
-  size?: "md" | "lg";
 }) {
   return (
-    <div className="min-w-0">
-      <p className="text-[12px] leading-[17px] text-[var(--ls-muted)]">
+    <div className="min-w-0 rounded-2xl bg-[var(--ls-surface)] p-5 shadow-[var(--ls-shadow)]">
+      <p className="text-[13px] leading-5 text-[var(--ls-body)]">
         {label}
         {unit && ` (${unit})`}
       </p>
-      <p
-        className={`ls-figure mt-2 ${size === "lg" ? "text-[40px] leading-[44px]" : "text-[32px] leading-[38px]"}`}
-        style={{ color: highlight ? "var(--ls-primary)" : "var(--ls-ink)" }}
-      >
+      <p className="ls-figure mt-3 whitespace-nowrap text-[30px] leading-9" style={{ color: highlight ? "var(--ls-primary)" : "var(--ls-ink)" }}>
         {value}
       </p>
       {sub && (
-        <p className="ls-num mt-2 text-[12px] leading-[17px]" style={{ color: subTone ? TONE_VAR[subTone].fg : "var(--ls-body)" }}>
+        <p className="ls-num mt-2 text-[12px] leading-[18px]" style={{ color: subTone ? TONE_VAR[subTone].fg : "var(--ls-body)" }}>
           {sub}
         </p>
       )}
@@ -310,7 +291,7 @@ export function SearchInput({
 }) {
   return (
     <label className={`relative flex h-10 items-center ${className}`}>
-      <I icon="solar:magnifer-linear" size={16} className="pointer-events-none absolute left-3 text-[var(--ls-muted)]" />
+      <I icon="magnifying-glass" size={16} className="pointer-events-none absolute left-3 text-[var(--ls-muted)]" />
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -348,7 +329,7 @@ export function Select({
           </option>
         ))}
       </select>
-      <I icon="solar:alt-arrow-down-linear" size={14} className="pointer-events-none absolute right-3 text-[var(--ls-muted)]" />
+      <I icon="caret-down" size={14} className="pointer-events-none absolute right-3 text-[var(--ls-muted)]" />
     </label>
   );
 }
@@ -531,7 +512,7 @@ export function Pagination({ total, pageSize, label }: { total: number; pageSize
         {label} {fmt(total)}건 중 {fmt(from)}–{fmt(to)}
       </p>
       <div className="flex items-center">
-        <IconButton icon="solar:alt-arrow-left-linear" label="이전 페이지" onClick={() => setPage((p) => Math.max(1, p - 1))} />
+        <IconButton icon="caret-left" label="이전 페이지" onClick={() => setPage((p) => Math.max(1, p - 1))} />
         {shown.map((p) => (
           <button
             key={p}
@@ -546,7 +527,7 @@ export function Pagination({ total, pageSize, label }: { total: number; pageSize
           </button>
         ))}
         {pages > 5 && <span className="ls-num px-2 text-[13px] text-[var(--ls-muted)]">… {fmt(pages)}</span>}
-        <IconButton icon="solar:alt-arrow-right-linear" label="다음 페이지" onClick={() => setPage((p) => Math.min(pages, p + 1))} />
+        <IconButton icon="caret-right" label="다음 페이지" onClick={() => setPage((p) => Math.min(pages, p + 1))} />
       </div>
     </div>
   );
@@ -584,7 +565,7 @@ export function Drawer({
             {eyebrow && <p className="ls-eyebrow text-[var(--ls-muted)]">{eyebrow}</p>}
             <h2 className="mt-1 text-[20px] font-medium leading-7 text-[var(--ls-ink)]">{title}</h2>
           </div>
-          <IconButton icon="solar:close-square-linear" label="닫기" onClick={onClose} />
+          <IconButton icon="x" label="닫기" onClick={onClose} />
         </div>
         <div className="ls-scroll flex-1 overflow-y-auto px-6 py-6">{children}</div>
         {footer && <div className="flex gap-2 bg-[var(--ls-canvas)] px-6 py-4 sm:rounded-b-2xl">{footer}</div>}
@@ -748,7 +729,7 @@ export function LineChart({
 }) {
   const W = 640;
   const H = height;
-  const pad = { l: 36, r: 12, t: 12, b: 24 };
+  const pad = { l: 36, r: 24, t: 12, b: 24 };
   const all = series.flatMap((s) => s.data);
   const min = Math.floor(Math.min(...all) * 0.9);
   const max = Math.ceil(Math.max(...all) * 1.05);
@@ -777,7 +758,7 @@ export function LineChart({
           </g>
         ))}
         {labels.map((l, i) =>
-          i % 2 === 0 || i === labels.length - 1 ? (
+          labels.length <= 8 || i % 2 === 0 || i === labels.length - 1 ? (
             <text key={l} x={x(i)} y={H - 6} textAnchor="middle" fontSize="10" fill="var(--ls-muted)" className="ls-num">
               {l}
             </text>

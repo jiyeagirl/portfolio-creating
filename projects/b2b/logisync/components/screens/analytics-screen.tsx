@@ -11,6 +11,7 @@ import {
   Photo,
   RankBars,
   Segmented,
+  SpecBand,
   SpecCell,
 } from "@/projects/b2b/logisync/components/ui";
 import {
@@ -56,7 +57,6 @@ export function AnalyticsScreen() {
   return (
     <div className="space-y-8">
       <PageHead
-        code="04 활용"
         title="통합 데이터 조회 및 통계"
         actions={
           <>
@@ -69,19 +69,19 @@ export function AnalyticsScreen() {
                 { key: "month", label: "월별" },
               ]}
             />
-            <Button icon="solar:file-download-linear">리포트 PDF</Button>
+            <Button icon="file-arrow-down">리포트 PDF</Button>
           </>
         }
       />
 
-      <div className="grid grid-cols-2 gap-x-8 gap-y-8 lg:grid-cols-4">
+      <SpecBand cols={4}>
         <SpecCell label="4월 누적 입고" value="872" unit="천 건" sub="3월 같은 기간 대비 +3.8%" />
         <SpecCell label="4월 누적 출고" value="986" unit="천 건" sub="3월 같은 기간 대비 +5.2%" />
         <SpecCell label="출고 피크 시간대" value="16" unit="시" sub="금요일 16시 지수 97" />
         <SpecCell label="1위 센터 비중" value="31.5" unit="%" sub="이천 1센터" highlight />
-      </div>
+      </SpecBand>
 
-      <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <Panel title={s.title} action={<span className="text-[12px] text-[var(--ls-muted)]">{s.note}</span>}>
           <DualBars
             key={grain}
@@ -99,7 +99,7 @@ export function AnalyticsScreen() {
         </Panel>
       </div>
 
-      <div className="grid items-start gap-6 xl:grid-cols-2">
+      <div className="grid gap-6 xl:grid-cols-2">
         <Panel title="시간대별 물류량" action={<span className="text-[12px] text-[var(--ls-muted)]">최근 4주 평균 지수</span>}>
           <Heatmap rows={HEAT_DAYS} cols={HEAT_HOURS} data={HEATMAP} />
         </Panel>

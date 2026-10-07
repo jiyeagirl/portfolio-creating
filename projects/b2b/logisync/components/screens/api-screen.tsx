@@ -10,15 +10,15 @@ import {
   I,
   KeyValue,
   PageHead,
+  SpecBand,
+  SpecCell,
   Panel,
-  Photo,
   Row,
   Table,
   Tabs,
 } from "@/projects/b2b/logisync/components/ui";
 import { APIS, API_KEYS, API_LOGS } from "@/projects/b2b/logisync/lib/mock-data";
 import { fmt } from "@/projects/b2b/logisync/lib/navigation";
-import { PHOTO } from "@/projects/b2b/logisync/lib/photos";
 import type { ApiEndpoint, ApiStatus, Tone } from "@/projects/b2b/logisync/lib/types";
 
 const API_TONE: Record<ApiStatus, Tone> = { 운영: "ok", 점검: "info", 오류: "danger", 예정: "neutral" };
@@ -46,46 +46,25 @@ export function ApiScreen() {
   return (
     <div className="space-y-8">
       <PageHead
-        code="04 활용"
         title="데이터 연계 API 관리"
-        desc="센터 시스템이 데이터를 보내고, 본사 시스템이 통합 데이터를 가져가는 API를 한곳에서 관리합니다."
         actions={
           <>
-            <Button variant="outline" icon="solar:document-text-linear">
+            <Button variant="outline" icon="file-text">
               API 문서
             </Button>
-            <Button variant="primary" icon="solar:key-linear">
+            <Button variant="primary" icon="key">
               API 키 발급
             </Button>
           </>
         }
       />
 
-      {/* 허브 밴드: 사진 + 스펙 셀. 사진은 본사 데이터 허브의 상징으로만 쓴다. */}
-      <section className="grid overflow-hidden rounded-2xl bg-[var(--ls-surface)] shadow-[var(--ls-shadow)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
-        <div className="relative min-h-[160px]">
-          <Photo id={PHOTO.apiBand} alt="야간 고층 오피스 빌딩의 불 켜진 창 격자" w={960} h={540} sizes="(min-width: 1024px) 45vw, 100vw" className="absolute inset-0 h-full w-full" />
-        </div>
-        <div className="p-6 lg:p-8">
-          <p className="ls-eyebrow text-[var(--ls-muted)]">연계 현황</p>
-          <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
-            {[
-              ["24시간 호출", fmt(calls), "건"],
-              ["p95 중앙값", "96", "ms"],
-              ["오류율", "0.31", "%"],
-              ["연결 클라이언트", "14", "곳"],
-            ].map(([k, v, u]) => (
-              <div key={k}>
-                <dt className="text-[12px] text-[var(--ls-muted)]">
-                  {k}
-                  {u && ` (${u})`}
-                </dt>
-                <dd className="ls-figure mt-1 text-[24px] leading-8 text-[var(--ls-ink)]">{v}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
+      <SpecBand cols={4}>
+        <SpecCell label="24시간 호출" unit="건" value={fmt(calls)} />
+        <SpecCell label="p95 중앙값" unit="ms" value="96" />
+        <SpecCell label="오류율" unit="%" value="0.31" highlight />
+        <SpecCell label="연결 클라이언트" unit="곳" value="14" />
+      </SpecBand>
 
       <Panel flush>
         <div className="px-6 pt-5">
@@ -140,17 +119,19 @@ export function ApiScreen() {
         </div>
       </Panel>
 
-      <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+      <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.9fr)_minmax(0,1fr)]">
         <Panel title="연계 이력" flush action={<Badge tone="ok">실시간</Badge>}>
           <ol className="ls-code mx-4 mb-4 rounded-xl bg-[var(--ls-canvas)] py-2 text-[12px] leading-5">
             {API_LOGS.map((l) => (
-              <li key={l.at} className="grid grid-cols-[96px_44px_minmax(0,1fr)_40px_56px] items-center gap-3 px-6 py-1.5 md:grid-cols-[104px_48px_minmax(0,1fr)_104px_40px_56px]">
+              <li key={l.at} className="grid grid-cols-[96px_44px_minmax(0,1fr)_40px_56px] items-baseline gap-3 px-6 py-2 md:grid-cols-[104px_48px_minmax(0,1fr)_40px_56px]">
                 <span className="text-[var(--ls-muted)]">{l.at}</span>
                 <span className="text-[var(--ls-body-strong)]">{l.method}</span>
-                <span className="truncate text-[var(--ls-ink)]" title={l.path}>
-                  {l.path}
+                <span className="min-w-0">
+                  <span className="block truncate text-[var(--ls-ink)]" title={l.path}>
+                    {l.path}
+                  </span>
+                  <span className="block truncate text-[11px] text-[var(--ls-muted)]">{l.client}</span>
                 </span>
-                <span className="hidden truncate text-[var(--ls-body)] md:block">{l.client}</span>
                 <span className="text-right font-bold" style={{ color: `var(--ls-${codeTone(l.code)}-fg)` }}>
                   {l.code}
                 </span>
@@ -165,7 +146,7 @@ export function ApiScreen() {
             <ul>
               {API_KEYS.map((k) => (
                 <li key={k.name} className="flex items-center gap-3 border-b border-[var(--ls-hairline-soft)] px-6 last:border-b-0 py-3">
-                  <I icon="solar:key-minimalistic-square-linear" size={18} className="text-[var(--ls-muted)]" />
+                  <I icon="key" size={18} className="text-[var(--ls-muted)]" />
                   <div className="min-w-0 flex-1">
                     <p className="ls-code text-[13px] text-[var(--ls-ink)]">{k.name}</p>
                     <p className="mt-0.5 truncate text-[12px] text-[var(--ls-muted)]">
@@ -227,7 +208,7 @@ function ApiDrawer({ api, onClose }: { api: ApiEndpoint | null; onClose: () => v
       title={api?.name ?? ""}
       footer={
         <>
-          <Button variant="primary" icon="solar:play-linear" onClick={onClose}>
+          <Button variant="primary" icon="play" onClick={onClose}>
             테스트 호출
           </Button>
           <Button variant="ghost" onClick={onClose}>

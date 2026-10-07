@@ -33,13 +33,6 @@ const RETRY_TONE: Record<VerifyRecord["retry"], Tone> = {
   "해당 없음": "neutral",
 };
 
-const STATUS_DESC: Record<VerifyStatus, string> = {
-  정상: "검증 통과, 표준화 단계로 전달",
-  중복: "동일 식별키 재수신, 자동 폐기",
-  누락: "필수 필드 공백, 재수집 필요",
-  오류: "형식, 값 범위, 수집 실패",
-};
-
 type Filter = "all" | VerifyStatus;
 
 export function VerifyScreen() {
@@ -72,15 +65,13 @@ export function VerifyScreen() {
   return (
     <div className="space-y-8">
       <PageHead
-        code="02 검증"
         title="데이터 정합성 및 중복 관리"
-        desc="식별키로 중복을 걸러내고, 누락과 오류는 격리한 뒤 재처리합니다. 통과한 레코드만 표준화 단계로 넘어갑니다."
         actions={
           <>
-            <Button variant="outline" icon="solar:key-minimalistic-linear">
+            <Button variant="outline" icon="key">
               식별키 규칙
             </Button>
-            <Button variant="primary" icon="solar:restart-linear" onClick={reprocess} disabled={checked.length === 0}>
+            <Button variant="primary" icon="arrow-counter-clockwise" onClick={reprocess} disabled={checked.length === 0}>
               {checked.length > 0 ? `선택 ${checked.length}건 재처리` : "재처리 실행"}
             </Button>
           </>
@@ -110,7 +101,6 @@ export function VerifyScreen() {
                 <span className="ls-num text-[12px] text-[var(--ls-muted)]">{((VERIFY_COUNTS[s] / total) * 100).toFixed(2)}%</span>
               </span>
               <span className="ls-figure mt-4 block text-[30px] leading-9 text-[var(--ls-ink)]">{fmt(VERIFY_COUNTS[s])}</span>
-              <span className="mt-2 block text-[12px] leading-[18px] text-[var(--ls-body)]">{STATUS_DESC[s]}</span>
             </button>
           );
         })}
@@ -203,16 +193,13 @@ export function VerifyScreen() {
               {["센터", "유형", "일자", "문서번호", "라인"].map((k, i) => (
                 <span key={k} className="flex items-center gap-1">
                   <span className="rounded-full bg-[var(--ls-elevated)] px-2.5 py-1 text-[12px] text-[var(--ls-ink)]">{k}</span>
-                  {i < 4 && <span className="ls-code text-[var(--ls-disabled)]">|</span>}
+                  {i < 4 && <span className="ls-code text-[var(--ls-muted)]">+</span>}
                 </span>
               ))}
             </div>
-            <p className="mt-3 text-[12px] leading-[18px] text-[var(--ls-body)]">
-              같은 키가 24시간 안에 다시 들어오면 수량이 같을 때 폐기, 다를 때 오류로 격리합니다.
-            </p>
             <div className="mt-5 space-y-3">
               {[
-                ["오늘 중복 제거율", 0.4, "516건"],
+                ["24시간 내 재수신 중복 제거율", 0.4, "516건"],
                 ["재처리 성공률", 91.8, "112 / 122건"],
               ].map(([l, v, sub]) => (
                 <div key={l as string}>
@@ -235,7 +222,7 @@ export function VerifyScreen() {
                   <div className="flex items-center justify-between gap-2">
                     <span className="flex items-center gap-2">
                       <I
-                        icon={f.resolved ? "solar:check-circle-linear" : "solar:close-circle-linear"}
+                        icon={f.resolved ? "check-circle" : "x-circle"}
                         size={15}
                         className={f.resolved ? "text-[var(--ls-ok-fg)]" : "text-[var(--ls-danger-fg)]"}
                       />
@@ -269,7 +256,7 @@ function RecordDrawer({ record, onClose }: { record: VerifyRecord | null; onClos
       footer={
         record && (record.retry === "재처리 대기" || record.retry === "재처리 실패") ? (
           <>
-            <Button variant="primary" icon="solar:restart-linear" onClick={onClose}>
+            <Button variant="primary" icon="arrow-counter-clockwise" onClick={onClose}>
               이 건 재처리
             </Button>
             <Button variant="ghost" onClick={onClose}>
