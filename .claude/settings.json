@@ -12,7 +12,9 @@
       "Bash(open \"http://localhost:3000/community/locly?screen=community\")",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "Bash(git fetch *)",
+      "Bash(git rev-list *)"
     ]
   },
   "hooks": {
