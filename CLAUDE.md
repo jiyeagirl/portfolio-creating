@@ -78,6 +78,12 @@ projects/
   의견을 밝힌 것이므로 재배정하지 않는다. 없는 것이 정상이고, 새로 쓰라고 요구하지 않는다.
   spec이 `아키타입: A1`을 직접 적었어도 따른다 (아래 A1 금지는 Claude가 스스로 배정할 때의 규칙이다).
   이때 최종 요약에 "A1은 이미 포화" 한 줄을 남긴다.
+- **업계 표준 패턴이 차별화 규칙보다 먼저다 (사용자 지정, 2026-10-28).** `spec.md`의 `레퍼런스:` 줄
+  (예: `레퍼런스: 인프런(탐색), 클래스101(강의 상세, 구독 유도)`)이 가리키는 서비스의 IA, 내비 항목,
+  진입 동선, 밝기를 따른다. 이 절의 A1 금지와 `## Color`의 팔레트 구성 다양화는 그 관례를 깨지 않는
+  범위에서만 적용한다. 줄이 없으면 도메인의 대표 서비스 1~2개를 직접 골라 아래 "골격 확인"에 적는다.
+  eduon에서 영상 도메인이라 다크 우선을 고르고, spec 문구대로 구독을 별도 탭으로 만들었다가 전부
+  되돌린 것이 이 규칙의 이유다.
 - 배정 결과는 `_reference.md`의 "이번 프로젝트 배정"에 한 줄씩(스캐폴드 중복 검사가 여기를 읽는다),
   근거는 `design.md`의 "아키타입" 절에 적는다.
 - **A1은 신규 배정 금지.** 새 프로젝트가 `SectionHead` + 가로스크롤 + 하단 탭바로 시작하려
@@ -121,7 +127,8 @@ Steps run in this order. Every file a later file imports is written first (Batch
    composition yourself from its domain (`## 아키타입 배정`). Write each into `_reference.md`'s
    "이번 프로젝트 배정", then grep the same category's `_reference.md` files for the same number
    (the scaffold's own duplicate check only runs when `--archetype` is passed).
-   Check for three optional lines; note in the final summary which were applied:
+   Check for four optional lines; note in the final summary which were applied:
+   - `레퍼런스: <서비스명(화면)>` — industry-standard services whose IA and flows win over the variation rules (see `## 아키타입 배정`).
    - `스타일: <skill-name>` — style-variant skill (see Skill Usage Policy).
    - `디자인시스템: <filename>` — a doc under `design-systems/` (see Design Systems). A missing file is a spec bug: stop and ask the user for it.
    - `프리미엄디테일: soft-skill` — layers `supanova-premium-aesthetic` on top of the default (see Skill Usage Policy).
@@ -130,11 +137,21 @@ Steps run in this order. Every file a later file imports is written first (Batch
 3. **Write `design.md` before the first UI file.** Required for every project with its own `styles/`. Skip only for thin `-admin` / route-only wrapper projects that import a sibling project's components and inherit its tokens (note that inheritance in the **main** project's `spec.md` / `design.md`; `-admin` has no docs of its own). Sections, in this order, omitting any that don't apply:
    아키타입 / 적용 규칙 / Tokens, 팔레트 / Shape / Typography / 사진 매핑 / then by preset: 기기 프레임 안쪽 규칙 *(app)*, 반응형 기준 *(web)*, 셸 레이아웃 + 표 밀도, 컬럼 예산 *(console, and any project scaffolded `--with-admin`)* / Motion, plus a section for any project-specific asset system (mascot, hand-drawn marks). Section contents: 아키타입, 셸 레이아웃, 표 밀도 in scaffold.md step 4; 반응형 기준 in `mockup-craft` web.md; 적용 규칙 below and in `mockup-craft` section 1; Typography and Motion in `## Motion` → "스케일 복제 금지"; 사진 매핑 in `## Images`.
    In **적용 규칙**, start with `mockup-craft`'s one-line reading (`해석: <화면 종류> for <누구>. 다이얼 V/M/D.`), name only skills whose `SKILL.md` you actually read this session, and justify the `DESIGN_VARIANCE` / `MOTION_INTENSITY` / `VISUAL_DENSITY` values against `mockup-craft` section 2's definitions and presets. A skill name or dial value copied without reading the skill is the failure this rule exists for.
+   **골격 확인 (사용자 확인을 받는 유일한 지점).** design.md를 쓴 직후, 첫 UI 파일 전에 아래 5줄을
+   사용자에게 보여 주고 답을 기다린다. 틀린 결정이 모든 화면에 퍼진 뒤 고치는 왕복을 막기 위해서다.
+   1. 레퍼런스 서비스와 따르는 부분
+   2. 테마 밝기와 주색 (라이트 / 다크)
+   3. 주 내비 항목 (사용자 웹, 관리자 각각)
+   4. 핵심 전환 동선 (예: 구독은 별도 메뉴가 아니라 강의 상세 버튼에서 시작)
+   5. 상태 표기 방식 (칩으로 둘 것과 텍스트로 둘 것)
+
+   spec 문구를 그대로 화면 단위로 옮기면 어색해지는 곳(예: "구독 및 결제" 절을 내비 탭으로 만들기)이 보이면
+   여기서 같이 묻는다. 답을 받으면 spec.md와 design.md에 반영하고, 그 뒤로는 끝까지 멈추지 않는다.
 4. **Fill `styles/`** from design.md, with values picked fresh.
 5. **Build the UI** under the project's own `lib/` → `components/` (ui, screens) → shell / `admin-app.tsx`. Order of authority: **UI Generation Rules → applicable Design System → `스타일:` skill (direction only) → `mockup-craft` for anything left**. Reuse `components/shared/*` where it already fits; never create shared components speculatively.
 6. **Write `src/index.tsx` last** (default export, plus an optional separate `src/meta.ts`), after every screen it imports exists. It reads the initial screen from `?screen=` (`projects/camera/filmate/src/index.tsx` `getInitialScreen`). A `web` project wraps its site in `<ResponsiveSite>` (`components/shared/responsive-site.tsx`).
 7. Do **not** touch anything under `app/` — the existing `[category]/[project]/page.tsx` and the auto-discovering landing page already pick it up.
-8. Build every screen in `spec.md` in one continuous pass, then verify once at the end (see Batch Build). Don't stop for confirmation between screens.
+8. Build every screen in `spec.md` in one continuous pass, then verify once at the end (see Batch Build). Don't stop for confirmation between screens (the only stop is the 골격 확인 in step 3).
 
 ---
 
@@ -176,7 +193,7 @@ Every project is a React/TSX component at `src/index.tsx` styled with the projec
 
 # Batch Build & Single Verification Pass
 
-Default to one continuous pass; don't stop for confirmation after each screen or each check:
+Default to one continuous pass; don't stop for confirmation after each screen or each check (the 골격 확인 before the first UI file is the one exception):
 
 1. Read all of `spec.md` up front; build every listed screen in the same pass.
 2. **아래에서 위로 쓴다.** 리프 모듈(`lib/types.ts` → `lib/mock-data.ts` → `components/ui.tsx` → 개별 화면)을 먼저 쓰고, **남을 import하는 파일**(`components/layout/app-shell.tsx`, `components/admin/admin-app.tsx`, `src/index.tsx`)을 **마지막에** 쓴다. 순서를 뒤집으면 그 사이 내내 워크스페이스의 **모든** 프로젝트 URL이 500이다 (`app/` 절의 "공유 컴파일 단위"). 화면을 하나 추가할 때도 같다 — 배럴/앱 파일에 import 줄을 먼저 넣지 말고, 파일을 만든 다음에 넣는다. `--with-admin` 시드를 교체할 때도 관리자 화면들을 먼저 쓰고 `admin-app.tsx`를 마지막에 교체한다.
@@ -196,13 +213,31 @@ Default to one continuous pass; don't stop for confirmation after each screen or
       고치고 해당 화면만 다시 돌린다.
    3. **별도 리뷰 에이전트**(Agent, general-purpose) 1개를 띄워 `.claude/visual-review.md`의
       리뷰어 프롬프트로 판정받는다. 판정 기준은 `mockup-craft`의 anti-slop.md와 점검표다.
-      리뷰어에게 코드는 주지 않는다.
-   4. high와 mid를 고친 뒤 바뀐 화면만 다시 캡처하고, **같은 리뷰어**에게 SendMessage로 재판정받는다.
-   5. **최대 2라운드.** 그 뒤에도 남은 지적은 고치지 말고 최종 요약의 "미해결" 목록으로 넘긴다.
+      리뷰어에게 코드는 주지 않는다. **리뷰어가 여는 PNG는 화면당 데스크톱(또는 콘솔) 1장과 모바일 첫 화면
+      1장뿐이다.** `-scroll-N`, `-corners` PNG는 넘기지 않는다 (모서리 틈은 스크립트의 `edge-leak` 판정이 맡는다).
+      eduon에서 리뷰어가 63장을 열어 7.5M 토큰을 썼고, 잡은 것은 겹침과 잘림이었다. 그건 첫 화면으로도 잡힌다.
+   4. high와 mid를 고친 뒤 바뀐 화면만 다시 캡처해 **빌더가 직접** PNG를 열어 확인한다. 재판정은 하지 않는다.
+   5. **리뷰는 1라운드.** 고치지 않은 low와 확인 못 한 지적은 최종 요약의 "미해결" 목록으로 넘긴다.
    6. 빌더 본인도 수정한 화면의 PNG는 Read로 직접 열어 확인한다. 리뷰어의 "통과"만 믿지 않는다.
    7. 루프를 마치면 프로젝트의 `.visual-pending` 마커를 삭제한다. 이번 세션에서 작업한 프로젝트에
       마커가 남아 있으면 Stop hook이 턴을 끝낼 때마다 한 번 상기시킨다.
-6. Report one final summary (screens built, checks passed, 시각 검증 라운드별 지적 수와 해결 여부, 미해결 목록, **사진 요청 목록** (`## Images`), anything applied from `spec.md` such as style/design-system). Don't narrate intermediate steps turn-by-turn.
+6. Report one final summary (screens built, checks passed, 시각 검증 지적 수와 해결 여부, 미해결 목록, **사진 요청 목록** (`## Images`), anything applied from `spec.md` such as style/design-system). Don't narrate intermediate steps turn-by-turn.
+   요약 마지막 줄에 수정 세션 안내를 붙인다: "수정은 `/clear` 후 새 대화에서, 3~5개씩 묶어서 보내 주세요."
+   (아래 "수정 세션" 절의 이유)
+
+## 수정 세션 (빌드가 끝난 프로젝트의 사용자 수정 요청)
+
+토큰 비용의 대부분은 작업량이 아니라 **컨텍스트 크기 × 호출 수**다. eduon은 빌드와 수정 12건을 한 대화에서
+이어 가서 평균 340K 컨텍스트를 202번 다시 읽었다(69M). 메뉴 간격 같은 한 줄 수정도 매 호출 50만 토큰을 읽었다.
+
+- **빌드 대화에서 수정을 이어 받지 않는다.** 빌드 요약 뒤 첫 수정 요청이 같은 대화로 오면, 처리하기 전에
+  한 줄로 `/clear` 후 새 대화를 권한다. 사용자가 그대로 진행하라고 하면 따른다.
+- 수정 대화에서는 `spec.md`, `design.md`(필요한 절만), 고칠 파일만 읽는다. `mockup-craft` 전체, `ARCHETYPES.md`,
+  레퍼런스 원본은 다시 읽지 않는다 (skill gate는 `.skill-read` 기록이 12시간 유효하다).
+- 수정 요청이 여러 개면 **전부 고친 뒤** `tsc`와 캡처를 한 번만 돌린다. 캡처는 바뀐 화면만, 확인은 빌더가
+  PNG를 직접 연다. **리뷰 에이전트는 띄우지 않는다.**
+- 사용자가 설계 결정을 바꾸면(내비, 동선, 테마) spec.md와 design.md에 날짜와 함께 반영해, 다음 대화가 같은
+  결정을 다시 묻거나 되돌리지 않게 한다.
 
 **Hooks** (`.claude/hooks/`, registered in `.claude/settings.json`) enforce the machine-checkable parts of this file:
 - `post-edit-check.mjs`: after each edit under `projects/`, blocks em dash/interpunct in the code just written (comments exempt), imports that don't resolve (the workspace-wide 500) and new `@iconify/react` imports; notes `backdrop-blur` just written into a screen shown in the phone frame (app, and web's mobile view).

@@ -1,0 +1,103 @@
+/* TaxDesk 토큰. 팔레트 구성 1, 디자인시스템 apple_compact 지정. 값의 근거는 design.md Tokens 절. */
+
+.taxdesk {
+  --td-canvas: #ffffff;
+  --td-parch: #f5f5f7;
+  --td-pearl: #fafafc;
+  --td-ink: #1d1d1f;
+  --td-ink-2: #333336;
+  --td-ink-3: #7a7a7e;
+  --td-line: #e0e0e3;
+  --td-line-soft: #f0f0f2;
+
+  --td-blue: #0066cc;
+  --td-blue-press: #0058b0;
+  --td-blue-focus: #0071e3;
+  --td-blue-tint: #eaf3fd;
+
+  /* 관리자 아이콘 레일 전용 그래파이트 면. 본문은 흰색 */
+  --td-side: #1d1d1f;
+  --td-side-hover: #2c2c2e;
+  --td-side-active: #3a3a3d;
+  --td-side-ink: #a1a1a6;
+
+  --td-stamp: #c8312b;
+
+  /* 상태 5단: bg 칩 바닥, fg 글자 */
+  --td-wait-bg: #f0f0f2;
+  --td-wait-fg: #55555a;
+  --td-run-bg: #e6f0fb;
+  --td-run-fg: #0b5bae;
+  --td-act-bg: #fcf1dc;
+  --td-act-fg: #8a5a00;
+  --td-done-bg: #e8f3ea;
+  --td-done-fg: #2e6b3a;
+  --td-stop-bg: #fbe9e8;
+  --td-stop-fg: #a1302b;
+
+  /* 디자인시스템의 유일한 그림자. 위임장 종이에만 쓴다 */
+  --td-paper-shadow: 3px 5px 30px rgba(0, 0, 0, 0.22);
+  --td-panel-ease: cubic-bezier(0.32, 0.72, 0, 1);
+
+  font-family: "Pretendard Variable", "Pretendard", -apple-system, sans-serif;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  font-variant-numeric: tabular-nums;
+  color: var(--td-ink);
+  background: var(--td-canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+.taxdesk h1,
+.taxdesk h2,
+.taxdesk h3 {
+  text-wrap: balance;
+}
+
+.taxdesk p {
+  text-wrap: pretty;
+}
+
+.taxdesk .td-mono {
+  font-family: "SF Mono", Menlo, Consolas, "Pretendard Variable", "Pretendard", monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+/* 눌림: 사용자 웹 scale(0.97) 140ms. 관리자는 쓰지 않는다 */
+.taxdesk .td-press {
+  transition: transform 140ms ease-out, background-color 140ms ease-out;
+}
+.taxdesk .td-press:active {
+  transform: scale(0.97);
+}
+
+.taxdesk .td-scroll-x {
+  scrollbar-width: none;
+}
+.taxdesk .td-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* 모바일 보기(iframe 안)는 폰처럼 스크롤바를 그리지 않는다. 페이지와 내부 스크롤 영역 모두 */
+html:has(.td-embed),
+html:has(.td-embed) * {
+  scrollbar-width: none;
+}
+html:has(.td-embed) ::-webkit-scrollbar {
+  display: none;
+}
+
+.taxdesk .td-progress-run {
+  transition: width 900ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .taxdesk .td-press,
+  .taxdesk .td-progress-run {
+    transition: none;
+  }
+  .taxdesk .td-press:active {
+    transform: none;
+  }
+}

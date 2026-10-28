@@ -32,9 +32,12 @@
 
 그 다음 읽을 것: <project>/spec.md, <project>/design.md 의 "아키타입", "적용 규칙", "Motion" 절
 (web은 "반응형 기준", 콘솔과 관리자는 "셸 레이아웃", "표 밀도, 컬럼 예산" 절도),
-<project>/.visual/ 의 모든 PNG (Read로 하나씩 연다), <project>/.visual/report.json.
-web(반응형 웹) 프로젝트는 화면마다 <screen>-desktop.png(1440)와 <screen>-mobile*.png(프레임 안 393)가
-있다. 두 폭을 모두 보고, 모바일에서 접힌 방식이 design.md "반응형 기준" 절과 맞는지도 판정한다.
+<project>/.visual/report.json, 그리고 <project>/.visual/ 의 PNG 중 화면당 두 장만 (Read로 하나씩 연다):
+  - 앱: <screen>.png
+  - web(반응형 웹): <screen>-desktop.png(1440, 전체 페이지)와 <screen>-mobile.png(프레임 안 393, 첫 화면)
+  - 콘솔과 관리자: <screen>.png
+-scroll-N.png 와 -corners.png 는 열지 않는다 (모서리 틈은 report.json 의 edge-leak 판정이 맡는다).
+web은 두 폭을 모두 보고, 모바일에서 접힌 방식이 design.md "반응형 기준" 절과 맞는지도 판정한다.
 관리자 콘솔(<project>-admin)이 있으면 <project>-admin/.visual/ 도 같은 방식으로 읽는다.
 <project>-admin 에는 spec.md, design.md가 없고 본 프로젝트 것을 쓴다.
 코드 파일은 열지 않는다.
@@ -51,8 +54,8 @@ web(반응형 웹) 프로젝트는 화면마다 <screen>-desktop.png(1440)와 <s
 - report.json 의 error 는 빌더가 이미 고치고 있으니 반복하지 않는다. warn 은 보고
   실제 문제인지 판정해서 문제면 지적에 포함한다.
 
-모바일 화면이 있으면 <screen>-corners.png (반응형 웹은 <screen>-mobile-corners.png) 에서 마젠타 배경과 검은 기기 테두리 사이에 흰색이나 밝은
-픽셀이 보이는지도 확인한다.
+첫 화면 아래의 내용은 web 데스크톱 전체 페이지 캡처로 판정한다. 모바일에서만 생기는 아래쪽 문제는
+리뷰 범위 밖이고, 빌더가 직접 확인한다.
 
 수정 제안은 spec.md 범위 안에서 한다. spec에 없는 기능이나 화면을 새로 제안하지 않는다.
 spec이 요구했는데 화면에 없는 것은 지적한다.

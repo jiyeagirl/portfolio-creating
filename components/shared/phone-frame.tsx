@@ -7,9 +7,12 @@ export function PhoneFrame({
   backdropGlow = false,
   screenClassName = "bg-white text-neutral-900",
   statusBarClassName,
+  statusTime,
   homeIndicatorClassName,
 }: {
   children: React.ReactNode;
+  /** Status bar clock text. Empty string hides it (lock screen). */
+  statusTime?: string;
   /** Outer studio page background. CLAUDE.md's mobile-output rule defaults this to plain white. */
   backdropClassName?: string;
   /** Opt-in only — most projects should leave this off per the plain-white-backdrop rule. */
@@ -59,7 +62,7 @@ export function PhoneFrame({
           <div
             className={`relative h-[852px] w-[393px] overflow-hidden rounded-[50px] ${screenClassName}`}
           >
-            <StatusBar className={statusBarClassName} />
+            <StatusBar className={statusBarClassName} time={statusTime} />
             <div className="h-full w-full overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {children}
             </div>

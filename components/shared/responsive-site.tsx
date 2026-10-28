@@ -19,10 +19,18 @@ import { PhoneFrame } from "./phone-frame";
 export function ResponsiveSite({
   children,
   screenClassName = "bg-white text-neutral-900",
+  statusBarClassName,
+  statusTime,
+  homeIndicatorClassName,
 }: {
   children: React.ReactNode;
+  /** Status bar clock text in the mobile view. Empty string hides it (lock screen). */
+  statusTime?: string;
   /** Background behind the status bar and home indicator in the mobile view. */
   screenClassName?: string;
+  /** Status bar glyph color, e.g. "text-white" for a dark-first site. */
+  statusBarClassName?: string;
+  homeIndicatorClassName?: string;
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -34,7 +42,7 @@ export function ResponsiveSite({
   inner.set("embed", "1");
 
   return (
-    <PhoneFrame screenClassName={screenClassName}>
+    <PhoneFrame screenClassName={screenClassName} statusBarClassName={statusBarClassName} statusTime={statusTime} homeIndicatorClassName={homeIndicatorClassName}>
       <div className="flex h-full flex-col pb-[34px] pt-[59px]">
         <iframe
           data-site-frame

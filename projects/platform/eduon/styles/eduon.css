@@ -1,0 +1,185 @@
+/*
+ * EduOn 토큰. 디자인시스템 jobright_compact 지정 (팔레트 구성 1: 화이트 캔버스 + 민트 액센트 하나, 블랙 필 CTA).
+ * 값의 근거는 design.md Tokens 절. 플레이어 안쪽처럼 영상 위에 놓이는 면만 .eo-dark로 어두운 토큰을 쓴다.
+ */
+
+.eduon,
+.eduon-console {
+  /* 사용자 웹 (라이트). 이름은 그대로 두고 값만 디자인시스템으로 바꿨다 */
+  --eo-canvas: #ffffff;
+  --eo-mint-band: #ecffe0;
+  --eo-raised: #f2f4f5;
+  --eo-raised-2: #e9ecee;
+  --eo-raised-3: #dde1e4;
+  --eo-hair: #e5e7eb;
+  --eo-hair-2: #d3d7dc;
+  --eo-fg: #000000;
+  --eo-fg-2: #3c434b;
+  /* 디자인시스템 muted #86909c는 흰 바탕에서 AA 미달이라 캡션용으로 한 단 짙게 */
+  --eo-fg-3: #69727d;
+
+  --eo-brand: #00f0a0;
+  --eo-brand-hover: #2df5b3;
+  --eo-brand-press: #00d68f;
+  --eo-on-brand: #000000;
+  /* 민트를 글자색으로 쓸 때 (흰 바탕 AA) */
+  --eo-brand-ink: #007a50;
+  --eo-brand-soft: #ecffe0;
+  --eo-ink: #000000;
+  --eo-ink-hover: #23272b;
+  --eo-ink-press: #3a3f45;
+  --eo-free: #007a50;
+  --eo-free-soft: #ecffe0;
+  --eo-focus: #007a50;
+
+  /* 콘솔(스튜디오, 관리자) 내비 면은 브랜드 블랙에서. 본문은 흰색 */
+  --eo-side: #0b0d0e;
+  --eo-side-2: #1a1d1f;
+  --eo-side-3: #282c2f;
+  --eo-side-line: #24282b;
+  --eo-side-fg: #eef1f2;
+  --eo-side-fg-2: #9aa3ac;
+
+  --eo-surface: #ffffff;
+  --eo-soft: #f2f4f5;
+  --eo-soft-2: #e9ecee;
+  --eo-line: #e5e7eb;
+  --eo-line-2: #d3d7dc;
+  --eo-ink-2: #3c434b;
+  --eo-ink-3: #69727d;
+  --eo-ink-btn: #000000;
+
+  /* 상태 5색. fg/bg는 흰 바탕 배지, dk는 글자색 (라이트에서는 fg와 같다, .eo-dark에서 밝게) */
+  --eo-green: #1f9d68;
+  --eo-green-fg: #17673f;
+  --eo-green-bg: #e3f6ea;
+  --eo-green-dk: #17673f;
+  --eo-blue: #3478d4;
+  --eo-blue-fg: #20589c;
+  --eo-blue-bg: #e3eefb;
+  --eo-blue-dk: #20589c;
+  --eo-orange: #d9792a;
+  --eo-orange-fg: #8f4c0e;
+  --eo-orange-bg: #fcebd9;
+  --eo-orange-dk: #8f4c0e;
+  --eo-red: #d64545;
+  --eo-red-fg: #a12f2f;
+  --eo-red-bg: #fbe4e4;
+  --eo-red-dk: #a12f2f;
+  --eo-gray: #86909c;
+  --eo-gray-fg: #4f5763;
+  --eo-gray-bg: #eceef1;
+  --eo-gray-dk: #4f5763;
+
+  /* 디자인시스템 elevation: soft-float 하나 */
+  --eo-float-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  --eo-pop-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  --eo-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  font-family: "Pretendard Variable", "Pretendard", -apple-system, sans-serif;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  font-variant-numeric: tabular-nums;
+}
+
+.eduon {
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 500;
+  color: var(--eo-fg);
+  background: var(--eo-canvas);
+  color-scheme: light;
+}
+
+.eduon-console {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--eo-fg);
+  background: var(--eo-surface);
+}
+
+/* 영상 위 면 (플레이어, 오류와 구독 안내 오버레이) */
+.eo-dark {
+  --eo-canvas: #0b0d0e;
+  --eo-raised: #171a1c;
+  --eo-raised-2: #23272a;
+  --eo-raised-3: #2f3438;
+  --eo-hair: #2a2f33;
+  --eo-hair-2: #3a4045;
+  --eo-fg: #f3f5f6;
+  --eo-fg-2: #b9c0c6;
+  --eo-fg-3: #8d959d;
+  --eo-brand-ink: #00f0a0;
+  --eo-green-dk: #5fd99a;
+  --eo-blue-dk: #8fb9f2;
+  --eo-orange-dk: #f3a866;
+  --eo-red-dk: #f08a8a;
+  --eo-gray-dk: #aab2bb;
+  --eo-float-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  color: var(--eo-fg);
+}
+
+.eo-mono {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.92em;
+  letter-spacing: 0;
+}
+
+.eo-scroll-x {
+  scrollbar-width: none;
+}
+.eo-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+.eo-thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--eo-hair-2) transparent;
+}
+
+/* 디자인시스템 feature-card 실루엣: 좌상단만 직각, 나머지 40px */
+.eo-card-shape {
+  border-radius: 0 40px 40px 40px;
+}
+
+/* 진입 1회. design.md Motion: 260ms 감속, 12px */
+@keyframes eo-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes eo-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.eo-rise {
+  animation: eo-rise 260ms var(--eo-ease) backwards;
+}
+.eo-fade {
+  animation: eo-fade 200ms linear backwards;
+}
+
+.eo-text-pretty {
+  text-wrap: pretty;
+}
+.eo-text-balance {
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eduon *,
+  .eduon-console * {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+  }
+}

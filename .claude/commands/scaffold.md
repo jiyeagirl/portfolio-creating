@@ -61,6 +61,8 @@ argument-hint: <카테고리>/<새프로젝트명> [app|web|console] [--with-adm
      프리셋을 잘못 골랐으면 다시 만든다. 이때 `spec.md`는 남기고, `-admin/`이 있으면 그것부터 지운 뒤
      (본 프로젝트의 시드 `admin-app.tsx`를 먼저 지우면 워크스페이스 전체가 500) 나머지 산출물
      (`components/ lib/ src/ styles/ design.md _reference.md .visual-pending`, `-mobile/`)을 지운다.
+   - **`레퍼런스:` 줄**이 있으면 그 서비스의 IA, 내비, 진입 동선, 밝기가 아키타입과 팔레트 다양화 규칙보다
+     먼저다. 없으면 도메인 대표 서비스 1~2개를 직접 고른다 (CLAUDE.md `## 아키타입 배정`).
    - **`스타일:` / `디자인시스템:` 줄**이 있는지 확인한다 (워크스페이스 `CLAUDE.md`의
      Skill Usage Policy, Design Systems 절 기준). 적용 순서는 CLAUDE.md Precedence와 같다:
      UI Generation Rules → 디자인시스템 → 스타일 skill(방향만) → `mockup-craft`.
@@ -160,6 +162,10 @@ argument-hint: <카테고리>/<새프로젝트명> [app|web|console] [--with-adm
    - 구조적 원칙은 레퍼런스 기준을 유지해 "같은 완성도"를 담보한다.
    - 색상/무드는 2단계의 적용 순서(디자인시스템 → 스타일 skill)를 따라 spec.md 도메인에 맞게 정의한다.
 
+   design.md를 쓴 직후, `styles/`와 첫 UI 파일 전에 **골격 확인** 5줄(레퍼런스, 테마 밝기, 주 내비,
+   핵심 전환 동선, 상태 표기 방식)을 사용자에게 보여 주고 답을 기다린다. 형식은 CLAUDE.md
+   "Checklist: adding a new project" 3번. 빌드 중 사용자 확인은 이것 하나뿐이다.
+
 5. design.md가 확정되면 그 내용을 바탕으로 실제 `styles/` 파일들을 채운다.
    - **원본 `styles/*.css`는 사실상 색상 파일이다.** `filmate.css`는 13줄 전부 색이고
      spacing/radius 토큰이 하나도 없다. 여기서 가져올 구조 값은 없다.
@@ -201,7 +207,7 @@ argument-hint: <카테고리>/<새프로젝트명> [app|web|console] [--with-adm
      `?step=` 같은 파라미터를 읽게 해서 `name:key=value` 토큰으로 열 수 있게 한다
      (habitkong 온보딩의 `?step=` 선례).
    - 모든 화면을 만든 뒤 CLAUDE.md "Batch Build" 5단계의 **시각 검증 루프**
-     (`npm run visual` → 별도 리뷰 에이전트 → 수정, 최대 2라운드)까지 마쳐야 완료다.
+     (`npm run visual` → 별도 리뷰 에이전트 1라운드 → 수정 후 빌더가 직접 확인)까지 마쳐야 완료다.
 
 8. `--with-admin`으로 생성했다면:
    - 본 프로젝트 `components/admin/admin-app.tsx`는 **시드**다. 관리자 화면을 만들면서
